@@ -5710,7 +5710,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fd218c7f6c4c41e41bdf0b29d3cb1baf, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -5760,10 +5760,10 @@ MonoBehaviour:
   layer_mask:
     serializedVersion: 2
     m_Bits: 8
-  box_size_lateral: {x: 0.05, y: 1.1}
+  box_size_lateral: {x: 0.05, y: 0.8}
   max_distance_left: 0.2
   max_distance_right: 0.42
-  max_distance_up: 0.36
+  max_distance_up: 0.51
   layer_mask_lateral:
     serializedVersion: 2
     m_Bits: 520

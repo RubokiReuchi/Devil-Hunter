@@ -33,8 +33,21 @@ public class Dante_Movement : MonoBehaviour
     // Check grounded
     [Header("Check Grounded")]
     public Vector2 boxSize;
+    public Vector2 smallBoxSize;
     public float maxDistance;
     public LayerMask layerMask;
+
+    // Climb
+    [Header("Climb")]
+    [SerializeField] float slopeCheckDistance;
+    CapsuleCollider2D cc;
+    float slopeDownAngle;
+    float slopeDownAngleOld;
+    Vector2 slopeNormalPerpendicular;
+    [NonEditable][SerializeField] bool isOnSlope;
+    [SerializeField] PhysicsMaterial2D noFriction;
+    [SerializeField] PhysicsMaterial2D fullFriction;
+    bool colliderInGround;
 
     // Check lateral
     [Header("Check Lateral")]
@@ -60,6 +73,8 @@ public class Dante_Movement : MonoBehaviour
         isJumping = false;
         fallGravityMultiplier = startFallGravityMultiplier;
         gravityScale = rb.gravityScale;
+
+        cc = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
@@ -67,7 +82,10 @@ public class Dante_Movement : MonoBehaviour
     {
         if (!state.IsAlive()) return;
 
-        if (state.InGround() && !Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask))
+        bool inGround = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask);
+        colliderInGround = Physics2D.BoxCast(transform.position, smallBoxSize, 0, -transform.up, maxDistance, layerMask);
+
+        if (state.InGround() && !inGround)
         {
             anim.SetTrigger("Fall edge");
         }
@@ -101,7 +119,7 @@ public class Dante_Movement : MonoBehaviour
             isJumping = false;
         }
         
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0 && !colliderInGround)
         {
             if (fallGravityMultiplier + fallGravityMultiplierIncrease <= maxFallGravityMultiplier) fallGravityMultiplier += fallGravityMultiplierIncrease * Time.deltaTime;
             rb.gravityScale = gravityScale * fallGravityMultiplier;
@@ -109,16 +127,18 @@ public class Dante_Movement : MonoBehaviour
         else
         {
             fallGravityMultiplier = startFallGravityMultiplier;
-            rb.gravityScale = gravityScale;
+            rb.gravityScale = colliderInGround ? 0 : gravityScale;
         }
 
+        SlopeCheck();
 
         if (state.IsAiming() && state.InGround())
         {
             anim.SetBool("Aiming", true);
             if (Input.GetAxisRaw("Horizontal") > 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, transform.right, maxDistanceRight * transform.localScale.x, layerMaskLateral))
             {
-                transform.position += new Vector3(fixed_walk_speed, 0, 0);
+                if (inGround && isOnSlope) transform.position += new Vector3(fixed_walk_speed * -slopeNormalPerpendicular.x, fixed_walk_speed * -slopeNormalPerpendicular.y);
+                else transform.position += new Vector3(fixed_walk_speed, 0);
                 transform.localScale = new Vector3(state.orientation, 1, 1);
                 anim.SetBool("Moving", true);
                 anim.SetFloat("Walk", 1.0f);
@@ -126,7 +146,8 @@ public class Dante_Movement : MonoBehaviour
             }
             else if (Input.GetAxisRaw("Horizontal") < 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, -transform.right, maxDistanceLeft * transform.localScale.x, layerMaskLateral))
             {
-                transform.position += new Vector3(-fixed_walk_speed, 0, 0);
+                if (inGround && isOnSlope) transform.position += new Vector3(fixed_walk_speed * slopeNormalPerpendicular.x, fixed_walk_speed * slopeNormalPerpendicular.y);
+                else transform.position += new Vector3(-fixed_walk_speed, 0);
                 transform.localScale = new Vector3(state.orientation, 1, 1);
                 anim.SetBool("Moving", true);
                 anim.SetFloat("Walk", -1.0f);
@@ -144,14 +165,16 @@ public class Dante_Movement : MonoBehaviour
             anim.SetBool("Aiming", false);
             if (Input.GetAxisRaw("Horizontal") > 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, transform.right * transform.localScale.x, maxDistanceRight * transform.localScale.x, layerMaskLateral))
             {
-                transform.position += new Vector3(fixed_run_speed, 0, 0);
+                if (inGround && isOnSlope) transform.position += new Vector3(fixed_run_speed * -slopeNormalPerpendicular.x, fixed_run_speed * -slopeNormalPerpendicular.y);
+                else transform.position += new Vector3(fixed_run_speed, 0);
                 transform.localScale = new Vector3(1, 1, 1);
                 anim.SetBool("Moving", true);
                 if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.RUN);
             }
             else if (Input.GetAxisRaw("Horizontal") < 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, -transform.right * transform.localScale.x, maxDistanceLeft * transform.localScale.x, layerMaskLateral))
             {
-                transform.position += new Vector3(-fixed_run_speed, 0, 0);
+                if (inGround && isOnSlope) transform.position += new Vector3(fixed_run_speed * slopeNormalPerpendicular.x, fixed_run_speed * slopeNormalPerpendicular.y);
+                else transform.position += new Vector3(-fixed_run_speed, 0);
                 transform.localScale = new Vector3(-1, 1, 1);
                 anim.SetBool("Moving", true);
                 if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.RUN);
@@ -192,6 +215,36 @@ public class Dante_Movement : MonoBehaviour
         }
     }
 
+    void SlopeCheck()
+    {
+        Vector2 checkPos = transform.position - new Vector3(0.0f, cc.size.y / 2);
+
+        // horizontal
+        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right * transform.localScale.x, slopeCheckDistance, layerMask);
+        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right * transform.localScale.x, slopeCheckDistance, layerMask);
+
+        if (slopeHitFront) isOnSlope = true;
+        else if (slopeHitBack) isOnSlope = true;
+        else isOnSlope = false;
+
+        // vertical
+        RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, layerMask);
+
+        if (hit)
+        {
+            slopeNormalPerpendicular = Vector2.Perpendicular(hit.normal).normalized;
+
+            slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+            if (slopeDownAngle != slopeDownAngleOld) isOnSlope = true;
+
+            slopeDownAngleOld = slopeDownAngle;
+        }
+
+        if (isOnSlope && colliderInGround) rb.sharedMaterial = fullFriction;
+        else rb.sharedMaterial = noFriction;
+    }
+
     public void DantePrepareDeath()
     {
         GetComponent<Dante_Attack>().enabled = false;
@@ -213,6 +266,8 @@ public class Dante_Movement : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position - transform.up * maxDistance, smallBoxSize);
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawCube(transform.position - transform.right * maxDistanceLeft * transform.localScale.x + transform.up * maxDistanceUp, boxSizeLateral);
