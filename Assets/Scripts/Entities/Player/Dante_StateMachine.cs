@@ -32,6 +32,7 @@ public class Dante_StateMachine : MonoBehaviour
     SpriteRenderer sprite;
     Sprite danteForm;
     public Sprite demonForm;
+    public GameObject demonParticles;
 
 
     [NonEditable][SerializeField] bool aim;
@@ -139,6 +140,8 @@ public class Dante_StateMachine : MonoBehaviour
         demon = true;
         anim.SetFloat("DemonSpeed", speedMultiplier);
         sprite.sprite = demonForm;
+        demonParticles.SetActive(true);
+        demonParticles.GetComponent<Animator>().SetTrigger("Active");
     }
 
     void UnactiveDemonForm()
@@ -146,6 +149,7 @@ public class Dante_StateMachine : MonoBehaviour
         demon = false;
         anim.SetFloat("DemonSpeed", 1);
         sprite.sprite = danteForm;
+        demonParticles.GetComponent<Animator>().SetTrigger("Unactive");
     }
 
     Vector3 GetClosestEnemyPos()
