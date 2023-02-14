@@ -87,7 +87,7 @@ public class Dante_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!state.IsAlive()) return;
+        if (!state.IsAlive() || state.IsInteracting()) return;
 
         // Checkers
         isOnGround = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask);
@@ -293,6 +293,25 @@ public class Dante_Movement : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         dashing = false;
+    }
+
+    // Collisions
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Sand Clock
+        if (collision.CompareTag("SandClock"))
+        {
+            collision.GetComponent<SandClock>().onClock = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // Sand Clock
+        if (collision.CompareTag("SandClock"))
+        {
+            collision.GetComponent<SandClock>().onClock = false;
+        }
     }
 
     void OnDrawGizmos()

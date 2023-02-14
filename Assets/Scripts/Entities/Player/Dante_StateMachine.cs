@@ -17,7 +17,8 @@ public enum DANTE_STATE
     ATTACKING_FALLING,
     SHOTING,
     ROLLING,
-    DEATH
+    DEATH,
+    INTERACT
 }
 
 public class Dante_StateMachine : MonoBehaviour
@@ -76,6 +77,7 @@ public class Dante_StateMachine : MonoBehaviour
         }
 
         aim = Input.GetButton("Aim");
+        if (IsInteracting()) aim = false;
 
         if (aim)
         {
@@ -130,6 +132,12 @@ public class Dante_StateMachine : MonoBehaviour
     {
         if (state == DANTE_STATE.DEATH) return false;
         else return true;
+    }
+
+    public bool IsInteracting()
+    {
+        if (state == DANTE_STATE.INTERACT) return true;
+        else return false;
     }
 
     public bool IsAiming()
