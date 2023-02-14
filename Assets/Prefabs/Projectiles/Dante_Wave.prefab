@@ -50,9 +50,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.19609895, y: 0}
   serializedVersion: 2
-  m_Radius: 0.58
+  m_Radius: 0.3839011
 --- !u!114 &4670691387397099889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   flip_or_aim: 1
   tags:
   - Enemy
-  - Wall
+  - Ground
 --- !u!114 &1577063143346735459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 1868506258106059920}
   m_Layer: 0
   m_Name: Trail
-  m_TagString: Untagged
+  m_TagString: DanteAttackTrail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -316,8 +316,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.63529414, g: 0.09411766, b: 0, a: 1}
-      key1: {r: 0.69803923, g: 0.21568629, b: 0, a: 1}
+      key0: {r: 0.8784314, g: 0.09803922, b: 0, a: 1}
+      key1: {r: 0.99215686, g: 0.46666667, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

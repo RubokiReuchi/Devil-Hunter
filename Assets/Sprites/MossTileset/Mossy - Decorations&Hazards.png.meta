@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 256
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,7 +103,553 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Mossy - Rock0
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 3193
+        width: 1284
+        height: 713
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca0b9a108fc22f04398f1b2c48973e45
+      internalID: 37085375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Rock1
+      rect:
+        serializedVersion: 2
+        x: 1603
+        y: 3185
+        width: 1141
+        height: 511
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 503e746f4ca77524cac71907cf09b641
+      internalID: 993740021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Rock2
+      rect:
+        serializedVersion: 2
+        x: 2891
+        y: 3171
+        width: 1054
+        height: 915
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e40cfbb8baeb804fa93d80ceb0d2611
+      internalID: 2010673488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Thorn0
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 2508
+        width: 1474
+        height: 627
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 195287d39d4463f42a9abce4cfd0c068
+      internalID: -29920414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Thorn1
+      rect:
+        serializedVersion: 2
+        x: 2065
+        y: 2315
+        width: 1227
+        height: 809
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21b98fb815cf82a4ea0dd8b3e22768d3
+      internalID: 45957811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Thorn2
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 1610
+        width: 918
+        height: 852
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ab27ab4ce76f0a4ab35b8c6f019dba6
+      internalID: 79678852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - SmallThorn2
+      rect:
+        serializedVersion: 2
+        x: 1663
+        y: 1779
+        width: 458
+        height: 424
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 843f15f474f5ce249870c325db32e3cb
+      internalID: -37317985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - SmallThorn1
+      rect:
+        serializedVersion: 2
+        x: 2344
+        y: 1802
+        width: 610
+        height: 402
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ec0fef452ebcfc4fa4a66a55e95b80c
+      internalID: -482557450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - SmallThorn0
+      rect:
+        serializedVersion: 2
+        x: 3164
+        y: 1840
+        width: 740
+        height: 318
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6a3d9cebcf62b449b37262e446aa6e2
+      internalID: -2063071549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant0
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 1198
+        width: 290
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 430281b213d46dd4f805f7dcc1ce81ea
+      internalID: -1401689830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant1
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 1092
+        width: 275
+        height: 380
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee3ae56c614900644915d53bdfa3d290
+      internalID: 236606585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Decorations&Hazards_11
+      rect:
+        serializedVersion: 2
+        x: 1234
+        y: 1106
+        width: 152
+        height: 362
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9f86a0b8abf5e14ebb79a2092e8a950
+      internalID: -1011973323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant7
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1181
+        width: 440
+        height: 182
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 498403c6317b8ce4cb4e47a4829e2555
+      internalID: -886625533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant8
+      rect:
+        serializedVersion: 2
+        x: 1426
+        y: 986
+        width: 138
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 856295a4537a4534cb9f61b9edb5783f
+      internalID: -638121841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant2
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 578
+        width: 335
+        height: 441
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b82a77af620053549a06cf0dceee46dc
+      internalID: 267265120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Pant3
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 688
+        width: 300
+        height: 228
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeebeac7dc9526a4c9d17705587647a0
+      internalID: -1901383902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Decorations&Hazards_16
+      rect:
+        serializedVersion: 2
+        x: 1168
+        y: 584
+        width: 173
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aeacb0797d5d33c4a8ed706c0e8306fc
+      internalID: -1203597793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant9
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 576
+        width: 402
+        height: 446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 287ecf931bd6126469d5fb7af986bc26
+      internalID: 724988666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant10
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 79
+        width: 367
+        height: 399
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fd4530b7fe3ceb428d70ed172860aa4
+      internalID: 310953263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant6
+      rect:
+        serializedVersion: 2
+        x: 1258
+        y: 68
+        width: 84
+        height: 396
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4e3b824a27cb9845b3325d0aa8a602f
+      internalID: 2012323443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant5
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 48
+        width: 368
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8749b0293eb8de4a8c357a8ecbc8bf6
+      internalID: -1498993541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Plant4
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 60
+        width: 100
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6fd1e26814d7c249a25cc5bb9eba1a7
+      internalID: 1436877576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Root0
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 64
+        width: 414
+        height: 1466
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e6752a8ab844d141b149008e570d633
+      internalID: 415575139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Root1
+      rect:
+        serializedVersion: 2
+        x: 2608
+        y: 58
+        width: 427
+        height: 1473
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cf90b548b88f3f4e9937c86d97a1c41
+      internalID: 583207870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Root2
+      rect:
+        serializedVersion: 2
+        x: 3108
+        y: 56
+        width: 453
+        height: 1480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e28bcaf1a2d94ba4fb27b3c13a36c9a2
+      internalID: 969761652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - Root3
+      rect:
+        serializedVersion: 2
+        x: 3722
+        y: 46
+        width: 246
+        height: 1504
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dc355c810b5aa746b9ac77d3e625a16
+      internalID: -363101786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -114,7 +660,33 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Mossy - Rock2: 2010673488
+      Mossy - Rock1: 2010673488
+      Mossy - Plant6: 2012323443
+      Mossy - Root2: 969761652
+      Mossy - Plant4: 1436877576
+      Mossy - Thorn0: -29920414
+      Mossy - SmallThorn1: -482557450
+      Mossy - Plant9: 724988666
+      Mossy - Root1: 583207870
+      Mossy - Plant2: 267265120
+      Mossy - Decorations&Hazards_11: -1011973323
+      Mossy - Thorn2: 79678852
+      Mossy - Plant10: 310953263
+      Mossy - Decorations&Hazards_16: 1111874459
+      Mossy - Plant0: -1401689830
+      Mossy - Root0: 415575139
+      Mossy - Pant3: -1901383902
+      Mossy - Plant8: -638121841
+      Mossy - Thorn1: 45957811
+      Mossy - Root3: -363101786
+      Mossy - SmallThorn2: -37317985
+      Mossy - Plant1: 236606585
+      Mossy - Rock0: 993740021
+      Mossy - Plant5: -1498993541
+      Mossy - Plant7: -886625533
+      Mossy - SmallThorn0: -2063071549
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

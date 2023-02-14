@@ -10,10 +10,10 @@ TagManager:
   - EnemySword
   - Target
   - Ground
-  - Wall
   - DanteWave
   - EnemyWave
   - Limit Battery
+  - DanteAttackTrail
   layers:
   - Default
   - TransparentFX
@@ -24,7 +24,7 @@ TagManager:
   - Player
   - Enemies
   - PlayerHit
-  - Wall
+  - 
   - 
   - 
   - 

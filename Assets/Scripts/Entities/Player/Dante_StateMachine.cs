@@ -33,6 +33,9 @@ public class Dante_StateMachine : MonoBehaviour
     Sprite danteForm;
     public Sprite demonForm;
     public GameObject demonParticles;
+    public TrailRenderer swordTrail;
+    public Gradient danteTrailColor;
+    public Gradient demonTrailColor;
 
 
     [NonEditable][SerializeField] bool aim;
@@ -142,6 +145,8 @@ public class Dante_StateMachine : MonoBehaviour
         sprite.sprite = demonForm;
         demonParticles.SetActive(true);
         demonParticles.GetComponent<Animator>().SetTrigger("Active");
+
+        swordTrail.colorGradient = demonTrailColor;
     }
 
     void UnactiveDemonForm()
@@ -150,6 +155,8 @@ public class Dante_StateMachine : MonoBehaviour
         anim.SetFloat("DemonSpeed", 1);
         sprite.sprite = danteForm;
         demonParticles.GetComponent<Animator>().SetTrigger("Unactive");
+
+        swordTrail.colorGradient = danteTrailColor;
     }
 
     Vector3 GetClosestEnemyPos()

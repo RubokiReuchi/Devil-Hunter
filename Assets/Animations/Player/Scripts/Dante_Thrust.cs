@@ -8,6 +8,8 @@ public class Dante_Thrust : StateMachineBehaviour
     Dante_Movement dm;
     Rigidbody2D rb;
 
+    float thrustSpeed;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -15,16 +17,18 @@ public class Dante_Thrust : StateMachineBehaviour
         dm = animator.GetComponent<Dante_Movement>();
         rb = animator.GetComponent<Rigidbody2D>();
 
-        float thrustForce;
-        if (state.demon) thrustForce = 40.0f;
-        else thrustForce = 20.0f;
-        animator.GetComponent<Rigidbody2D>().AddForce(Vector2.right * thrustForce * animator.transform.localScale.x, ForceMode2D.Impulse);
+        if (state.demon) thrustSpeed = 22.0f;
+        else thrustSpeed = 15.0f;
+
+        dm.dashing = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.velocity = dm.dashDirection * thrustSpeed;
+
+        if (!dm.isOnGround) rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

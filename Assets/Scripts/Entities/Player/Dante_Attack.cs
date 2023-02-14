@@ -100,7 +100,8 @@ public class Dante_Attack : MonoBehaviour
     public IEnumerator Thrust()
     {
         dm.DanteStop();
-        yield return new WaitForSeconds(1);
+        float delay = state.demon ? 0.5f : 1.0f;
+        yield return new WaitForSeconds(delay);
         canThrust = true;
     }
 

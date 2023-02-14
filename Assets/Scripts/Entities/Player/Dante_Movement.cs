@@ -15,6 +15,8 @@ public class Dante_Movement : MonoBehaviour
     public float basicWalkSpeed;
     [HideInInspector] public float runSpeed;
     [HideInInspector] public float walkSpeed;
+    float fixed_run_speed;
+    float fixed_walk_speed;
 
     [Header("Jump")]
     public float jumpForce;
@@ -27,15 +29,17 @@ public class Dante_Movement : MonoBehaviour
     float gravityScale;
 
     [Header("Roll")]
-    public float rollForce;
     [NonEditable] public bool iframe;
+    [HideInInspector] public bool dashing;
+    public float dashVelocity;
+    [HideInInspector] public Vector2 dashDirection;
 
     // Check grounded
     [Header("Check Grounded")]
     public Vector2 boxSize;
-    public Vector2 smallBoxSize;
     public float maxDistance;
     public LayerMask layerMask;
+    [HideInInspector] public bool isOnGround;
 
     // Climb
     [Header("Climb")]
@@ -44,10 +48,10 @@ public class Dante_Movement : MonoBehaviour
     float slopeDownAngle;
     float slopeDownAngleOld;
     Vector2 slopeNormalPerpendicular;
-    [NonEditable][SerializeField] bool isOnSlope;
+    [NonEditable] public bool isOnSlope;
     [SerializeField] PhysicsMaterial2D noFriction;
     [SerializeField] PhysicsMaterial2D fullFriction;
-    bool colliderInGround;
+    float slopeDir;
 
     // Check lateral
     [Header("Check Lateral")]
@@ -56,6 +60,8 @@ public class Dante_Movement : MonoBehaviour
     public float maxDistanceRight;
     public float maxDistanceUp;
     public LayerMask layerMaskLateral;
+    bool wallOnRight;
+    bool wallOnLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +75,7 @@ public class Dante_Movement : MonoBehaviour
         walkSpeed = basicWalkSpeed;
 
         iframe = false;
+        dashing = false;
 
         isJumping = false;
         fallGravityMultiplier = startFallGravityMultiplier;
@@ -82,44 +89,46 @@ public class Dante_Movement : MonoBehaviour
     {
         if (!state.IsAlive()) return;
 
-        bool inGround = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask);
-        colliderInGround = Physics2D.BoxCast(transform.position, smallBoxSize, 0, -transform.up, maxDistance, layerMask);
+        // Checkers
+        isOnGround = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask);
+        wallOnRight = Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, transform.right, maxDistanceRight * transform.localScale.x, layerMaskLateral);
+        wallOnLeft = Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, -transform.right, maxDistanceLeft * transform.localScale.x, layerMaskLateral);
 
-        if (state.InGround() && !inGround)
+        // Start to Fall
+        if (state.InGround() && !isOnGround)
         {
             anim.SetTrigger("Fall edge");
         }
 
-        float fixed_run_speed = runSpeed * Time.deltaTime;
-        float fixed_walk_speed = walkSpeed * Time.deltaTime;
-
+        // Start Jump, Roll and Dash
         if (state.InGround() && !state.IsRolling())
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                anim.SetTrigger("Jump");
-                state.SetState(DANTE_STATE.JUMPING);
-                isJumping = true;
-            }
-            if (Input.GetButtonDown("Roll"))
-            {
-                anim.SetTrigger("Roll");
-                state.SetState(DANTE_STATE.ROLLING);
-            }
+            if (Input.GetButtonDown("Jump")) StartJump();
+            if (Input.GetButtonDown("Roll")) StartRoll();
         }
 
-        // Fix little velocity Y variation when rolling
-        if (state.IsRolling()) rb.velocity = new Vector2(rb.velocity.x, 0);
+        // Slope
+        SlopeCheck();
+        if (isOnSlope) dashDirection = new Vector2(transform.localScale.x * -slopeNormalPerpendicular.x, slopeDir * -slopeNormalPerpendicular.y).normalized;
 
-        // Release jump
+        // On Roll
+        if (iframe)
+        {
+            rb.velocity = dashDirection * dashVelocity;
+            dashing = true;
+
+            if (!isOnGround) rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+
+        // Release Jump
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0 && isJumping)
         {
             rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
             isJumping = false;
         }
-        
-        if (rb.velocity.y < 0 && !colliderInGround)
+
+        // On Air
+        if (rb.velocity.y < 0)
         {
             if (fallGravityMultiplier + fallGravityMultiplierIncrease <= maxFallGravityMultiplier) fallGravityMultiplier += fallGravityMultiplierIncrease * Time.deltaTime;
             rb.gravityScale = gravityScale * fallGravityMultiplier;
@@ -127,81 +136,43 @@ public class Dante_Movement : MonoBehaviour
         else
         {
             fallGravityMultiplier = startFallGravityMultiplier;
-            rb.gravityScale = colliderInGround ? 0 : gravityScale;
+            rb.gravityScale = gravityScale;
         }
 
-        SlopeCheck();
-
+        // Movement
         if (state.IsAiming() && state.InGround())
         {
             anim.SetBool("Aiming", true);
-            if (Input.GetAxisRaw("Horizontal") > 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, transform.right, maxDistanceRight * transform.localScale.x, layerMaskLateral))
-            {
-                if (inGround && isOnSlope) transform.position += new Vector3(fixed_walk_speed * -slopeNormalPerpendicular.x, fixed_walk_speed * -slopeNormalPerpendicular.y);
-                else transform.position += new Vector3(fixed_walk_speed, 0);
-                transform.localScale = new Vector3(state.orientation, 1, 1);
-                anim.SetBool("Moving", true);
-                anim.SetFloat("Walk", 1.0f);
-                if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.WALK);
-            }
-            else if (Input.GetAxisRaw("Horizontal") < 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, -transform.right, maxDistanceLeft * transform.localScale.x, layerMaskLateral))
-            {
-                if (inGround && isOnSlope) transform.position += new Vector3(fixed_walk_speed * slopeNormalPerpendicular.x, fixed_walk_speed * slopeNormalPerpendicular.y);
-                else transform.position += new Vector3(-fixed_walk_speed, 0);
-                transform.localScale = new Vector3(state.orientation, 1, 1);
-                anim.SetBool("Moving", true);
-                anim.SetFloat("Walk", -1.0f);
-                if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.WALK);
-            }
-            else if (!state.IsRolling())
-            {
-                anim.SetBool("Moving", false);
-                anim.SetFloat("Walk", 0.0f);
-                if (state.CompareState(DANTE_STATE.WALK)) state.SetState(DANTE_STATE.IDLE);
-            }
+            fixed_walk_speed = walkSpeed * Time.deltaTime;
+            Walk();
         }
         else
         {
             anim.SetBool("Aiming", false);
-            if (Input.GetAxisRaw("Horizontal") > 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, transform.right * transform.localScale.x, maxDistanceRight * transform.localScale.x, layerMaskLateral))
-            {
-                if (inGround && isOnSlope) transform.position += new Vector3(fixed_run_speed * -slopeNormalPerpendicular.x, fixed_run_speed * -slopeNormalPerpendicular.y);
-                else transform.position += new Vector3(fixed_run_speed, 0);
-                transform.localScale = new Vector3(1, 1, 1);
-                anim.SetBool("Moving", true);
-                if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.RUN);
-            }
-            else if (Input.GetAxisRaw("Horizontal") < 0 && !state.IsRolling() && !Physics2D.BoxCast(transform.position + transform.up * maxDistanceUp, boxSizeLateral, 0, -transform.right * transform.localScale.x, maxDistanceLeft * transform.localScale.x, layerMaskLateral))
-            {
-                if (inGround && isOnSlope) transform.position += new Vector3(fixed_run_speed * slopeNormalPerpendicular.x, fixed_run_speed * slopeNormalPerpendicular.y);
-                else transform.position += new Vector3(-fixed_run_speed, 0);
-                transform.localScale = new Vector3(-1, 1, 1);
-                anim.SetBool("Moving", true);
-                if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.RUN);
-            }
-            else
-            {
-                anim.SetBool("Moving", false);
-                if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
-            }
+            fixed_run_speed = runSpeed * Time.deltaTime;
+            Run();
         }
+    }
+    
+    void StartJump()
+    {
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        anim.SetTrigger("Jump");
+        state.SetState(DANTE_STATE.JUMPING);
+        isJumping = true;
+    }
+
+    void StartRoll()
+    {
+        anim.SetTrigger("Roll");
+        state.SetState(DANTE_STATE.ROLLING);
     }
 
     public void IFrameToggle()
     {
         iframe = !iframe;
-        if (iframe)
-        {
-            rb.velocity = Vector2.zero;
-            if (!state.IsAiming()) rb.AddForce(Vector2.right * rollForce * transform.localScale.x, ForceMode2D.Impulse);
-            else if (anim.GetFloat("Walk") != 0) rb.AddForce(Vector2.right * rollForce * anim.GetFloat("Walk"), ForceMode2D.Impulse);
-            else rb.AddForce(Vector2.left * rollForce * state.orientation, ForceMode2D.Impulse);
-        }
-        else
-        {
-            rb.velocity = Vector2.zero;
-            state.SetState(DANTE_STATE.IDLE);
-        }
+        DanteStop();
+        if (!iframe) state.SetState(DANTE_STATE.IDLE);
     }
 
     public void CheckFlipInRoll()
@@ -215,19 +186,66 @@ public class Dante_Movement : MonoBehaviour
         }
     }
 
+    void Walk()
+    {
+        if (state.IsRolling()) return;
+        if (Input.GetAxisRaw("Horizontal") > 0 && !wallOnRight)
+        {
+            if (isOnGround && isOnSlope) transform.position += new Vector3(fixed_walk_speed * -slopeNormalPerpendicular.x, fixed_walk_speed * -slopeNormalPerpendicular.y);
+            else transform.position += new Vector3(fixed_walk_speed, 0);
+            transform.localScale = new Vector3(state.orientation, 1, 1);
+            anim.SetBool("Moving", true);
+            anim.SetFloat("Walk", 1.0f);
+            if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.WALK);
+        }
+        else if (Input.GetAxisRaw("Horizontal") < 0 && !wallOnLeft)
+        {
+            if (isOnGround && isOnSlope) transform.position += new Vector3(fixed_walk_speed * slopeNormalPerpendicular.x, fixed_walk_speed * slopeNormalPerpendicular.y);
+            else transform.position += new Vector3(-fixed_walk_speed, 0);
+            transform.localScale = new Vector3(state.orientation, 1, 1);
+            anim.SetBool("Moving", true);
+            anim.SetFloat("Walk", -1.0f);
+            if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.WALK);
+        }
+        else
+        {
+            anim.SetBool("Moving", false);
+            anim.SetFloat("Walk", 0.0f);
+            if (state.CompareState(DANTE_STATE.WALK)) state.SetState(DANTE_STATE.IDLE);
+        }
+    }
+
+    void Run()
+    {
+        if (state.IsRolling()) return;
+        if (Input.GetAxisRaw("Horizontal") > 0 && !wallOnRight)
+        {
+            if (isOnGround && isOnSlope) transform.position += new Vector3(fixed_run_speed * -slopeNormalPerpendicular.x, fixed_run_speed * -slopeNormalPerpendicular.y);
+            else transform.position += new Vector3(fixed_run_speed, 0);
+            transform.localScale = new Vector3(1, 1, 1);
+            anim.SetBool("Moving", true);
+            if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.RUN);
+        }
+        else if (Input.GetAxisRaw("Horizontal") < 0 && !wallOnLeft)
+        {
+            if (isOnGround && isOnSlope) transform.position += new Vector3(fixed_run_speed * slopeNormalPerpendicular.x, fixed_run_speed * slopeNormalPerpendicular.y);
+            else transform.position += new Vector3(-fixed_run_speed, 0);
+            transform.localScale = new Vector3(-1, 1, 1);
+            anim.SetBool("Moving", true);
+            if (!state.IsAttacking() && state.InGround()) state.SetState(DANTE_STATE.RUN);
+        }
+        else
+        {
+            anim.SetBool("Moving", false);
+            anim.SetFloat("Walk", 0.0f);
+            if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
+        }
+    }
+
     void SlopeCheck()
     {
         Vector2 checkPos = transform.position - new Vector3(0.0f, cc.size.y / 2);
 
-        // horizontal
-        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPos, transform.right * transform.localScale.x, slopeCheckDistance, layerMask);
-        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPos, -transform.right * transform.localScale.x, slopeCheckDistance, layerMask);
-
-        if (slopeHitFront) isOnSlope = true;
-        else if (slopeHitBack) isOnSlope = true;
-        else isOnSlope = false;
-
-        // vertical
         RaycastHit2D hit = Physics2D.Raycast(checkPos, Vector2.down, slopeCheckDistance, layerMask);
 
         if (hit)
@@ -239,9 +257,23 @@ public class Dante_Movement : MonoBehaviour
             if (slopeDownAngle != slopeDownAngleOld) isOnSlope = true;
 
             slopeDownAngleOld = slopeDownAngle;
+
+            Vector2 checkPos2 = checkPos + Vector2.up * 0.05f;
+            RaycastHit2D hit2 = Physics2D.Raycast(checkPos2, Vector2.right * transform.localScale.x, slopeCheckDistance, layerMask);
+
+            if (hit2) slopeDir = 1;
+            else slopeDir = -1;
+
+            Debug.DrawLine(checkPos2, checkPos2 + Vector2.right * transform.localScale.x * slopeCheckDistance, Color.blue);
+            Debug.DrawRay(hit.point, hit.normal, Color.green);
+            Debug.DrawRay(hit.point, slopeNormalPerpendicular, Color.red);
+        }
+        else
+        {
+            slopeDir = 0;
         }
 
-        if (isOnSlope && colliderInGround) rb.sharedMaterial = fullFriction;
+        if (isOnSlope && isOnGround && !dashing) rb.sharedMaterial = fullFriction;
         else rb.sharedMaterial = noFriction;
     }
 
@@ -260,14 +292,13 @@ public class Dante_Movement : MonoBehaviour
     public void DanteStop()
     {
         rb.velocity = Vector2.zero;
+        dashing = false;
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, smallBoxSize);
+        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawCube(transform.position - transform.right * maxDistanceLeft * transform.localScale.x + transform.up * maxDistanceUp, boxSizeLateral);
