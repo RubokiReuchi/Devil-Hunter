@@ -25,6 +25,6 @@ public class Dante_N_Light2 : StateMachineBehaviour
     {
         animator.SetBool("Attack2", false);
         dm.runSpeed = dm.basicRunSpeed;
-        if (state.InGround()) state.SetState(DANTE_STATE.IDLE);
+        if (dm.isOnGround) state.SetState(DANTE_STATE.IDLE);
     }
 }

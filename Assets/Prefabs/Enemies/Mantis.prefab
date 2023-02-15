@@ -5564,7 +5564,7 @@ GameObject:
   - component: {fileID: 1031494440}
   - component: {fileID: 3738104874135845250}
   - component: {fileID: 3738104874135845253}
-  - component: {fileID: 3738104874135845263}
+  - component: {fileID: 787236145224928855}
   - component: {fileID: 3738104874135845260}
   - component: {fileID: 3738104874135845261}
   m_Layer: 7
@@ -5735,7 +5735,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3738104874135845263
+--- !u!114 &787236145224928855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5744,31 +5744,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 3738104874135845252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 468c19de3f0557e47b995fda5506090a, type: 3}
+  m_Script: {fileID: 11500000, guid: 072596094b2a35c4ab11ec687714c2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {x: 0, y: 0, z: 0}
   speed: 1
   attack_cd: 1.5
-  detection_range: 7
-  detection_melee: 3.5
   orientation: 0
-  bullet: {fileID: 3414162988362026236, guid: 907ae54f88fb89147bd0745cc22c23b3, type: 3}
-  bullet_origin: {fileID: 3738104873376270605}
-  box_size: {x: 0.37, y: 0.05}
-  max_distance: 0.23
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 8
   box_size_lateral: {x: 0.05, y: 0.8}
   max_distance_left: 0.2
   max_distance_right: 0.42
   max_distance_up: 0.51
   layer_mask_lateral:
     serializedVersion: 2
-    m_Bits: 520
+    m_Bits: 8
   restrict_left: 0
   restrict_right: 0
+  detection_range: 7
+  detection_melee: 3
+  attackAtDistance: 0.7
+  bullet: {fileID: 3414162988362026236, guid: 907ae54f88fb89147bd0745cc22c23b3, type: 3}
+  bullet_origin: {fileID: 3738104873376270605}
+  box_size: {x: 0.44, y: 0.05}
+  max_distance: 0.25
+  layer_mask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &3738104874135845260
 MonoBehaviour:
   m_ObjectHideFlags: 0

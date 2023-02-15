@@ -13,8 +13,8 @@ public class Dante_Attack : MonoBehaviour
     public GameObject danteWavePrefab;
     public GameObject demonWavePrefab;
     public Transform waveSpawn;
-    [NonEditable][SerializeField] bool canShoot;
 
+    [NonEditable][SerializeField] bool canShoot;
     [NonEditable][SerializeField] bool canThrust;
 
     // Start is called before the first frame update
@@ -32,11 +32,11 @@ public class Dante_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state.IsRolling() || !state.IsAlive()) return;
+        if (state.IsDashing() || !state.IsAlive() || state.IsInteracting()) return;
 
         if (!state.IsAiming())
         {
-            if (state.InGround())
+            if (dm.nullGravity)
             {
                 if (Input.GetButtonDown("Attack1"))
                 {
@@ -54,7 +54,7 @@ public class Dante_Attack : MonoBehaviour
             }
             else
             {
-                if (Input.GetButtonDown("Attack1"))
+                if (Input.GetButtonDown("Attack1") && anim.GetBool("Can LightAir"))
                 {
                     anim.SetTrigger("AttackLightAir");
                     state.SetState(DANTE_STATE.ATTACKING_AIR);
@@ -69,7 +69,7 @@ public class Dante_Attack : MonoBehaviour
         }
         else
         {
-            if (state.InGround())
+            if (dm.nullGravity)
             {
                 if (Input.GetButtonDown("Attack1"))
                 {

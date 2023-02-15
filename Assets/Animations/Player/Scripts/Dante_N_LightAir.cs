@@ -12,6 +12,7 @@ public class Dante_N_LightAir : StateMachineBehaviour
     {
         state = animator.GetComponent<Dante_StateMachine>();
         rb = animator.GetComponent<Rigidbody2D>();
+        animator.SetBool("Can LightAir", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

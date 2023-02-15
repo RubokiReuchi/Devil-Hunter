@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Mantis_Walk : StateMachineBehaviour
 {
-    Enemy enemy;
+    Mantis enemy;
     Rigidbody2D rb;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        enemy = animator.GetComponent<Enemy>();
+        enemy = animator.GetComponent<Mantis>();
         rb = animator.GetComponent<Rigidbody2D>();
     }
 
@@ -46,13 +46,13 @@ public class Mantis_Walk : StateMachineBehaviour
                 animator.SetFloat("InRange", 1);
             }
 
-            if (Vector3.Distance(animator.transform.position, dante_pos) > 0.7f)
+            if (Vector3.Distance(animator.transform.position, dante_pos) >= enemy.attackAtDistance)
             {
                 if ((enemy.orientation == -1 && enemy.restrict_left) || (enemy.orientation == 1 && enemy.restrict_right)) { }
                 else animator.transform.position += new Vector3(enemy.orientation * enemy.speed * Time.deltaTime, 0, 0);
             }
 
-            if (Vector3.Distance(animator.transform.position, dante_pos) < 0.7f)
+            if (Vector3.Distance(animator.transform.position, dante_pos) < enemy.attackAtDistance)
             {
                 animator.SetTrigger("AttackMelee");
             }

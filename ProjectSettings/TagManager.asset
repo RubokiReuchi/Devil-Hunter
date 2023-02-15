@@ -15,6 +15,9 @@ TagManager:
   - Limit Battery
   - DanteAttackTrail
   - SandClock
+  - Pierce
+  - Shield
+  - DanteDashTrail
   layers:
   - Default
   - TransparentFX

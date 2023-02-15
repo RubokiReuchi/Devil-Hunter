@@ -42,7 +42,7 @@ public class Dante_N_Light1 : StateMachineBehaviour
         if (!cont)
         {
             dm.runSpeed = dm.basicRunSpeed;
-            if (state.InGround()) state.SetState(DANTE_STATE.IDLE);
+            if (dm.isOnGround) state.SetState(DANTE_STATE.IDLE);
         }
         if (!cont_heavy)
         {

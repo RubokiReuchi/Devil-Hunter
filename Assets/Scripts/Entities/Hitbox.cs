@@ -27,6 +27,7 @@ public class Hitbox : MonoBehaviour
     {
         if (CompareTag("Dante") && GetComponent<Dante_Movement>().iframe) return; // ignore it if dante is iframed
         if (anim.GetBool("Death") || anim.GetBool("Destroy")) return; // ignore it if entity is death
+        if (GetComponentInChildren<Shield>() != null && GetComponentInChildren<Shield>().active) return;
 
         if (!anim.GetBool("Hitted") && !anim.GetBool("Death") && stats.knockback_resist >= 0 && (damage * 3 - stats.knockback_resist > 0))
         {

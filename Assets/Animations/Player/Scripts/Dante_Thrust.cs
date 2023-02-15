@@ -20,7 +20,7 @@ public class Dante_Thrust : StateMachineBehaviour
         if (state.demon) thrustSpeed = 22.0f;
         else thrustSpeed = 15.0f;
 
-        dm.dashing = true;
+        state.dash = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -36,7 +36,9 @@ public class Dante_Thrust : StateMachineBehaviour
     {
         animator.SetBool("Thrust", false);
         dm.runSpeed = dm.basicRunSpeed;
-        if (state.InGround()) state.SetState(DANTE_STATE.IDLE);
+        dm.DanteStop();
+        state.dash = false;
+        if (dm.isOnGround) state.SetState(DANTE_STATE.IDLE);
         else state.SetState(DANTE_STATE.FALLING);
     }
 }

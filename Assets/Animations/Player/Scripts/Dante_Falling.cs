@@ -15,7 +15,7 @@ public class Dante_Falling : StateMachineBehaviour
         state = animator.GetComponent<Dante_StateMachine>();
         dm = animator.GetComponent<Dante_Movement>();
 
-        if (state.IsRolling()) dm.iframe = !dm.iframe;
+        dm.iframe = false;
 
         state.SetState(DANTE_STATE.FALLING);
         transform = animator.transform;

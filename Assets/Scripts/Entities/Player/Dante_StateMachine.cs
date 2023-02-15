@@ -11,12 +11,13 @@ public enum DANTE_STATE
     RUN,
     WALK,
     JUMPING,
+    WALL_SLIDING,
     FALLING,
     ATTACKING_GROUND,
     ATTACKING_AIR,
     ATTACKING_FALLING,
     SHOTING,
-    ROLLING,
+    DASHING,
     DEATH,
     INTERACT
 }
@@ -40,7 +41,7 @@ public class Dante_StateMachine : MonoBehaviour
 
 
     [NonEditable][SerializeField] bool aim;
-    [NonEditable] public bool roll;
+    [NonEditable] public bool dash;
     public SpriteRenderer target;
     GameObject[] enemies;
 
@@ -58,7 +59,7 @@ public class Dante_StateMachine : MonoBehaviour
         danteForm = sprite.sprite;
 
         aim = false;
-        roll = false;
+        dash = false;
         orientation = 0;
     }
 
@@ -81,8 +82,7 @@ public class Dante_StateMachine : MonoBehaviour
 
         if (aim)
         {
-            if (!IsRolling()) transform.localScale = new Vector3(orientation, 1, 1);
-            target.enabled = true;
+            if (GameObject.FindGameObjectsWithTag("Enemy").Length > 0) target.enabled = true;
             target.transform.position = GetClosestEnemyPos();
 
             if (target.transform.position.x > transform.position.x)
@@ -93,6 +93,8 @@ public class Dante_StateMachine : MonoBehaviour
             {
                 orientation = -1;
             }
+
+            if (!IsDashing()) transform.localScale = new Vector3(orientation, 1, 1);
         }
         else
         {
@@ -110,15 +112,9 @@ public class Dante_StateMachine : MonoBehaviour
         return this.state == state;
     }
 
-    public bool InGround()
+    public bool IsDashing()
     {
-        if (state != DANTE_STATE.JUMPING && state != DANTE_STATE.FALLING && state != DANTE_STATE.ATTACKING_AIR && state != DANTE_STATE.ATTACKING_FALLING) return true;
-        else return false;
-    }
-
-    public bool IsRolling()
-    {
-        if (state == DANTE_STATE.ROLLING || roll) return true;
+        if (state == DANTE_STATE.DASHING || dash) return true;
         else return false;
     }
 
