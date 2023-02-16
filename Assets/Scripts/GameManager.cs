@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         dante_position = dante_spawn.position;
-        reviving = false;
+        reviving = false; //ReviveDante();
     }
 
     // Update is called once per frame

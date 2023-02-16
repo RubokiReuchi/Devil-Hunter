@@ -78,7 +78,7 @@ public class Dante_StateMachine : MonoBehaviour
         }
 
         aim = Input.GetButton("Aim");
-        if (IsInteracting()) aim = false;
+        if (IsInteracting() || !GetComponent<Dante_Movement>().isOnGround) aim = false;
 
         if (aim)
         {

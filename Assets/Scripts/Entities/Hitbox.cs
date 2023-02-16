@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
-    Animator anim;
-    Stats stats;
-    Rigidbody2D rb;
+    protected Animator anim;
+    protected Stats stats;
+    protected Rigidbody2D rb;
     public GameObject floating_text;
 
     // Start is called before the first frame update
@@ -23,16 +23,15 @@ public class Hitbox : MonoBehaviour
         
     }
 
-    public void TakeDamage(float damage, Vector3 hit_point)
+    public virtual void TakeDamage(float damage, Vector3 hit_point, bool ultraKnockBack = false)
     {
-        if (CompareTag("Dante") && GetComponent<Dante_Movement>().iframe) return; // ignore it if dante is iframed
         if (anim.GetBool("Death") || anim.GetBool("Destroy")) return; // ignore it if entity is death
         if (GetComponentInChildren<Shield>() != null && GetComponentInChildren<Shield>().active) return;
 
         if (!anim.GetBool("Hitted") && !anim.GetBool("Death") && stats.knockback_resist >= 0 && (damage * 3 - stats.knockback_resist > 0))
         {
             anim.SetBool("Hitted", true);
-            rb.AddForce(new Vector3(0, damage * 3 - stats.knockback_resist, 0));
+            rb.AddForce(Vector2.up * (damage * 3 - stats.knockback_resist));
         }
 
         if (stats.max_hp == 0)
@@ -49,7 +48,7 @@ public class Hitbox : MonoBehaviour
         }
     }
 
-    void DisplayDamage(float damage, Vector3 hit_point)
+    protected void DisplayDamage(float damage, Vector3 hit_point)
     {
         if (floating_text)
         {

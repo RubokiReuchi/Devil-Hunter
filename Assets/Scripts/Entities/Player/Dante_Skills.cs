@@ -16,6 +16,9 @@ public class Dante_Skills : MonoBehaviour
     [Header("Double Jump")]
     public bool dobleJumpUnlocked;
 
+    [Header("Revive")]
+    public bool reviveUnlocked;
+
     [Header("Attacks")]
     public bool waveUnlocked;
     public bool grabUnlocked;

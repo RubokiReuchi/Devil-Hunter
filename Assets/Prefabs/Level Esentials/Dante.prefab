@@ -5256,7 +5256,7 @@ GameObject:
   - component: {fileID: 1200364207615511607}
   - component: {fileID: 1200364207615511595}
   - component: {fileID: 1200364207615511592}
-  - component: {fileID: 1200364207615511606}
+  - component: {fileID: 6572010404303434814}
   - component: {fileID: 1897003860}
   - component: {fileID: 3947693996675371060}
   m_Layer: 6
@@ -5360,8 +5360,8 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.067723006, y: -0.06266272, z: 0}
-    m_Extent: {x: 0.4773944, y: 0.5993666, z: 0}
+    m_Center: {x: 0.06772503, y: -0.06266254, z: 0}
+    m_Extent: {x: 0.477395, y: 0.5993668, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5515,6 +5515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game_manager: {fileID: 0}
+  inmune: 0
   basicRunSpeed: 3
   basicWalkSpeed: 1
   runSpeed: 0
@@ -5589,6 +5590,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   wallSlidingSpeed: 1
   isWallSliding: 0
+  onWallBeforeJump: 0
   boxSize: {x: 0.24, y: 0.05}
   maxDistance: 0.68
   layerMask:
@@ -5624,7 +5626,7 @@ MonoBehaviour:
   waveSpawn: {fileID: 1200364207702051883}
   canShoot: 0
   canThrust: 0
---- !u!114 &1200364207615511606
+--- !u!114 &6572010404303434814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5633,7 +5635,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1200364207615511584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec8b7821f475f0c469fecb0bd70062d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 533a2502710031d42bc4fb8478cb60e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   floating_text: {fileID: 9046765310167008510, guid: 933b1b2e4cb322b4a96a32f146db3272, type: 3}

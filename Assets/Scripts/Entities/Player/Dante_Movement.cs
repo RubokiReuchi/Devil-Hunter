@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Dante_Movement : MonoBehaviour
 {
     Dante_StateMachine state;
     public GameManager game_manager;
+    Dante_Stats stats;
     Dante_Skills skills;
+
+    Dante_Hitbox hitbox;
+    [NonEditable] public bool inmune;
 
     Rigidbody2D rb;
     Animator anim;
@@ -63,10 +68,10 @@ public class Dante_Movement : MonoBehaviour
     float slopeDownAngle;
     float slopeDownAngleOld;
     Vector2 slopeNormalPerpendicular;
+    Vector2 slopeNormalPerpendicularInverse;
     [NonEditable] public bool isOnSlope;
     [SerializeField] PhysicsMaterial2D noFriction;
     [SerializeField] PhysicsMaterial2D fullFriction;
-    float slopeDir;
 
     // Check lateral
     [Header("Check Lateral")]
@@ -82,8 +87,12 @@ public class Dante_Movement : MonoBehaviour
     void Start()
     {
         state = GetComponent<Dante_StateMachine>();
+        stats = GetComponent<Dante_Stats>();
 
         skills = GetComponent<Dante_Skills>();
+
+        hitbox = GetComponent<Dante_Hitbox>();
+        inmune = false;
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -157,7 +166,7 @@ public class Dante_Movement : MonoBehaviour
 
         // Slope
         SlopeCheck();
-        if (isOnSlope) dashDirection = new Vector2(transform.localScale.x * -slopeNormalPerpendicular.x, slopeDir * Mathf.Abs(slopeNormalPerpendicular.y)).normalized;
+        if (isOnGround) dashDirection = new Vector2(-slopeNormalPerpendicularInverse.x, -slopeNormalPerpendicularInverse.y).normalized;
         else dashDirection = Vector2.right * transform.localScale.x;
 
         // On Dash
@@ -498,27 +507,17 @@ public class Dante_Movement : MonoBehaviour
         if (hit)
         {
             slopeNormalPerpendicular = Vector2.Perpendicular(hit.normal).normalized;
+            slopeNormalPerpendicularInverse = slopeNormalPerpendicular * transform.localScale.x;
 
             slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
 
             if (slopeDownAngle != slopeDownAngleOld) isOnSlope = true;
 
             slopeDownAngleOld = slopeDownAngle;
-
-
-            if (Physics2D.BoxCast(transform.position - new Vector3(4 * boxSize.x / 10 * transform.localScale.x, 0, 0), new Vector2(boxSize.x / 3, boxSize.y), 0, -transform.up, maxDistance, layerMask))
-            {
-                slopeDir = -1;
-            }
-            else
-            {
-                slopeDir = 1;
-            }Debug.DrawRay(hit.point, hit.normal, Color.green);
+            
+            Debug.DrawRay(hit.point, hit.normal, Color.green);
             Debug.DrawRay(hit.point, slopeNormalPerpendicular, Color.red);
-        }
-        else
-        {
-            slopeDir = 0;
+            Debug.DrawRay(hit.point, slopeNormalPerpendicularInverse, Color.blue);
         }
 
         if (isOnSlope && nullGravity && !state.dash) rb.sharedMaterial = fullFriction;
@@ -550,6 +549,31 @@ public class Dante_Movement : MonoBehaviour
         {
             collision.GetComponent<SandClock>().onClock = true;
         }
+        // Thorns
+        else if (collision.CompareTag("Thorn") && !inmune)
+        {
+            hitbox.TakeDamage(stats.max_hp / 10.0f, transform.position, true);
+            StartCoroutine("InmuneTime");
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // Thorns
+        if (collision.CompareTag("Thorn"))
+        {
+            if (isWallSliding)
+            {
+                isWallSliding = false;
+                state.SetState(DANTE_STATE.FALLING);
+                anim.SetBool("Can AirDash", false);
+            }
+            if (!inmune)
+            {
+                hitbox.TakeDamage(stats.max_hp / 10.0f, transform.position, true);
+                StartCoroutine("InmuneTime");
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -559,6 +583,13 @@ public class Dante_Movement : MonoBehaviour
         {
             collision.GetComponent<SandClock>().onClock = false;
         }
+    }
+
+    IEnumerator InmuneTime()
+    {
+        inmune = true;
+        yield return new WaitForSeconds(0.8f);
+        inmune = false;
     }
 
     void OnDrawGizmos()
