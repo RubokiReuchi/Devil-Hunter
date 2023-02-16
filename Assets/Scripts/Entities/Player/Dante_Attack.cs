@@ -6,7 +6,7 @@ using UnityEngine;
 public class Dante_Attack : MonoBehaviour
 {
     Dante_StateMachine state;
-    Dante_Stats stats;
+    Dante_Skills skills;
     Dante_Movement dm;
     Animator anim;
 
@@ -21,7 +21,9 @@ public class Dante_Attack : MonoBehaviour
     void Start()
     {
         state = GetComponent<Dante_StateMachine>();
-        stats = GetComponent<Dante_Stats>();
+
+        skills = GetComponent<Dante_Skills>();
+
         dm = GetComponent<Dante_Movement>();
         anim = GetComponent<Animator>();
 
@@ -44,7 +46,7 @@ public class Dante_Attack : MonoBehaviour
                     dm.runSpeed = 0.5f;
                     state.SetState(DANTE_STATE.ATTACKING_GROUND);
                 }
-                else if (Input.GetButtonDown("Attack2") && canThrust)
+                else if (Input.GetButtonDown("Attack2") && skills.thrustUnlocked && canThrust)
                 {
                     anim.SetBool("Thrust", true);
                     dm.runSpeed = 0.0f;
@@ -59,7 +61,7 @@ public class Dante_Attack : MonoBehaviour
                     anim.SetTrigger("AttackLightAir");
                     state.SetState(DANTE_STATE.ATTACKING_AIR);
                 }
-                else if (Input.GetButtonDown("Attack2"))
+                else if (Input.GetButtonDown("Attack2") && skills.fallingAttackUnlocked)
                 {
                     anim.SetTrigger("AttackHeavyAir");
                     dm.runSpeed = 0.0f;
@@ -71,12 +73,12 @@ public class Dante_Attack : MonoBehaviour
         {
             if (dm.nullGravity)
             {
-                if (Input.GetButtonDown("Attack1"))
+                if (Input.GetButtonDown("Attack1") && skills.grabUnlocked)
                 {
                     anim.SetTrigger("AttackHeavy1");
                     state.SetState(DANTE_STATE.ATTACKING_AIR);
                 }
-                else if (Input.GetButtonDown("Attack2") && !state.IsAttacking() && canShoot
+                else if (Input.GetButtonDown("Attack2") && !state.IsAttacking() && canShoot && skills.waveUnlocked
                     && (state.CompareState(DANTE_STATE.IDLE) || state.CompareState(DANTE_STATE.WALK)))
                 {
                     state.SetState(DANTE_STATE.SHOTING);

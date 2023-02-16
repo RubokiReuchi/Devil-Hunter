@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class Dante_Movement : MonoBehaviour
@@ -33,6 +34,7 @@ public class Dante_Movement : MonoBehaviour
     [NonEditable] public bool iframe;
     public float rollVelocity;
     public float dashVelocity;
+    bool canDash;
     [HideInInspector] public Vector2 dashDirection;
     public TrailRenderer dashTrail;
     public Gradient dashTrailColor;
@@ -43,6 +45,7 @@ public class Dante_Movement : MonoBehaviour
     [NonEditable][SerializeField] bool isWallSliding;
     bool isWallSlidingStuck;
     bool canMoveAfterWallSliding;
+    [SerializeField] bool onWallBeforeJump;
 
     // Check grounded
     [Header("Check Grounded")]
@@ -89,6 +92,7 @@ public class Dante_Movement : MonoBehaviour
         walkSpeed = basicWalkSpeed;
 
         iframe = false;
+        canDash = true;
 
         isJumping = false;
         fallGravityMultiplier = startFallGravityMultiplier;
@@ -137,14 +141,14 @@ public class Dante_Movement : MonoBehaviour
             if (nullGravity)
             {
                 if (Input.GetButtonDown("Jump") && !isWallSliding) StartJump();
-                if (Input.GetButtonDown("Dash"))
+                if (Input.GetButtonDown("Dash") && canDash)
                 {
                     StartDash();
                 }
             }
             else
             {
-                if (Input.GetButtonDown("Dash") && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
+                if (Input.GetButtonDown("Dash") && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
                 {
                     StartDash();
                 }
@@ -153,7 +157,7 @@ public class Dante_Movement : MonoBehaviour
 
         // Slope
         SlopeCheck();
-        if (isOnSlope) dashDirection = new Vector2(transform.localScale.x * -slopeNormalPerpendicular.x, slopeDir * -slopeNormalPerpendicular.y).normalized;
+        if (isOnSlope) dashDirection = new Vector2(transform.localScale.x * -slopeNormalPerpendicular.x, slopeDir * Mathf.Abs(slopeNormalPerpendicular.y)).normalized;
         else dashDirection = Vector2.right * transform.localScale.x;
 
         // On Dash
@@ -188,9 +192,13 @@ public class Dante_Movement : MonoBehaviour
         }
 
         // Wall Sliding
-        if (!wallOnLeft && !isJumping) isWallSliding = false;
+        if (!wallOnLeft && !isJumping)
+        {
+            isWallSliding = false;
+            canMoveAfterWallSliding = true;
+        }
 
-        if (wallOnRight && !nullGravity && Input.GetAxisRaw("Horizontal") == transform.localScale.x)
+        if (wallOnRight && !nullGravity && !onWallBeforeJump && skills.wallSlidingUnlocked && Input.GetAxisRaw("Horizontal") == transform.localScale.x)
         {
             transform.localScale = new Vector3(-transform.localScale.x, 1, 1);
             isWallSliding = true;
@@ -234,6 +242,14 @@ public class Dante_Movement : MonoBehaviour
         anim.SetTrigger("Jump");
         state.SetState(DANTE_STATE.JUMPING);
         isJumping = true;
+        StartCoroutine("Co_StartJump");
+    }
+
+    IEnumerator Co_StartJump()
+    {
+        onWallBeforeJump = true;
+        yield return new WaitForSeconds(0.3f);
+        onWallBeforeJump = false;
     }
 
     void StartDash()
@@ -241,6 +257,8 @@ public class Dante_Movement : MonoBehaviour
         anim.SetTrigger("Dash");
         state.SetState(DANTE_STATE.DASHING);
         state.dash = true;
+        canDash = false;
+        StartCoroutine("DashCD");
         if (skills.pierceDashAvailable)
         {
             dashTrail.colorGradient = pierceDashTrailColor; 
@@ -252,6 +270,12 @@ public class Dante_Movement : MonoBehaviour
         }
 
         isWallSliding = false;
+    }
+
+    IEnumerator DashCD()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canDash = true;
     }
 
     public void StartDashInmunity()
@@ -310,29 +334,87 @@ public class Dante_Movement : MonoBehaviour
     void Run()
     {
         if (state.IsDashing() || !canMoveAfterWallSliding) return;
-        if (Input.GetAxisRaw("Horizontal") > 0 && (!wallOnRight || !isOnGround))
+        if (!skills.wallSlidingUnlocked)
         {
-            if (!isOnGround && rb.velocity.x < 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
-            if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_run_speed * -slopeNormalPerpendicular.x, fixed_run_speed * -slopeNormalPerpendicular.y);
-            else transform.position += new Vector3(fixed_run_speed, 0);
-            transform.localScale = new Vector3(1, 1, 1);
-            anim.SetBool("Moving", true);
-            if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
-        }
-        else if (Input.GetAxisRaw("Horizontal") < 0 && (!wallOnLeft || !isOnGround))
-        {
-            if (!isOnGround && rb.velocity.x > 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
-            if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_run_speed * slopeNormalPerpendicular.x, fixed_run_speed * slopeNormalPerpendicular.y);
-            else transform.position += new Vector3(-fixed_run_speed, 0);
-            transform.localScale = new Vector3(-1, 1, 1);
-            anim.SetBool("Moving", true);
-            if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
+            if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+                if (!wallOnRight)
+                {
+                    if (!isOnGround && rb.velocity.x < 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+                    if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_run_speed * -slopeNormalPerpendicular.x, fixed_run_speed * -slopeNormalPerpendicular.y);
+                    else transform.position += new Vector3(fixed_run_speed, 0);
+
+                    anim.SetBool("Moving", true);
+                    if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
+                }
+            }
+            else if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                if (!wallOnRight)
+                {
+                    if (!isOnGround && rb.velocity.x > 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+                    if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_run_speed * slopeNormalPerpendicular.x, fixed_run_speed * slopeNormalPerpendicular.y);
+                    else transform.position += new Vector3(-fixed_run_speed, 0);
+
+                    anim.SetBool("Moving", true);
+                    if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
+                }
+            }
+            else
+            {
+                anim.SetBool("Moving", false);
+                anim.SetFloat("Walk", 0.0f);
+                if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
+            }
         }
         else
         {
-            anim.SetBool("Moving", false);
-            anim.SetFloat("Walk", 0.0f);
-            if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
+            if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+                if (!wallOnRight)
+                {
+                    if (!isOnGround && rb.velocity.x < 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+                    if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_run_speed * -slopeNormalPerpendicular.x, fixed_run_speed * -slopeNormalPerpendicular.y);
+                    else transform.position += new Vector3(fixed_run_speed, 0);
+
+                    anim.SetBool("Moving", true);
+                    if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
+                }
+                else
+                {
+                    anim.SetBool("Moving", false);
+                    anim.SetFloat("Walk", 0.0f);
+                    if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
+                }
+            }
+            else if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                if (!wallOnRight)
+                {
+                    if (!isOnGround && rb.velocity.x > 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+                    if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_run_speed * slopeNormalPerpendicular.x, fixed_run_speed * slopeNormalPerpendicular.y);
+                    else transform.position += new Vector3(-fixed_run_speed, 0);
+
+                    anim.SetBool("Moving", true);
+                    if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
+                }
+                else
+                {
+                    anim.SetBool("Moving", false);
+                    anim.SetFloat("Walk", 0.0f);
+                    if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
+                }
+            }
+            else
+            {
+                anim.SetBool("Moving", false);
+                anim.SetFloat("Walk", 0.0f);
+                if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
+            }
         }
     }
 
@@ -423,14 +505,15 @@ public class Dante_Movement : MonoBehaviour
 
             slopeDownAngleOld = slopeDownAngle;
 
-            Vector2 checkPos2 = checkPos + Vector2.up * 0.05f;
-            RaycastHit2D hit2 = Physics2D.Raycast(checkPos2, Vector2.right * transform.localScale.x, slopeCheckDistance, layerMask);
 
-            if (hit2) slopeDir = 1;
-            else slopeDir = -1;
-
-            Debug.DrawLine(checkPos2, checkPos2 + Vector2.right * transform.localScale.x * slopeCheckDistance, Color.blue);
-            Debug.DrawRay(hit.point, hit.normal, Color.green);
+            if (Physics2D.BoxCast(transform.position - new Vector3(4 * boxSize.x / 10 * transform.localScale.x, 0, 0), new Vector2(boxSize.x / 3, boxSize.y), 0, -transform.up, maxDistance, layerMask))
+            {
+                slopeDir = -1;
+            }
+            else
+            {
+                slopeDir = 1;
+            }Debug.DrawRay(hit.point, hit.normal, Color.green);
             Debug.DrawRay(hit.point, slopeNormalPerpendicular, Color.red);
         }
         else
@@ -482,6 +565,8 @@ public class Dante_Movement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(transform.position - new Vector3(4 * boxSize.x / 10 * transform.localScale.x, 0, 0) - transform.up * maxDistance, new Vector2(boxSize.x / 3, boxSize.y));
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawCube(transform.position - transform.right * maxDistanceLeft * transform.localScale.x + transform.up * maxDistanceUp, boxSizeLateral);

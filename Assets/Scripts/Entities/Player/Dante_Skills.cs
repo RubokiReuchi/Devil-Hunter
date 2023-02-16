@@ -10,6 +10,18 @@ public class Dante_Skills : MonoBehaviour
     public bool pierceDashAvailable;
     public ParticleSystem pierceReadyParticles;
 
+    [Header("Wall Sliding")]
+    public bool wallSlidingUnlocked;
+
+    [Header("Double Jump")]
+    public bool dobleJumpUnlocked;
+
+    [Header("Attacks")]
+    public bool waveUnlocked;
+    public bool grabUnlocked;
+    public bool fallingAttackUnlocked;
+    public bool thrustUnlocked;
+
     Animator anim;
 
     // Start is called before the first frame update

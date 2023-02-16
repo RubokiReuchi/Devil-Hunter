@@ -5673,6 +5673,12 @@ MonoBehaviour:
   dashLevel: 2
   pierceDashAvailable: 1
   pierceReadyParticles: {fileID: 1306693351}
+  wallSlidingUnlocked: 1
+  dobleJumpUnlocked: 0
+  waveUnlocked: 1
+  grabUnlocked: 1
+  fallingAttackUnlocked: 1
+  thrustUnlocked: 1
 --- !u!1 &1200364207702051882
 GameObject:
   m_ObjectHideFlags: 0
