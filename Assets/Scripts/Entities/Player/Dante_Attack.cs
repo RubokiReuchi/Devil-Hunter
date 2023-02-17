@@ -40,13 +40,13 @@ public class Dante_Attack : MonoBehaviour
         {
             if (dm.nullGravity)
             {
-                if (Input.GetButtonDown("Attack1"))
+                if (dm.input.Attack1.WasPressedThisFrame())
                 {
                     anim.SetTrigger("Attack1");
                     dm.runSpeed = 0.5f;
                     state.SetState(DANTE_STATE.ATTACKING_GROUND);
                 }
-                else if (Input.GetButtonDown("Attack2") && skills.thrustUnlocked && canThrust)
+                else if (dm.input.Attack2.WasPressedThisFrame() && skills.thrustUnlocked && canThrust)
                 {
                     anim.SetBool("Thrust", true);
                     dm.runSpeed = 0.0f;
@@ -56,12 +56,12 @@ public class Dante_Attack : MonoBehaviour
             }
             else
             {
-                if (Input.GetButtonDown("Attack1") && anim.GetBool("Can LightAir"))
+                if (dm.input.Attack1.WasPressedThisFrame() && anim.GetBool("Can LightAir"))
                 {
                     anim.SetTrigger("AttackLightAir");
                     state.SetState(DANTE_STATE.ATTACKING_AIR);
                 }
-                else if (Input.GetButtonDown("Attack2") && skills.fallingAttackUnlocked)
+                else if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
                 {
                     anim.SetTrigger("AttackHeavyAir");
                     dm.runSpeed = 0.0f;
@@ -73,27 +73,16 @@ public class Dante_Attack : MonoBehaviour
         {
             if (dm.nullGravity)
             {
-                if (Input.GetButtonDown("Attack1") && skills.grabUnlocked)
+                if (dm.input.Attack1.WasPressedThisFrame() && skills.grabUnlocked)
                 {
                     anim.SetTrigger("AttackHeavy1");
                     state.SetState(DANTE_STATE.ATTACKING_AIR);
                 }
-                else if (Input.GetButtonDown("Attack2") && !state.IsAttacking() && canShoot && skills.waveUnlocked
+                else if (dm.input.Attack2.WasPressedThisFrame() && !state.IsAttacking() && canShoot && skills.waveUnlocked
                     && (state.CompareState(DANTE_STATE.IDLE) || state.CompareState(DANTE_STATE.WALK)))
                 {
                     state.SetState(DANTE_STATE.SHOTING);
                     anim.SetTrigger("Shoot");
-                }
-            }
-            else
-            {
-                if (Input.GetButtonDown("Attack1"))
-                {
-                    
-                }
-                else if (Input.GetButtonDown("Attack2"))
-                {
-                    
                 }
             }
         }

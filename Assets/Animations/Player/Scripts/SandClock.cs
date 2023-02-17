@@ -19,14 +19,14 @@ public class SandClock : MonoBehaviour
     {
         if (onClock)
         {
-            if (!onMenu && Input.GetButtonDown("Aim"))
+            if (!onMenu && GameObject.FindGameObjectWithTag("Dante").GetComponent<Dante_Movement>().input.Aim.WasPressedThisFrame())
             {
                 GameObject dante = GameObject.FindGameObjectWithTag("Dante");
                 dante.GetComponent<Dante_StateMachine>().SetState(DANTE_STATE.INTERACT);
                 dante.GetComponent<Animator>().SetTrigger("SandClockEnter");
                 onMenu = true;
             }
-            if (onMenu && Input.GetButtonDown("Cancel"))
+            if (onMenu && GameObject.FindGameObjectWithTag("Dante").GetComponent<Dante_Movement>().input.Cancel.WasPressedThisFrame())
             {
                 GameObject dante = GameObject.FindGameObjectWithTag("Dante");
                 dante.GetComponent<Dante_StateMachine>().SetState(DANTE_STATE.IDLE);

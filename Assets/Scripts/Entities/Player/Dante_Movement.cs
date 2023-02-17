@@ -8,6 +8,7 @@ public class Dante_Movement : MonoBehaviour
 {
     Dante_StateMachine state;
     public GameManager game_manager;
+    CameraActions camActions;
     Dante_Stats stats;
     Dante_Skills skills;
 
@@ -34,6 +35,7 @@ public class Dante_Movement : MonoBehaviour
     public float maxFallGravityMultiplier;
     float fallGravityMultiplier;
     float gravityScale;
+    public GameObject airJumpSprite;
 
     [Header("Dash")]
     [NonEditable] public bool iframe;
@@ -83,9 +85,30 @@ public class Dante_Movement : MonoBehaviour
     bool wallOnRight;
     bool wallOnLeft;
 
+    // Set Input System
+    PlayerInputActions inputActions;
+    public PlayerInputActions.NormalActions input;
+    public float moveInput;
+
+    private void Awake()
+    {
+        inputActions = new PlayerInputActions();
+        input = inputActions.Normal;
+    }
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        camActions = game_manager.GetComponentInChildren<CameraActions>();
+
         state = GetComponent<Dante_StateMachine>();
         stats = GetComponent<Dante_Stats>();
 
@@ -116,6 +139,7 @@ public class Dante_Movement : MonoBehaviour
     void Update()
     {
         if (!state.IsAlive() || state.IsInteracting()) return;
+        moveInput = input.Move.ReadValue<float>();
 
         // Checkers
         isOnGround = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask);
@@ -128,6 +152,7 @@ public class Dante_Movement : MonoBehaviour
         {
             anim.SetBool("Can LightAir", true);
             anim.SetBool("Can AirDash", true);
+            anim.SetBool("Can AirJump", true);
             anim.SetBool("Moving", false);
             if (!state.IsDashing()) anim.ResetTrigger("Dash");
             anim.ResetTrigger("AttackLightAir");
@@ -136,7 +161,7 @@ public class Dante_Movement : MonoBehaviour
             isWallSliding = false;
             canMoveAfterWallSliding = true;
         }
-
+        
         // Start to Fall
         if (!nullGravity && !isJumping && lastNullGravity != nullGravity)
         {
@@ -149,15 +174,16 @@ public class Dante_Movement : MonoBehaviour
         {
             if (nullGravity)
             {
-                if (Input.GetButtonDown("Jump") && !isWallSliding) StartJump();
-                if (Input.GetButtonDown("Dash") && canDash)
+                if (input.Jump.WasPressedThisFrame() && !isWallSliding) StartJump();
+                if (input.Dash.WasPressedThisFrame() && canDash)
                 {
                     StartDash();
                 }
             }
             else
             {
-                if (Input.GetButtonDown("Dash") && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
+                if (input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.dobleJumpUnlocked) StartAirJump();
+                if (input.Dash.WasPressedThisFrame() && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
                 {
                     StartDash();
                 }
@@ -180,7 +206,7 @@ public class Dante_Movement : MonoBehaviour
         }
 
         // Release Jump
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0 && isJumping)
+        if (input.Jump.WasReleasedThisFrame() && rb.velocity.y > 0 && isJumping)
         {
             rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
             isJumping = false;
@@ -207,7 +233,7 @@ public class Dante_Movement : MonoBehaviour
             canMoveAfterWallSliding = true;
         }
 
-        if (wallOnRight && !nullGravity && !onWallBeforeJump && skills.wallSlidingUnlocked && Input.GetAxisRaw("Horizontal") == transform.localScale.x)
+        if (wallOnRight && !nullGravity && !onWallBeforeJump && skills.wallSlidingUnlocked && moveInput == transform.localScale.x)
         {
             transform.localScale = new Vector3(-transform.localScale.x, 1, 1);
             isWallSliding = true;
@@ -215,7 +241,11 @@ public class Dante_Movement : MonoBehaviour
             isJumping = false;
             state.SetState(DANTE_STATE.WALL_SLIDING);
             anim.SetBool("Can AirDash", true);
+            anim.SetBool("Can AirJump", true);
         }
+
+        // Look Up and Down
+        CheckLookAt();
 
         if (!isWallSliding)
         {
@@ -236,7 +266,7 @@ public class Dante_Movement : MonoBehaviour
         else
         {
             Sliding();
-            if (Input.GetButtonDown("Jump"))
+            if (input.Jump.WasPressedThisFrame())
             {
                 StartWallJump();
             }
@@ -259,6 +289,30 @@ public class Dante_Movement : MonoBehaviour
         onWallBeforeJump = true;
         yield return new WaitForSeconds(0.3f);
         onWallBeforeJump = false;
+    }
+
+    void StartAirJump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.AddForce(Vector2.up * jumpForce * 0.8f, ForceMode2D.Impulse);
+        anim.SetTrigger("Jump");
+        state.SetState(DANTE_STATE.JUMPING);
+        isJumping = true;
+        StartCoroutine("Co_StartJump");
+        anim.SetBool("Can AirJump", false);
+        StartCoroutine("AirJumpCercle");
+
+    }
+
+    IEnumerator AirJumpCercle()
+    {
+        SpriteRenderer sprite = airJumpSprite.GetComponent<SpriteRenderer>();
+        airJumpSprite.transform.position = transform.position + Vector3.down * 0.75f;
+        sprite.enabled = true;
+        if (!state.demon) sprite.color = new Color(0.7f, 0, 0);
+        else sprite.color = new Color(0.8f, 0.3f, 0);
+        yield return new WaitForSeconds(0.5f);
+        sprite.enabled = false;
     }
 
     void StartDash()
@@ -314,7 +368,7 @@ public class Dante_Movement : MonoBehaviour
     void Walk()
     {
         if (state.IsDashing()) return;
-        if (Input.GetAxisRaw("Horizontal") > 0 && !wallOnRight)
+        if (moveInput > 0 && !wallOnLeft)
         {
             if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_walk_speed * -slopeNormalPerpendicular.x, fixed_walk_speed * -slopeNormalPerpendicular.y);
             else transform.position += new Vector3(fixed_walk_speed, 0);
@@ -323,7 +377,7 @@ public class Dante_Movement : MonoBehaviour
             anim.SetFloat("Walk", 1.0f);
             if (!state.IsAttacking() && nullGravity) state.SetState(DANTE_STATE.WALK);
         }
-        else if (Input.GetAxisRaw("Horizontal") < 0 && !wallOnLeft)
+        else if (moveInput < 0 && !wallOnRight)
         {
             if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_walk_speed * slopeNormalPerpendicular.x, fixed_walk_speed * slopeNormalPerpendicular.y);
             else transform.position += new Vector3(-fixed_walk_speed, 0);
@@ -345,7 +399,7 @@ public class Dante_Movement : MonoBehaviour
         if (state.IsDashing() || !canMoveAfterWallSliding) return;
         if (!skills.wallSlidingUnlocked)
         {
-            if (Input.GetAxisRaw("Horizontal") > 0)
+            if (moveInput > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 if (!wallOnRight)
@@ -358,7 +412,7 @@ public class Dante_Movement : MonoBehaviour
                     if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.RUN);
                 }
             }
-            else if (Input.GetAxisRaw("Horizontal") < 0)
+            else if (moveInput < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
                 if (!wallOnRight)
@@ -380,7 +434,7 @@ public class Dante_Movement : MonoBehaviour
         }
         else
         {
-            if (Input.GetAxisRaw("Horizontal") > 0)
+            if (moveInput > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 if (!wallOnRight)
@@ -399,7 +453,7 @@ public class Dante_Movement : MonoBehaviour
                     if (state.CompareState(DANTE_STATE.RUN)) state.SetState(DANTE_STATE.IDLE);
                 }
             }
-            else if (Input.GetAxisRaw("Horizontal") < 0)
+            else if (moveInput < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
                 if (!wallOnRight)
@@ -431,11 +485,11 @@ public class Dante_Movement : MonoBehaviour
     {
         if (transform.localScale.x == 1)
         {
-            if (Input.GetAxisRaw("Horizontal") > 0)
+            if (moveInput > 0)
             {
                 StartCoroutine("Co_StopWallSliding");
             }
-            else if (Input.GetAxisRaw("Horizontal") < 0)
+            else if (moveInput < 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 isWallSlidingStuck = true;
@@ -448,11 +502,11 @@ public class Dante_Movement : MonoBehaviour
         }
         else if (transform.localScale.x == -1)
         {
-            if (Input.GetAxisRaw("Horizontal") < 0)
+            if (moveInput < 0)
             {
                 StartCoroutine("Co_StopWallSliding");
             }
-            else if (Input.GetAxisRaw("Horizontal") > 0)
+            else if (moveInput > 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 isWallSlidingStuck = true;
@@ -524,6 +578,27 @@ public class Dante_Movement : MonoBehaviour
         else rb.sharedMaterial = noFriction;
     }
 
+    void CheckLookAt()
+    {
+        if (moveInput != 0)
+        {
+            camActions.camCentered = true;
+            return;
+        }
+        if (input.LookDown.ReadValue<float>() == 1)
+        {
+            camActions.LookDown();
+        }
+        else if (input.LookUp.ReadValue<float>() == 1)
+        {
+            camActions.LookUp();
+        }
+        else
+        {
+            camActions.camCentered = true;
+        }
+    }
+
     public void DantePrepareDeath()
     {
         GetComponent<Dante_Attack>().enabled = false;
@@ -588,6 +663,7 @@ public class Dante_Movement : MonoBehaviour
     IEnumerator InmuneTime()
     {
         inmune = true;
+        camActions.ShakeCamera(0.25f, 2.0f);
         yield return new WaitForSeconds(0.8f);
         inmune = false;
     }

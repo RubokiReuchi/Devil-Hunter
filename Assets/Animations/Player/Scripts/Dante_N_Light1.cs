@@ -20,7 +20,7 @@ public class Dante_N_Light1 : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Input.GetButtonDown("Attack1"))
+        if (dm.input.Attack1.WasPressedThisFrame())
         {
             if (!state.IsAiming())
             {

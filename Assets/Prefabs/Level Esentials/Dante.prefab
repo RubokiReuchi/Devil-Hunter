@@ -5360,8 +5360,8 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.06772503, y: -0.06266254, z: 0}
-    m_Extent: {x: 0.477395, y: 0.5993668, z: 0}
+    m_Center: {x: 0.06772503, y: -0.06266266, z: 0}
+    m_Extent: {x: 0.477395, y: 0.59936666, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5501,6 +5501,7 @@ MonoBehaviour:
   aim: 0
   dash: 0
   target: {fileID: 0}
+  cam: {fileID: 0}
   orientation: 0
 --- !u!114 &1200364207615511595
 MonoBehaviour:
@@ -5525,6 +5526,7 @@ MonoBehaviour:
   startFallGravityMultiplier: 2
   fallGravityMultiplierIncrease: 2
   maxFallGravityMultiplier: 10
+  airJumpSprite: {fileID: 0}
   iframe: 0
   rollVelocity: 5
   dashVelocity: 20
@@ -5609,6 +5611,7 @@ MonoBehaviour:
   layerMaskLateral:
     serializedVersion: 2
     m_Bits: 520
+  moveInput: 0
 --- !u!114 &1200364207615511592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5676,7 +5679,8 @@ MonoBehaviour:
   pierceDashAvailable: 1
   pierceReadyParticles: {fileID: 1306693351}
   wallSlidingUnlocked: 1
-  dobleJumpUnlocked: 0
+  dobleJumpUnlocked: 1
+  reviveUnlocked: 0
   waveUnlocked: 1
   grabUnlocked: 1
   fallingAttackUnlocked: 1

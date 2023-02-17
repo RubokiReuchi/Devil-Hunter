@@ -43,7 +43,7 @@ public class Dante_StateMachine : MonoBehaviour
     [NonEditable][SerializeField] bool aim;
     [NonEditable] public bool dash;
     public SpriteRenderer target;
-    GameObject[] enemies;
+    public Camera cam;
 
     [NonEditable] public float orientation;
 
@@ -66,7 +66,7 @@ public class Dante_StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Limit"))
+        if (GetComponent<Dante_Movement>().input.Limit.WasPressedThisFrame())
         {
             if (!demon && stats.currentLimitValue >= 3) ActiveDemonForm();
             else if (demon) { UnactiveDemonForm(); stats.UseLimit(1.0f); }
@@ -77,13 +77,15 @@ public class Dante_StateMachine : MonoBehaviour
             if (stats.currentLimitValue <= 0) UnactiveDemonForm();
         }
 
-        aim = Input.GetButton("Aim");
+        if (GetComponent<Dante_Movement>().input.Aim.ReadValue<float>() == 1) aim = true;
+        else aim = false;
         if (IsInteracting() || !GetComponent<Dante_Movement>().isOnGround) aim = false;
+
+        if (aim && !GetClosestEnemyPos()) aim = false;
 
         if (aim)
         {
-            if (GameObject.FindGameObjectsWithTag("Enemy").Length > 0) target.enabled = true;
-            target.transform.position = GetClosestEnemyPos();
+            target.enabled = true;
 
             if (target.transform.position.x > transform.position.x)
             {
@@ -163,13 +165,21 @@ public class Dante_StateMachine : MonoBehaviour
         swordTrail.colorGradient = danteTrailColor;
     }
 
-    Vector3 GetClosestEnemyPos()
+    bool GetClosestEnemyPos()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 0) return false;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        List<GameObject> enemiesInCam = new List<GameObject>();
+
+        foreach (GameObject enemy in enemies)
+        {
+            if (IsOnCameraBoundaries(enemy)) enemiesInCam.Add(enemy);
+        }
+
         float distance = Mathf.Infinity;
         Vector3 pos = Vector3.zero;
 
-        foreach (GameObject enemy in enemies)
+        foreach (GameObject enemy in enemiesInCam)
         {
             float each_distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (each_distance < distance)
@@ -179,6 +189,29 @@ public class Dante_StateMachine : MonoBehaviour
             }
         }
 
-        return pos;
+        if (distance != Mathf.Infinity)
+        {
+            target.transform.position = pos + Vector3.up * 0.25f;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool IsOnCameraBoundaries(GameObject enemy)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
+        Vector3 point = enemy.transform.position;
+
+        foreach (Plane plane in planes)
+        {
+            if (plane.GetDistanceToPoint(point) < 0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
