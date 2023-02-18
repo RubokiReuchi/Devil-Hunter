@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5259,6 +5259,7 @@ GameObject:
   - component: {fileID: 6572010404303434814}
   - component: {fileID: 1897003860}
   - component: {fileID: 3947693996675371060}
+  - component: {fileID: 2114847872258955165}
   m_Layer: 6
   m_Name: Dante
   m_TagString: Dante
@@ -5306,7 +5307,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5360,7 +5361,7 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.06772122, y: -0.06266254, z: 0}
+    m_Center: {x: 0.06772503, y: -0.06266254, z: 0}
     m_Extent: {x: 0.477395, y: 0.5993668, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -5685,6 +5686,18 @@ MonoBehaviour:
   grabUnlocked: 1
   fallingAttackUnlocked: 1
   thrustUnlocked: 1
+--- !u!114 &2114847872258955165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200364207615511584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ec3ec785773ca48a03bad04747c2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1200364207702051882
 GameObject:
   m_ObjectHideFlags: 0

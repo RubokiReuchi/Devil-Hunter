@@ -9,7 +9,7 @@ public class SettingsMenu : MonoBehaviour
 {
     // variables
     int screenSizeIndex;
-    List<string> screenSizeOptions = new List<string>();
+    List<string> screenSizeOptions = new();
     bool fullscreen = true;
     int graphicsIndex = 5;
     string[] graphicsOptions = { "Vey Low", "Low", "Medium", "High", "Very High", "Ultra" };

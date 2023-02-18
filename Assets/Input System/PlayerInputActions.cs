@@ -116,6 +116,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""75af5bb5-5078-47c1-86d1-4414067c3efe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -250,6 +259,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""LookDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3c9d67e-cb22-4a4d-85d5-630d08872008"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -268,6 +288,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Normal_Cancel = m_Normal.FindAction("Cancel", throwIfNotFound: true);
         m_Normal_LookUp = m_Normal.FindAction("LookUp", throwIfNotFound: true);
         m_Normal_LookDown = m_Normal.FindAction("LookDown", throwIfNotFound: true);
+        m_Normal_OpenInventory = m_Normal.FindAction("OpenInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -337,6 +358,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Normal_Cancel;
     private readonly InputAction m_Normal_LookUp;
     private readonly InputAction m_Normal_LookDown;
+    private readonly InputAction m_Normal_OpenInventory;
     public struct NormalActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -351,6 +373,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Cancel => m_Wrapper.m_Normal_Cancel;
         public InputAction @LookUp => m_Wrapper.m_Normal_LookUp;
         public InputAction @LookDown => m_Wrapper.m_Normal_LookDown;
+        public InputAction @OpenInventory => m_Wrapper.m_Normal_OpenInventory;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -390,6 +413,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @LookDown.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookDown;
                 @LookDown.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookDown;
                 @LookDown.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnLookDown;
+                @OpenInventory.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenInventory;
+                @OpenInventory.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenInventory;
+                @OpenInventory.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenInventory;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -424,6 +450,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @LookDown.started += instance.OnLookDown;
                 @LookDown.performed += instance.OnLookDown;
                 @LookDown.canceled += instance.OnLookDown;
+                @OpenInventory.started += instance.OnOpenInventory;
+                @OpenInventory.performed += instance.OnOpenInventory;
+                @OpenInventory.canceled += instance.OnOpenInventory;
             }
         }
     }
@@ -440,5 +469,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnLookUp(InputAction.CallbackContext context);
         void OnLookDown(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
     }
 }

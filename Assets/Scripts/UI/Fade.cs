@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Fade : MonoBehaviour
 {
+    public GameObject fadeCanvas;
+    GraphicRaycaster raycaster;
     Image fadePanel;
     public bool on;
     [HideInInspector] public bool black;
@@ -12,6 +14,7 @@ public class Fade : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        raycaster = fadeCanvas.GetComponent<GraphicRaycaster>();
         fadePanel = GetComponent<Image>();
         if (on) fadePanel.color = new Color(0, 0, 0, 255);
         else fadePanel.color = new Color(0, 0, 0, 0);
@@ -37,6 +40,9 @@ public class Fade : MonoBehaviour
             else alpha = 0;
         }
         fadePanel.color = new Color(0, 0, 0, alpha);
+
+        if (fadePanel.color.a < 20) raycaster.enabled = false;
+        else raycaster.enabled = true;
     }
 
     IEnumerator Co_Fade()
