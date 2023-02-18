@@ -6,12 +6,15 @@ public class Mantis_Walk : StateMachineBehaviour
 {
     Mantis enemy;
     Rigidbody2D rb;
+    LayerMask mask;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy = animator.GetComponent<Mantis>();
         rb = animator.GetComponent<Rigidbody2D>();
+        mask |= (1 << 3); // add ground
+        mask |= (1 << 6); // add player
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -28,7 +31,10 @@ public class Mantis_Walk : StateMachineBehaviour
                 animator.SetBool("InSpawn", true);
             }
 
-            if (GameObject.FindGameObjectWithTag("Dante") != null && Vector3.Distance(animator.transform.position, GameObject.FindGameObjectWithTag("Dante").transform.position) < enemy.detection_range)
+            if (GameObject.FindGameObjectWithTag("Dante") == null) return;
+            Vector3 dantePos = GameObject.FindGameObjectWithTag("Dante").transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(animator.transform.position, dantePos - animator.transform.position, Mathf.Infinity, mask);
+            if (Vector3.Distance(animator.transform.position, dantePos) < enemy.detection_range && hit && hit.collider.CompareTag("Dante"))
             {
                 animator.SetFloat("InRange", 1);
                 if (enemy.orientation != 0) animator.transform.localScale = new Vector3(enemy.orientation, 1, 1);
@@ -40,21 +46,29 @@ public class Mantis_Walk : StateMachineBehaviour
 
             if (GameObject.FindGameObjectWithTag("Dante") == null) return;
 
-            Vector3 dante_pos = GameObject.FindGameObjectWithTag("Dante").transform.position;
-            if (Vector3.Distance(animator.transform.position, dante_pos) > enemy.detection_melee)
+            Vector3 dantePos = GameObject.FindGameObjectWithTag("Dante").transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(animator.transform.position, dantePos - animator.transform.position, Mathf.Infinity, mask);
+            if (hit && hit.collider.CompareTag("Dante"))
+            {
+                if (Vector3.Distance(animator.transform.position, dantePos) > enemy.detection_melee)
+                {
+                    animator.SetFloat("InRange", 1);
+                }
+
+                if (Vector3.Distance(animator.transform.position, dantePos) >= enemy.attackAtDistance)
+                {
+                    if ((enemy.orientation == -1 && enemy.restrict_left) || (enemy.orientation == 1 && enemy.restrict_right)) { }
+                    else animator.transform.position += new Vector3(enemy.orientation * enemy.speed * Time.deltaTime, 0, 0);
+                }
+
+                if (Vector3.Distance(animator.transform.position, dantePos) < enemy.attackAtDistance)
+                {
+                    animator.SetTrigger("AttackMelee");
+                }
+            }
+            else
             {
                 animator.SetFloat("InRange", 1);
-            }
-
-            if (Vector3.Distance(animator.transform.position, dante_pos) >= enemy.attackAtDistance)
-            {
-                if ((enemy.orientation == -1 && enemy.restrict_left) || (enemy.orientation == 1 && enemy.restrict_right)) { }
-                else animator.transform.position += new Vector3(enemy.orientation * enemy.speed * Time.deltaTime, 0, 0);
-            }
-
-            if (Vector3.Distance(animator.transform.position, dante_pos) < enemy.attackAtDistance)
-            {
-                animator.SetTrigger("AttackMelee");
             }
         }
     }

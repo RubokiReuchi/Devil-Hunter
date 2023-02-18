@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Mantis_Idle : StateMachineBehaviour
 {
     Mantis enemy;
+    LayerMask mask;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy = animator.GetComponent<Mantis>();
+        mask |= (1 << 3); // add ground
+        mask |= (1 << 6); // add player
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -17,12 +21,15 @@ public class Mantis_Idle : StateMachineBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Dante") != null)
         {
-            if (Vector3.Distance(animator.transform.position, GameObject.FindGameObjectWithTag("Dante").transform.position) < enemy.detection_melee)
+            Vector3 dantePos = GameObject.FindGameObjectWithTag("Dante").transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(animator.transform.position, dantePos - animator.transform.position, Mathf.Infinity, mask);
+
+            if (Vector3.Distance(animator.transform.position, dantePos) < enemy.detection_melee && hit && hit.collider.CompareTag("Dante"))
             {
                 animator.SetFloat("InRange", 2);
                 if (enemy.orientation != 0) animator.transform.localScale = new Vector3(enemy.orientation, 1, 1);
             }
-            else if (Vector3.Distance(animator.transform.position, GameObject.FindGameObjectWithTag("Dante").transform.position) < enemy.detection_range)
+            else if (Vector3.Distance(animator.transform.position, dantePos) < enemy.detection_range && hit && hit.collider.CompareTag("Dante"))
             {
                 animator.SetFloat("InRange", 1);
                 if (enemy.orientation != 0) animator.transform.localScale = new Vector3(enemy.orientation, 1, 1);
