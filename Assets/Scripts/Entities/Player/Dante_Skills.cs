@@ -14,7 +14,7 @@ public class Dante_Skills : MonoBehaviour
     public bool wallSlidingUnlocked;
 
     [Header("Double Jump")]
-    public bool dobleJumpUnlocked;
+    public bool doubleJumpUnlocked;
 
     [Header("Revive")]
     public bool reviveUnlocked;

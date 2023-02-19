@@ -23,7 +23,7 @@ public class Fade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        black = false;
+        if (fadePanel.color.a < 0.8f) black = false;
         float alpha;
         if (on)
         {
