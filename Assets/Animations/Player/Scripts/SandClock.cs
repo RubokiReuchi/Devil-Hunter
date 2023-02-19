@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SandClock : MonoBehaviour
 {
+    Dante_Menus menus;
     [NonEditable] public bool onClock;
     bool onMenu;
 
     // Start is called before the first frame update
     void Start()
     {
-        // check if player in hitbox = onClock
         onMenu = false;
     }
 

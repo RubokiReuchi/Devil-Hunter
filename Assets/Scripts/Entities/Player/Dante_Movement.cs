@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Dante_Movement : MonoBehaviour
@@ -11,6 +9,7 @@ public class Dante_Movement : MonoBehaviour
     CameraActions camActions;
     Dante_Stats stats;
     Dante_Skills skills;
+    Dante_Menus menus;
 
     Dante_Hitbox hitbox;
     [NonEditable] public bool inmune;
@@ -113,6 +112,8 @@ public class Dante_Movement : MonoBehaviour
         stats = GetComponent<Dante_Stats>();
 
         skills = GetComponent<Dante_Skills>();
+
+        menus = GetComponent<Dante_Menus>();
 
         hitbox = GetComponent<Dante_Hitbox>();
         inmune = false;
@@ -622,7 +623,8 @@ public class Dante_Movement : MonoBehaviour
         // Sand Clock
         if (collision.CompareTag("SandClock"))
         {
-            collision.GetComponent<SandClock>().onClock = true;
+            menus.onShop = true;
+            // collision get shop asset
         }
         // Thorns
         else if (collision.CompareTag("Thorn") && !inmune)
@@ -656,7 +658,7 @@ public class Dante_Movement : MonoBehaviour
         // Sand Clock
         if (collision.CompareTag("SandClock"))
         {
-            collision.GetComponent<SandClock>().onClock = false;
+            menus.onShop = false;
         }
     }
 

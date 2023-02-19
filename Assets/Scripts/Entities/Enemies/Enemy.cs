@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     protected SpriteRenderer sprite;
     protected float sprite_alpha;
     protected bool death;
+    public GameObject dropRedEggs;
+    public int eggsAmount;
 
     // restrict movement
     [Header("Restrict Movement")]
@@ -47,6 +49,8 @@ public class Enemy : MonoBehaviour
         var aux = dust.shape;
         aux.scale = new Vector3(transform.localScale.x, 1, 1);
         dust.Play();
+        GameObject drop = Instantiate(dropRedEggs, transform.position, Quaternion.identity);
+        drop.GetComponent<DropRedEggs>().particleAmount = eggsAmount;
         yield return new WaitForSeconds(0.75f);
         Destroy(gameObject);
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class DeathMenu : MonoBehaviour
 {
     GameManager gameManager;
-    public GameObject deathMenuUI;
 
     // Start is called before the first frame update
     void Start()
@@ -16,27 +15,27 @@ public class DeathMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameManager.reviving) deathMenuUI.SetActive(!gameManager.danteState);
+        if (!gameManager.reviving) gameObject.SetActive(!gameManager.danteState);
     }
 
     public void UseGoldEgg()
     {
         // what ever
         gameManager.ReviveDante();
-        deathMenuUI.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void UseRedEggs()
     {
         // what ever
         gameManager.ReviveDante();
-        deathMenuUI.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void LastCheckpoint()
     {
         // what ever
         gameManager.ReviveDante();
-        deathMenuUI.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
