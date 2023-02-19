@@ -15,15 +15,8 @@ enum SELECTED
 
 public class MainMenu : MonoBehaviour
 {
-    MainMenuSaveAndLoad saveAndLoad;
-
     public Fade fade;
     SELECTED option = SELECTED.NONE;
-
-    void Start()
-    {
-        saveAndLoad = GetComponent<MainMenuSaveAndLoad>();
-    }
 
     void Update()
     {
@@ -32,8 +25,7 @@ public class MainMenu : MonoBehaviour
             switch (option)
             {
                 case SELECTED.NEW_GAME:
-                    saveAndLoad.NewGame();
-                    SceneManager.LoadScene(saveAndLoad.targetSceneName);
+                    SceneManager.LoadScene("Tutorial Path");
                     break;
                 case SELECTED.CONTINUE:
                     break;

@@ -5260,7 +5260,6 @@ GameObject:
   - component: {fileID: 1897003860}
   - component: {fileID: 3947693996675371060}
   - component: {fileID: 2114847872258955165}
-  - component: {fileID: 1232559632}
   m_Layer: 6
   m_Name: Dante
   m_TagString: Dante
@@ -5363,8 +5362,8 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.0677236, y: -0.06266266, z: 0}
-    m_Extent: {x: 0.47739452, y: 0.59936655, z: 0}
+    m_Center: {x: 0.067723006, y: -0.06266272, z: 0}
+    m_Extent: {x: 0.4773944, y: 0.5993666, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5658,7 +5657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max_hp: 300
-  attack: 10
+  attack: 100
   regen_hp: 0
   life_steal: 2
   knockback_resist: 75
@@ -5678,16 +5677,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c083e29a11704aba0552364f9ad01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashLevel: 0
-  pierceDashAvailable: 0
+  dashLevel: 2
+  pierceDashAvailable: 1
   pierceReadyParticles: {fileID: 1306693351}
-  wallSlidingUnlocked: 0
-  doubleJumpUnlocked: 0
+  wallSlidingUnlocked: 1
+  dobleJumpUnlocked: 1
   reviveUnlocked: 0
-  waveUnlocked: 0
-  grabUnlocked: 0
-  fallingAttackUnlocked: 0
-  thrustUnlocked: 0
+  waveUnlocked: 1
+  grabUnlocked: 1
+  fallingAttackUnlocked: 1
+  thrustUnlocked: 1
 --- !u!114 &2114847872258955165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5701,19 +5700,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
-  onShop: 0
---- !u!114 &1232559632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200364207615511584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09680e8926b5dd44a81190b0b247afa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1200364207702051882
 GameObject:
   m_ObjectHideFlags: 0

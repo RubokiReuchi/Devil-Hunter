@@ -2461,12 +2461,11 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    influenceFilter: 1
+    influenceFilter: 0
     influenceMask:
       serializedVersion: 2
       m_Bits: 2147483647
-    influenceList:
-    - {fileID: 0}
+    influenceList: []
   ClampVelocityModule:
     enabled: 0
     x:
