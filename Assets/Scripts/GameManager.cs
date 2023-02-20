@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
     public Transform dante_spawn;
     Vector3 dante_position;
 
+    private void Awake()
+    {
+        StartCoroutine("SaveEackTeenSeconds");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,5 +63,12 @@ public class GameManager : MonoBehaviour
     public void ResetLevel()
     {
 
+    }
+
+    IEnumerator SaveEackTeenSeconds()
+    {
+        yield return new WaitForSeconds(10.0f);
+        DataPersistenceManager.instance.SaveGame();
+        StartCoroutine("SaveEackTeenSeconds");
     }
 }

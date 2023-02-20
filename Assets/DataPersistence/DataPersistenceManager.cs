@@ -2,9 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
+
+enum DEBUG
+{
+    NONE,
+    INIT_DATA,
+    DO_NOT_LOAD
+}
 
 public class DataPersistenceManager : MonoBehaviour
 {
+    [Header("Debugging")]
+    [SerializeField] DEBUG debug = DEBUG.NONE;
+
     [Header("File Storage Config")]
     [SerializeField] string fileName;
     [SerializeField] bool useEncryption;
@@ -18,15 +29,37 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null) Debug.LogError("Found more than one Data Persistance Manager in the scene.");
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
         instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
+    }
+
+    public void OnSceneUnloaded(Scene scene)
+    {
+        SaveGame();
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     private void OnApplicationQuit()
@@ -43,10 +76,16 @@ public class DataPersistenceManager : MonoBehaviour
     {
         gameData = dataHandler.Load();
 
-        if (gameData == null)
+        if (gameData == null && debug == DEBUG.INIT_DATA)
         {
             NewGame();
         }
+
+        if (gameData == null || debug == DEBUG.DO_NOT_LOAD)
+        {
+            return;
+        }
+
         foreach (DataPersistenceInterfice dataPersistenceObject in dataPersistenceObjects)
         {
             dataPersistenceObject.LoadData(gameData);
@@ -55,6 +94,11 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if (gameData == null)
+        {
+            return;
+        }
+
         foreach (DataPersistenceInterfice dataPersistenceObject in dataPersistenceObjects)
         {
             dataPersistenceObject.SaveData(ref gameData);
@@ -68,5 +112,10 @@ public class DataPersistenceManager : MonoBehaviour
         IEnumerable<DataPersistenceInterfice> dataPersObjects = FindObjectsOfType<MonoBehaviour>().OfType<DataPersistenceInterfice>();
 
         return new List<DataPersistenceInterfice>(dataPersObjects);
+    }
+
+    public bool HasGameData()
+    {
+        return gameData != null;
     }
 }

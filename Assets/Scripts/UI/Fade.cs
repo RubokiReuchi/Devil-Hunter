@@ -16,8 +16,9 @@ public class Fade : MonoBehaviour
     {
         raycaster = fadeCanvas.GetComponent<GraphicRaycaster>();
         fadePanel = GetComponent<Image>();
-        if (on) fadePanel.color = new Color(0, 0, 0, 255);
+        if (on) fadePanel.color = new Color(0, 0, 0, 1);
         else fadePanel.color = new Color(0, 0, 0, 0);
+        on = false;
     }
 
     // Update is called once per frame
@@ -48,7 +49,7 @@ public class Fade : MonoBehaviour
     IEnumerator Co_Fade()
     {
         yield return new WaitForSeconds(0.2f);
-        on = false;
+        //on = false;
         black = true;
     }
 
