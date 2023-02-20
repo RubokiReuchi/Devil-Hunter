@@ -11,8 +11,6 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     public void LoadData(GameData data)
     {
-        transform.position = data.position;
-
         max_hp = data.maxHp;
         attack = data.attack;
         regen_hp = data.regenHp;
@@ -25,8 +23,6 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     public void SaveData(ref GameData data)
     {
-        data.position = transform.position;
-
         data.maxHp = max_hp;
         data.attack = attack;
         data.regenHp = regen_hp;

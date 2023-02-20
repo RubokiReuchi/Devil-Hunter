@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dante_Movement : MonoBehaviour
+public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 {
     Dante_StateMachine state;
     public GameManager game_manager;
@@ -18,6 +18,7 @@ public class Dante_Movement : MonoBehaviour
     Animator anim;
 
     [Header("Movement")]
+    [HideInInspector] public Vector2 lastPositionOnGround;
     public float basicRunSpeed;
     public float basicWalkSpeed;
     [HideInInspector] public float runSpeed;
@@ -103,6 +104,16 @@ public class Dante_Movement : MonoBehaviour
         inputActions.Disable();
     }
 
+    public void LoadData(GameData data)
+    {
+        transform.position = data.position;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.position = lastPositionOnGround;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -151,6 +162,8 @@ public class Dante_Movement : MonoBehaviour
         // Reset Air Skills
         if (isOnGround)
         {
+            lastPositionOnGround = transform.position;
+
             anim.SetBool("Can LightAir", true);
             anim.SetBool("Can AirDash", true);
             anim.SetBool("Can AirJump", true);
