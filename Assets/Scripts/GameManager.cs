@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, DataPersistenceInterfice
 {
     // used to check if dante exists
+    [HideInInspector] public int timePlayed;
     [NonEditable] public bool danteState;
     [HideInInspector] public bool reviving;
     
@@ -21,11 +22,22 @@ public class GameManager : MonoBehaviour
         StartCoroutine("SaveEackTeenSeconds");
     }
 
+    public void LoadData(GameData data)
+    {
+        timePlayed = data.gameTime;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.gameTime = timePlayed;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         dante_position = dante_spawn.position;
         reviving = false; //ReviveDante();
+        StartCoroutine("CountTimePlayed");
     }
 
     // Update is called once per frame
@@ -67,8 +79,15 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SaveEackTeenSeconds()
     {
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSecondsRealtime(10.0f);
         DataPersistenceManager.instance.SaveGame();
         StartCoroutine("SaveEackTeenSeconds");
+    }
+
+    IEnumerator CountTimePlayed()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        timePlayed++;
+        StartCoroutine("CountTimePlayed");
     }
 }

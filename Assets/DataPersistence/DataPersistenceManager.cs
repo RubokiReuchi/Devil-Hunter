@@ -24,6 +24,7 @@ public class DataPersistenceManager : MonoBehaviour
     List<DataPersistenceInterfice> dataPersistenceObjects;
 
     FileDataHandler dataHandler;
+    string selectedProfileId = "";
 
     public static DataPersistenceManager instance { get; private set; }
 
@@ -37,6 +38,8 @@ public class DataPersistenceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+
+        selectedProfileId = dataHandler.GetMostRecentlyUpdatedProfileId();
     }
 
     private void OnEnable()
@@ -67,6 +70,12 @@ public class DataPersistenceManager : MonoBehaviour
         SaveGame();
     }
 
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        selectedProfileId = newProfileId;
+        LoadGame();
+    }
+
     public void NewGame()
     {
         gameData = new GameData();
@@ -74,17 +83,16 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void LoadGame()
     {
-        gameData = dataHandler.Load();
+        if (debug == DEBUG.DO_NOT_LOAD) return;
+
+        gameData = dataHandler.Load(selectedProfileId);
 
         if (gameData == null && debug == DEBUG.INIT_DATA)
         {
             NewGame();
         }
 
-        if (gameData == null || debug == DEBUG.DO_NOT_LOAD)
-        {
-            return;
-        }
+        if (gameData == null) return;
 
         foreach (DataPersistenceInterfice dataPersistenceObject in dataPersistenceObjects)
         {
@@ -94,17 +102,16 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
-        if (gameData == null)
-        {
-            return;
-        }
+        if (gameData == null || debug == DEBUG.DO_NOT_LOAD) return;
 
         foreach (DataPersistenceInterfice dataPersistenceObject in dataPersistenceObjects)
         {
             dataPersistenceObject.SaveData(ref gameData);
         }
 
-        dataHandler.Save(gameData);
+        gameData.lastUpdateTime = System.DateTime.Now.ToBinary();
+
+        dataHandler.Save(gameData, selectedProfileId);
     }
 
     List<DataPersistenceInterfice> FindAllDataPersistenceObjects()
@@ -117,5 +124,10 @@ public class DataPersistenceManager : MonoBehaviour
     public bool HasGameData()
     {
         return gameData != null;
+    }
+
+    public Dictionary<string, GameData> GetAllProfilesGameData()
+    {
+        return dataHandler.LoadAllProfiles();
     }
 }

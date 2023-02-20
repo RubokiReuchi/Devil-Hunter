@@ -14,49 +14,55 @@ enum SELECTED
     SETTINGS
 }
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : Menu
 {
+    public InitialScreenManager initialScreenManager;
     public Fade fade;
     SELECTED option;
 
     public Button continueButton;
+    public Button loadButton;
 
     void Start()
     {
         option = SELECTED.NONE;
-        if (!DataPersistenceManager.instance.HasGameData()) continueButton.interactable = false;
+        if (!DataPersistenceManager.instance.HasGameData())
+        {
+            continueButton.interactable = false;
+            loadButton.interactable = false;
+        }
     }
 
     void Update()
     {
-        if (fade.black)
+        switch (option)
         {
-            switch (option)
-            {
-                case SELECTED.NEW_GAME:
-                    DataPersistenceManager.instance.NewGame();
-                    SceneManager.LoadScene("Tutorial Path");
-                    break;
-                case SELECTED.CONTINUE:
-                    SceneManager.LoadScene("Tutorial Path");
-                    break;
-                case SELECTED.LOAD:
-                    break;
-                case SELECTED.EXIT:
-                    Application.Quit();
-                    break;
-                case SELECTED.SETTINGS:
-                    break;
-                default:
-                    break;
-            }
+            case SELECTED.NEW_GAME:
+                initialScreenManager.OpenMenu(ACTIVE_MENU.SAVE_SLOTS, true);
+                break;
+            case SELECTED.CONTINUE:
+                if (!fade.black) return;
+                SceneManager.LoadScene("Tutorial Path");
+                break;
+            case SELECTED.LOAD:
+                initialScreenManager.OpenMenu(ACTIVE_MENU.SAVE_SLOTS, false);
+                break;
+            case SELECTED.EXIT:
+                Application.Quit();
+                break;
+            case SELECTED.SETTINGS:
+                initialScreenManager.OpenMenu(ACTIVE_MENU.SETTINGS);
+                break;
+            default:
+                break;
         }
+
+        option = SELECTED.NONE;
     }
 
     public void NewGame()
     {
         if (option != SELECTED.NONE) return;
-        fade.FadeOn();
         option = SELECTED.NEW_GAME;
     }
 
@@ -70,21 +76,18 @@ public class MainMenu : MonoBehaviour
     public void Load()
     {
         if (option != SELECTED.NONE) return;
-        fade.FadeOn();
         option = SELECTED.LOAD;
     }
 
     public void Exit()
     {
         if (option != SELECTED.NONE) return;
-        fade.FadeOn();
         option = SELECTED.EXIT;
     }
 
     public void Settings()
     {
         if (option != SELECTED.NONE) return;
-        fade.FadeOn();
         option = SELECTED.SETTINGS;
     }
 }

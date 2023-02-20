@@ -24,7 +24,7 @@ public class Fade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (fadePanel.color.a < 20) black = false;
+        if (fadePanel.color.a < 0.1f) black = false;
         float alpha;
         if (on)
         {
@@ -42,14 +42,13 @@ public class Fade : MonoBehaviour
         }
         fadePanel.color = new Color(0, 0, 0, alpha);
 
-        if (fadePanel.color.a < 20) raycaster.enabled = false;
+        if (fadePanel.color.a < 0.1f) raycaster.enabled = false;
         else raycaster.enabled = true;
     }
 
     IEnumerator Co_Fade()
     {
         yield return new WaitForSeconds(0.2f);
-        //on = false;
         black = true;
     }
 

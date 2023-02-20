@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class SettingsMenu : MonoBehaviour
+public class SettingsMenu : Menu
 {
     // variables
     int screenSizeIndex;

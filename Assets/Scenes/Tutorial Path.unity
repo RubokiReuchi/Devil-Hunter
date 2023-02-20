@@ -56742,7 +56742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6609078319965801226, guid: 926d771027da25d4ea316ace92e33b1b, type: 3}
       propertyPath: debug
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6609078319965801226, guid: 926d771027da25d4ea316ace92e33b1b, type: 3}
       propertyPath: initDataIfNull

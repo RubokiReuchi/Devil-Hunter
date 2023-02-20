@@ -5,6 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    #region Profile Data
+    public int gameTime;
+    public long lastUpdateTime;
+    #endregion
+
     #region Player
     // position
     public Vector3 position;
@@ -40,6 +45,11 @@ public class GameData
 
     public GameData() // new game values
     {
+        #region Profile Data
+        gameTime = 0;
+        lastUpdateTime = System.DateTime.Now.ToBinary();
+        #endregion
+
         #region Player
         // position
         position = new Vector2(0.0f, -0.8f);
@@ -72,5 +82,10 @@ public class GameData
         #region Enemies
         enemiesDeath = new SerializableDictionary<string, bool>();
         #endregion
+    }
+
+    public int GetGameTime()
+    {
+        return gameTime;
     }
 }
