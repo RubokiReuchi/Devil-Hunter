@@ -17,14 +17,19 @@ public class DropRedEggs : MonoBehaviour
         ParticleSystem.Burst burst = ps.emission.GetBurst(0);
         burst.count = particleAmount;
         ps.emission.SetBurst(0, burst);
-        if (GameObject.FindGameObjectWithTag("Dante") != null) ps.trigger.SetCollider(0, GameObject.FindGameObjectWithTag("Dante").GetComponent<Collider2D>());
         ps.Play();
         StartCoroutine("LifeTime");
     }
 
     IEnumerator LifeTime()
     {
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(1.0f);
+        if (GameObject.FindGameObjectWithTag("Dante") != null)
+        {
+            ps.externalForces.SetInfluence(0, GameObject.FindGameObjectWithTag("Dante").GetComponentInChildren<ParticleSystemForceField>());
+            ps.trigger.SetCollider(0, GameObject.FindGameObjectWithTag("Dante").GetComponent<Collider2D>());
+        }
+        yield return new WaitForSeconds(9.0f);
         Destroy(gameObject);
     }
 

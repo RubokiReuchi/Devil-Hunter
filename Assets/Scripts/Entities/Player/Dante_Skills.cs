@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dante_Skills : MonoBehaviour
+public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
 {
     // skills
     [Header("Dash")]
@@ -14,7 +14,7 @@ public class Dante_Skills : MonoBehaviour
     public bool wallSlidingUnlocked;
 
     [Header("Double Jump")]
-    public bool dobleJumpUnlocked;
+    public bool doubleJumpUnlocked;
 
     [Header("Revive")]
     public bool reviveUnlocked;
@@ -26,6 +26,30 @@ public class Dante_Skills : MonoBehaviour
     public bool thrustUnlocked;
 
     Animator anim;
+
+    public void LoadData(GameData data)
+    {
+        dashLevel = data.dashLevel;
+        wallSlidingUnlocked = data.wallSlidingUnlocked;
+        doubleJumpUnlocked = data.doubleJumpUnlocked;
+        reviveUnlocked = data.reviveUnlocked;
+        waveUnlocked = data.waveUnlocked;
+        grabUnlocked = data.grabUnlocked;
+        fallingAttackUnlocked = data.fallingAttackUnlocked;
+        thrustUnlocked = data.thrustUnlocked;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.dashLevel = dashLevel;
+        data.wallSlidingUnlocked = wallSlidingUnlocked;
+        data.doubleJumpUnlocked = doubleJumpUnlocked;
+        data.reviveUnlocked = reviveUnlocked;
+        data.waveUnlocked = waveUnlocked;
+        data.grabUnlocked = grabUnlocked;
+        data.fallingAttackUnlocked = fallingAttackUnlocked;
+        data.thrustUnlocked = thrustUnlocked;
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -2,12 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dante_Stats : Stats
+public class Dante_Stats : Stats, DataPersistenceInterfice
 {
     public float maxLimitBatteries;
     [NonEditable] public float currentLimitValue;
 
     LimitBattery limitBattery;
+
+    public void LoadData(GameData data)
+    {
+        transform.position = data.position;
+
+        max_hp = data.maxHp;
+        attack = data.attack;
+        regen_hp = data.regenHp;
+        life_steal = data.lifeSteal;
+        knockback_resist = data.knockbackResist;
+        current_hp = data.currentHp;
+        maxLimitBatteries = data.maxLimitBatteries;
+        currentLimitValue = data.currentLimitValue;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.position = transform.position;
+
+        data.maxHp = max_hp;
+        data.attack = attack;
+        data.regenHp = regen_hp;
+        data.lifeSteal = life_steal;
+        data.knockbackResist = knockback_resist;
+        data.currentHp = current_hp;
+        data.maxLimitBatteries = maxLimitBatteries;
+        data.currentLimitValue = currentLimitValue;
+    }
 
     void Start()
     {

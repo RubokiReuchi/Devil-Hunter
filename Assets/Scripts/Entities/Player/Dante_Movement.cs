@@ -183,7 +183,7 @@ public class Dante_Movement : MonoBehaviour
             }
             else
             {
-                if (input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.dobleJumpUnlocked) StartAirJump();
+                if (input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.doubleJumpUnlocked) StartAirJump();
                 if (input.Dash.WasPressedThisFrame() && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
                 {
                     StartDash();
