@@ -31,7 +31,7 @@ public class GameData
     #endregion
 
     #region Red Stones
-    public Dictionary<string, bool> redStonesPicked;
+    public SerializableDictionary<string, bool> redStonesPicked;
     #endregion
 
     public GameData() // new game values
@@ -59,6 +59,10 @@ public class GameData
         grabUnlocked = false;
         fallingAttackUnlocked = false;
         thrustUnlocked = false;
+        #endregion
+
+        #region Red Stones
+        redStonesPicked = new SerializableDictionary<string, bool>();
         #endregion
     }
 }
