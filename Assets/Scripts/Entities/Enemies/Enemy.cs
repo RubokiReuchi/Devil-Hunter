@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, DataPersistenceInterfice
 {
+    [SerializeField] string id;
+    [ContextMenu("Genetate guid for id")]
+    void GenerateUID()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
     [HideInInspector] public Vector3 spawn;
     protected Animator anim;
     public float speed;
@@ -31,6 +38,18 @@ public class Enemy : MonoBehaviour
     [NonEditable] public bool restrict_left;
     [NonEditable] public bool restrict_right;
 
+    public void LoadData(GameData data)
+    {
+        data.enemiesDeath.TryGetValue(id, out death);
+        if (death) gameObject.SetActive(false);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        if (data.enemiesDeath.ContainsKey(id)) data.enemiesDeath.Remove(id);
+        data.enemiesDeath.Add(id, death);
+    }
+
     public void AttackMelee()
     {
         anim.SetBool("CanAttack", false);
@@ -52,7 +71,7 @@ public class Enemy : MonoBehaviour
         GameObject drop = Instantiate(dropRedEggs, transform.position, Quaternion.identity);
         drop.GetComponent<DropRedEggs>().particleAmount = eggsAmount;
         yield return new WaitForSeconds(0.75f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     void OnDrawGizmos()

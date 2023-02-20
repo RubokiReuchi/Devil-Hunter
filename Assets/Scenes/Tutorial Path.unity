@@ -56742,7 +56742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6609078319965801226, guid: 926d771027da25d4ea316ace92e33b1b, type: 3}
       propertyPath: debug
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6609078319965801226, guid: 926d771027da25d4ea316ace92e33b1b, type: 3}
       propertyPath: initDataIfNull
@@ -57303,6 +57303,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852154722}
     m_Modifications:
+    - target: {fileID: 787236145224928855, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
+      propertyPath: id
+      value: 27e95933-1b35-4dab-b8e3-a3546ccf011f
+      objectReference: {fileID: 0}
     - target: {fileID: 3738104874135845252, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
       propertyPath: m_Name
       value: Mantis
@@ -58385,6 +58389,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852154722}
     m_Modifications:
+    - target: {fileID: 787236145224928855, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
+      propertyPath: id
+      value: 5c51eb7c-8bd8-47ca-8d09-c432f4275b84
+      objectReference: {fileID: 0}
     - target: {fileID: 3738104874135845252, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
       propertyPath: m_Name
       value: Mantis (3)
@@ -59339,6 +59347,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852154722}
     m_Modifications:
+    - target: {fileID: 787236145224928855, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
+      propertyPath: id
+      value: a5927640-ece0-4a45-8c73-c20cb2ea6f3d
+      objectReference: {fileID: 0}
     - target: {fileID: 3738104874135845252, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
       propertyPath: m_Name
       value: Mantis (2)
@@ -59569,6 +59581,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1852154722}
     m_Modifications:
+    - target: {fileID: 787236145224928855, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
+      propertyPath: id
+      value: 000378b6-25d8-4c7f-9d33-7b272cf29548
+      objectReference: {fileID: 0}
     - target: {fileID: 3738104874135845252, guid: 606bd7af93d4c7d4c9705c9280ad1d41, type: 3}
       propertyPath: m_Name
       value: Mantis (1)

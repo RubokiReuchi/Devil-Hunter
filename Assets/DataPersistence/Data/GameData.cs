@@ -34,6 +34,10 @@ public class GameData
     public SerializableDictionary<string, bool> redStonesPicked;
     #endregion
 
+    #region Enemies
+    public SerializableDictionary<string, bool> enemiesDeath;
+    #endregion
+
     public GameData() // new game values
     {
         #region Player
@@ -63,6 +67,10 @@ public class GameData
 
         #region Red Stones
         redStonesPicked = new SerializableDictionary<string, bool>();
+        #endregion
+
+        #region Enemies
+        enemiesDeath = new SerializableDictionary<string, bool>();
         #endregion
     }
 }
