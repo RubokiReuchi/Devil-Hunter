@@ -39,7 +39,7 @@ public class MainMenu : Menu
             case SELECTED.CONTINUE:
                 if (!fade.black) return;
                 DataPersistenceManager.instance.SaveGame();
-                SceneManager.LoadScene("Tutorial Path");
+                SceneManager.LoadScene(DataPersistenceManager.instance.GetCurrentScene());
                 break;
             case SELECTED.LOAD:
                 initialScreenManager.OpenMenu(ACTIVE_MENU.SAVE_SLOTS, false);

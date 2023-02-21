@@ -131,6 +131,11 @@ public class DataPersistenceManager : MonoBehaviour
         return gameData != null;
     }
 
+    public string GetCurrentScene()
+    {
+        return gameData.GetCurrentScene();
+    }
+
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
         return dataHandler.LoadAllProfiles();

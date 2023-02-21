@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, DataPersistenceInterfice
 {
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour, DataPersistenceInterfice
     public void SaveData(GameData data)
     {
         data.gameTime = timePlayed;
+        data.currentScene = SceneManager.GetActiveScene().name;
     }
 
     // Start is called before the first frame update
@@ -79,8 +81,8 @@ public class GameManager : MonoBehaviour, DataPersistenceInterfice
 
     IEnumerator SaveEackTeenSeconds()
     {
-        yield return new WaitForSecondsRealtime(10.0f);
         DataPersistenceManager.instance.SaveGame();
+        yield return new WaitForSecondsRealtime(10.0f);
         StartCoroutine("SaveEackTeenSeconds");
     }
 

@@ -31,11 +31,11 @@ public class SlotsMenu : Menu
                 case MENU_ACTION_TYPE.CREATE:
                     DataPersistenceManager.instance.NewGame();
                     DataPersistenceManager.instance.SaveGame();
-                    SceneManager.LoadScene("Tutorial Path");
+                    SceneManager.LoadScene(DataPersistenceManager.instance.GetCurrentScene());
                     break;
                 case MENU_ACTION_TYPE.LOAD:
                     DataPersistenceManager.instance.SaveGame();
-                    SceneManager.LoadScene("Tutorial Path");
+                    SceneManager.LoadScene(DataPersistenceManager.instance.GetCurrentScene());
                     break;
                 default:
                     break;

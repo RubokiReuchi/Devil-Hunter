@@ -8,6 +8,7 @@ public class GameData
     #region Profile Data
     public int gameTime;
     public long lastUpdateTime;
+    public string currentScene;
     #endregion
 
     #region Player
@@ -55,6 +56,7 @@ public class GameData
         #region Profile Data
         gameTime = 0;
         lastUpdateTime = System.DateTime.Now.ToBinary();
+        currentScene = "Tutorial Path";
         #endregion
 
         #region Player
@@ -101,5 +103,10 @@ public class GameData
     public int GetGameTime()
     {
         return gameTime;
+    }
+
+    public string GetCurrentScene()
+    {
+        return currentScene;
     }
 }
