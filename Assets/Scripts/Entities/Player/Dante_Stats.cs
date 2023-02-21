@@ -122,7 +122,6 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
                 goldEggsFrag.value++;
                 if (goldEggsFrag.value == 4)
                 {
-                    goldEggsFrag.value = 0;
                     GetComponent<Dante_Skills>().reviveUnlocked = true;
                 }
                 break;

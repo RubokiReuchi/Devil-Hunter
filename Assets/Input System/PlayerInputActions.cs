@@ -125,6 +125,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenItemStorage"",
+                    ""type"": ""Button"",
+                    ""id"": ""c61e2242-2283-42dd-8282-c997e4d9e7d6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -270,6 +279,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""OpenInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa77d5fd-2dd9-483d-b2eb-e0033a985c9b"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenItemStorage"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -289,6 +309,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Normal_LookUp = m_Normal.FindAction("LookUp", throwIfNotFound: true);
         m_Normal_LookDown = m_Normal.FindAction("LookDown", throwIfNotFound: true);
         m_Normal_OpenInventory = m_Normal.FindAction("OpenInventory", throwIfNotFound: true);
+        m_Normal_OpenItemStorage = m_Normal.FindAction("OpenItemStorage", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -359,6 +380,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Normal_LookUp;
     private readonly InputAction m_Normal_LookDown;
     private readonly InputAction m_Normal_OpenInventory;
+    private readonly InputAction m_Normal_OpenItemStorage;
     public struct NormalActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -374,6 +396,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @LookUp => m_Wrapper.m_Normal_LookUp;
         public InputAction @LookDown => m_Wrapper.m_Normal_LookDown;
         public InputAction @OpenInventory => m_Wrapper.m_Normal_OpenInventory;
+        public InputAction @OpenItemStorage => m_Wrapper.m_Normal_OpenItemStorage;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -416,6 +439,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @OpenInventory.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenInventory;
                 @OpenInventory.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenInventory;
                 @OpenInventory.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenInventory;
+                @OpenItemStorage.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
+                @OpenItemStorage.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
+                @OpenItemStorage.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -453,6 +479,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @OpenInventory.started += instance.OnOpenInventory;
                 @OpenInventory.performed += instance.OnOpenInventory;
                 @OpenInventory.canceled += instance.OnOpenInventory;
+                @OpenItemStorage.started += instance.OnOpenItemStorage;
+                @OpenItemStorage.performed += instance.OnOpenItemStorage;
+                @OpenItemStorage.canceled += instance.OnOpenItemStorage;
             }
         }
     }
@@ -470,5 +499,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnLookUp(InputAction.CallbackContext context);
         void OnLookDown(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
+        void OnOpenItemStorage(InputAction.CallbackContext context);
     }
 }

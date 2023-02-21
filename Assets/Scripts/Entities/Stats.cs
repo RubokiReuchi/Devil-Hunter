@@ -30,7 +30,7 @@ public class Stats : MonoBehaviour
         }
     }
 
-    protected void Heal(float amount)
+    public void Heal(float amount)
     {
         current_hp += amount;
         if (current_hp > max_hp)

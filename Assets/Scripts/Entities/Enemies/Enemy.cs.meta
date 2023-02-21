@@ -3,7 +3,9 @@ guid: 468c19de3f0557e47b995fda5506090a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - dropRedEggs: {fileID: 5276335681989623558, guid: d5ec7c9401b57694fa1dd338fe46237f, type: 3}
+  - dropGreenOrb: {fileID: 5276335681989623558, guid: bb17d700ab40ed047ad14fafcc1782e4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
