@@ -35,6 +35,13 @@ public class GameData
     public bool thrustUnlocked;
     #endregion
 
+    #region ScriptableObjects
+    public int redEggs;
+    public int blueEggsFrag;
+    public int purpleEggsFrag;
+    public int goldEggsFrag;
+    #endregion
+
     #region Red Stones
     public SerializableDictionary<string, bool> redStonesPicked;
     #endregion
@@ -73,6 +80,13 @@ public class GameData
         grabUnlocked = false;
         fallingAttackUnlocked = false;
         thrustUnlocked = false;
+        #endregion
+
+        #region ScriptableObjects
+        redEggs = 0;
+        blueEggsFrag = 0;
+        purpleEggsFrag = 0;
+        goldEggsFrag = 0;
         #endregion
 
         #region Red Stones

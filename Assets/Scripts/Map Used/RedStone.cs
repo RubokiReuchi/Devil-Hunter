@@ -22,7 +22,7 @@ public class RedStone : MonoBehaviour, DataPersistenceInterfice
         if (broken) gameObject.SetActive(false);
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         if (data.redStonesPicked.ContainsKey(id)) data.redStonesPicked.Remove(id);
         data.redStonesPicked.Add(id, broken);

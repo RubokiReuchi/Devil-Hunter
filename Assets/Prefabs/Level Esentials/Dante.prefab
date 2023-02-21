@@ -5362,8 +5362,8 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.067723006, y: -0.06266272, z: 0}
-    m_Extent: {x: 0.4773944, y: 0.5993666, z: 0}
+    m_Center: {x: 0.067723066, y: -0.06266272, z: 0}
+    m_Extent: {x: 0.47739434, y: 0.59936655, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5519,6 +5519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_manager: {fileID: 0}
   inmune: 0
+  lastPositionOnGround: {x: 0, y: 0}
   basicRunSpeed: 3
   basicWalkSpeed: 1
   runSpeed: 0
@@ -5665,6 +5666,10 @@ MonoBehaviour:
   floating_text: {fileID: 9046765310167008510, guid: 933b1b2e4cb322b4a96a32f146db3272, type: 3}
   maxLimitBatteries: 3
   currentLimitValue: 0
+  redEggs: {fileID: 11400000, guid: 0a9e84425ae3f604a902c9f6232e811f, type: 2}
+  blueEggsFrag: {fileID: 11400000, guid: 5dd52bde29a46ae4d8f3da662f0876b3, type: 2}
+  purpleEggsFrag: {fileID: 11400000, guid: 74fa57238c626614897ee9a2a6bcd1f4, type: 2}
+  goldEggsFrag: {fileID: 11400000, guid: 9124a4396d528fd46871b3d4e20cecaa, type: 2}
 --- !u!114 &3947693996675371060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5681,7 +5686,7 @@ MonoBehaviour:
   pierceDashAvailable: 1
   pierceReadyParticles: {fileID: 1306693351}
   wallSlidingUnlocked: 1
-  dobleJumpUnlocked: 1
+  doubleJumpUnlocked: 0
   reviveUnlocked: 0
   waveUnlocked: 1
   grabUnlocked: 1
@@ -5700,6 +5705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
+  onShop: 0
 --- !u!1 &1200364207702051882
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public enum ACTIVE_MENU
 {
     MAIN,
     SETTINGS,
-    SAVE_SLOTS
+    SAVE_SLOTS,
 }
 
 public class InitialScreenManager : MonoBehaviour
@@ -15,18 +15,21 @@ public class InitialScreenManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject settingsMenu;
     public GameObject saveSlotsMenu;
+    public GameObject confirmationMenu;
 
     // Start is called before the first frame update
     void Start()
     {
         mainMenu.SetActive(true);
+        settingsMenu.SetActive(false);
+        saveSlotsMenu.SetActive(false);
         activeMenu = ACTIVE_MENU.MAIN;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel")) OpenMenu(ACTIVE_MENU.MAIN);
+        if (Input.GetButtonDown("Cancel") && !confirmationMenu.activeSelf) OpenMenu(ACTIVE_MENU.MAIN);
     }
 
     public void OpenMenu(ACTIVE_MENU menuToOpen, bool createOrLoad = false)
@@ -37,6 +40,7 @@ public class InitialScreenManager : MonoBehaviour
         {
             case ACTIVE_MENU.MAIN:
                 mainMenu.SetActive(true);
+                mainMenu.GetComponent<MainMenu>().OnEnter();
                 break;
             case ACTIVE_MENU.SETTINGS:
                 settingsMenu.SetActive(true);

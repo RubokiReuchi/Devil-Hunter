@@ -5,5 +5,5 @@ using UnityEngine;
 public interface DataPersistenceInterfice
 {
     void LoadData(GameData data);
-    void SaveData(ref GameData data);
+    void SaveData(GameData data);
 }

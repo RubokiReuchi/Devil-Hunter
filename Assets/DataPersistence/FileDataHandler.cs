@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.Profiling;
 
 public class FileDataHandler
 {
@@ -12,6 +13,7 @@ public class FileDataHandler
     bool useEncryption = false;
 
     readonly string encryptionCodeWord = "encryption";
+    readonly string backpExtension = ".bak";
 
     public FileDataHandler(string dataDirPath, string dataFileName, bool useEncryption)
     {
@@ -20,7 +22,7 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load(string profileId)
+    public GameData Load(string profileId, bool allowRestoreFromBackip = true)
     {
         if (profileId == null) return null;
 
@@ -49,7 +51,19 @@ public class FileDataHandler
             }
             catch (Exception e)
             {
-                Debug.LogError("Error occured when trying to load data to file: " + fullPath + "\n" + e);
+                if (allowRestoreFromBackip)
+                {
+                    Debug.LogWarning("Failed to load data file. Attempting to roll back.\n" + e);
+                    bool rollbackSuccess = AttemptRollBack(fullPath);
+                    if (rollbackSuccess)
+                    {
+                        loadedData = Load(profileId, false);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Error occured when trying to load file at path: " + fullPath + " and backup did not work.\n" + e);
+                }
             }
         }
         return loadedData;
@@ -60,6 +74,7 @@ public class FileDataHandler
         if (profileId == null) return;
 
         string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
+        string backupPath = fullPath + backpExtension;
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -78,10 +93,42 @@ public class FileDataHandler
                     writer.Write(dataToStore);
                 }
             }
+
+            GameData verifiedGameData = Load(profileId);
+            if (verifiedGameData != null)
+            {
+                File.Copy(fullPath, backupPath, true);
+            }
+            else
+            {
+                throw new Exception("Save file cound not be verified and backup could not be created.");
+            }
         }
         catch (Exception e)
         {
             Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e);
+        }
+    }
+
+    public void Delete(string profileId)
+    {
+        if (profileId == null) return;
+
+        string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
+        try
+        {
+            if (File.Exists(fullPath))
+            {
+                Directory.Delete(Path.GetDirectoryName(fullPath), true);
+            }
+            else
+            {
+                Debug.LogWarning("Tried to delete profile data, but data was not found at path: " + fullPath);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to delete profile data for profileId: " + profileId + " at path: " + fullPath + "\n" + e);
         }
     }
 
@@ -147,5 +194,30 @@ public class FileDataHandler
             modifiedData += (char)(data[i] ^ encryptionCodeWord[i % encryptionCodeWord.Length]);
         }
         return modifiedData;
+    }
+
+    bool AttemptRollBack(string fullPath)
+    {
+        bool success = false;
+        string backupPath = fullPath + backpExtension;
+        try
+        {
+            if (File.Exists(backupPath))
+            {
+                File.Copy(backupPath, fullPath, true);
+                success = true;
+                Debug.LogWarning("Had to roll back to backup file at: " + backupPath);
+            }
+            else
+            {
+                throw new Exception("Tried to roll back, but no backup file exists to roll back to.");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error occured when trying to roll back to backup file at: " + backupPath + "\n" + e);
+        }
+
+        return success;
     }
 }

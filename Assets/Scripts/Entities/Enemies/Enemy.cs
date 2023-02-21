@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour, DataPersistenceInterfice
         if (death) gameObject.SetActive(false);
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         if (data.enemiesDeath.ContainsKey(id)) data.enemiesDeath.Remove(id);
         data.enemiesDeath.Add(id, death);

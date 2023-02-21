@@ -109,7 +109,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         transform.position = data.position;
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         data.position = lastPositionOnGround;
     }

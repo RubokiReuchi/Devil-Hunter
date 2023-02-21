@@ -5,61 +5,85 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class SaveSlot : MonoBehaviour
 {
     [SerializeField] string profileId;
+    bool haveData;
     bool createOrLoad; // true --> create, false --> load
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI buttonText;
-    public Button button;
+    public Button loadButton;
+    public GameObject deleteButton;
 
     public void CreateOrLoad()
     {
         SlotsMenu slots = GetComponentInParent<SlotsMenu>();
         if (slots.option != MENU_ACTION_TYPE.NONE) return;
-        slots.fade.FadeOn();
-        DataPersistenceManager.instance.ChangeSelectedProfileId(profileId);
         if (createOrLoad) // create
         {
-            slots.option = MENU_ACTION_TYPE.CREATE;
+            if (haveData)
+            {
+                slots.AskForConfirmation(true, profileId);
+            }
+            else
+            {
+                DataPersistenceManager.instance.ChangeSelectedProfileId(profileId);
+                slots.fade.FadeOn();
+                slots.option = MENU_ACTION_TYPE.CREATE;
+            }
         }
         else // load
         {
+            DataPersistenceManager.instance.ChangeSelectedProfileId(profileId);
+            slots.fade.FadeOn();
             slots.option = MENU_ACTION_TYPE.LOAD;
         }
+    }
+
+    public void Delete()
+    {
+        SlotsMenu slots = GetComponentInParent<SlotsMenu>();
+        slots.AskForConfirmation(false, profileId);
     }
 
     public void SetSlot(GameData data, bool createOrLoad)
     {
         if (data == null)
         {
+            haveData = false;
             if (createOrLoad)
             {
-                button.interactable = true;
+                loadButton.interactable = true;
                 buttonText.text = "Create";
                 timeText.text = "Empty";
+                deleteButton.SetActive(false);
             }
             else
             {
-                button.interactable = false;
+                loadButton.interactable = false;
                 buttonText.text = "Load";
                 timeText.text = "Empty";
+                deleteButton.SetActive(false);
             }
         }
         else
         {
+            haveData = true;
             if (createOrLoad)
             {
-                button.interactable = true;
+                loadButton.interactable = true;
                 buttonText.text = "Override";
                 timeText.text = SecondsToTime(data.GetGameTime());
+                deleteButton.SetActive(false);
             }
             else
             {
-                button.interactable = true;
+                loadButton.interactable = true;
                 buttonText.text = "Load";
                 timeText.text = SecondsToTime(data.GetGameTime());
+                deleteButton.SetActive(true);
             }
         }
 

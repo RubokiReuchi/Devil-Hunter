@@ -9,6 +9,11 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     LimitBattery limitBattery;
 
+    public IntValue redEggs;
+    public IntValue blueEggsFrag;
+    public IntValue purpleEggsFrag;
+    public IntValue goldEggsFrag;
+
     public void LoadData(GameData data)
     {
         max_hp = data.maxHp;
@@ -19,9 +24,14 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
         current_hp = data.currentHp;
         maxLimitBatteries = data.maxLimitBatteries;
         currentLimitValue = data.currentLimitValue;
+
+        redEggs.value = data.redEggs;
+        blueEggsFrag.value = data.blueEggsFrag;
+        purpleEggsFrag.value = data.purpleEggsFrag;
+        goldEggsFrag.value = data.goldEggsFrag;
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         data.maxHp = max_hp;
         data.attack = attack;
@@ -31,6 +41,11 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
         data.currentHp = current_hp;
         data.maxLimitBatteries = maxLimitBatteries;
         data.currentLimitValue = currentLimitValue;
+
+        data.redEggs = redEggs.value;
+        data.blueEggsFrag = blueEggsFrag.value;
+        data.purpleEggsFrag = purpleEggsFrag.value;
+        data.goldEggsFrag = goldEggsFrag.value;
     }
 
     void Start()

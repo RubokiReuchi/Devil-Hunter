@@ -37,15 +37,12 @@ public class DataPersistenceManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-
-        selectedProfileId = dataHandler.GetMostRecentlyUpdatedProfileId();
+        InitializeSelectedProfileId();
     }
 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -54,15 +51,9 @@ public class DataPersistenceManager : MonoBehaviour
         LoadGame();
     }
 
-    public void OnSceneUnloaded(Scene scene)
-    {
-        SaveGame();
-    }
-
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     private void OnApplicationQuit()
@@ -74,6 +65,20 @@ public class DataPersistenceManager : MonoBehaviour
     {
         selectedProfileId = newProfileId;
         LoadGame();
+    }
+
+    public void DeleteProfileData(string profileId)
+    {
+        dataHandler.Delete(profileId);
+        InitializeSelectedProfileId();
+        LoadGame();
+    }
+
+    void InitializeSelectedProfileId()
+    {
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+
+        selectedProfileId = dataHandler.GetMostRecentlyUpdatedProfileId();
     }
 
     public void NewGame()
@@ -106,7 +111,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         foreach (DataPersistenceInterfice dataPersistenceObject in dataPersistenceObjects)
         {
-            dataPersistenceObject.SaveData(ref gameData);
+            dataPersistenceObject.SaveData(gameData);
         }
 
         gameData.lastUpdateTime = System.DateTime.Now.ToBinary();
@@ -116,7 +121,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     List<DataPersistenceInterfice> FindAllDataPersistenceObjects()
     {
-        IEnumerable<DataPersistenceInterfice> dataPersObjects = FindObjectsOfType<MonoBehaviour>().OfType<DataPersistenceInterfice>();
+        IEnumerable<DataPersistenceInterfice> dataPersObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<DataPersistenceInterfice>();
 
         return new List<DataPersistenceInterfice>(dataPersObjects);
     }

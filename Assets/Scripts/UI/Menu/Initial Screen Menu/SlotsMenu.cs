@@ -15,6 +15,12 @@ public class SlotsMenu : Menu
     public SaveSlot[] saveSlots;
     public Fade fade;
     [NonEditable] public MENU_ACTION_TYPE option;
+    public GameObject confirmMenu;
+
+    void Start()
+    {
+        confirmMenu.SetActive(false);
+    }
 
     void Update()
     {
@@ -24,9 +30,11 @@ public class SlotsMenu : Menu
             {
                 case MENU_ACTION_TYPE.CREATE:
                     DataPersistenceManager.instance.NewGame();
+                    DataPersistenceManager.instance.SaveGame();
                     SceneManager.LoadScene("Tutorial Path");
                     break;
                 case MENU_ACTION_TYPE.LOAD:
+                    DataPersistenceManager.instance.SaveGame();
                     SceneManager.LoadScene("Tutorial Path");
                     break;
                 default:
@@ -56,5 +64,11 @@ public class SlotsMenu : Menu
         {
             slot.DisableButton();
         }
+    }
+
+    public void AskForConfirmation(bool overrideOrDelete, string profileId)
+    {
+        confirmMenu.SetActive(true);
+        confirmMenu.GetComponent<ConfirmationMenu>().SetConfirmation(overrideOrDelete, profileId);
     }
 }

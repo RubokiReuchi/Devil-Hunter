@@ -26,11 +26,7 @@ public class MainMenu : Menu
     void Start()
     {
         option = SELECTED.NONE;
-        if (!DataPersistenceManager.instance.HasGameData())
-        {
-            continueButton.interactable = false;
-            loadButton.interactable = false;
-        }
+        OnEnter();
     }
 
     void Update()
@@ -42,6 +38,7 @@ public class MainMenu : Menu
                 break;
             case SELECTED.CONTINUE:
                 if (!fade.black) return;
+                DataPersistenceManager.instance.SaveGame();
                 SceneManager.LoadScene("Tutorial Path");
                 break;
             case SELECTED.LOAD:
@@ -89,5 +86,14 @@ public class MainMenu : Menu
     {
         if (option != SELECTED.NONE) return;
         option = SELECTED.SETTINGS;
+    }
+
+    public void OnEnter()
+    {
+        if (!DataPersistenceManager.instance.HasGameData())
+        {
+            continueButton.interactable = false;
+            loadButton.interactable = false;
+        }
     }
 }

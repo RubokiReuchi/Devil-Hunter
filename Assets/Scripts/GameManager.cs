@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour, DataPersistenceInterfice
         timePlayed = data.gameTime;
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         data.gameTime = timePlayed;
     }

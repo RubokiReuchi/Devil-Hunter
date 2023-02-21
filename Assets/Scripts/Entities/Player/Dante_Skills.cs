@@ -39,7 +39,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         thrustUnlocked = data.thrustUnlocked;
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameData data)
     {
         data.dashLevel = dashLevel;
         data.wallSlidingUnlocked = wallSlidingUnlocked;
