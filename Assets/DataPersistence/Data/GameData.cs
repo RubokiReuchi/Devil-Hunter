@@ -41,6 +41,11 @@ public class GameData
     public int blueEggsFrag;
     public int purpleEggsFrag;
     public int goldEggsFrag;
+    #region Shops
+    // Sand Clock
+    public int[] sandClockExistences = new int[2];
+    public int[] sandClockPrice = new int[2];
+    #endregion
     #endregion
 
     #region Red Stones
@@ -89,6 +94,13 @@ public class GameData
         blueEggsFrag = 0;
         purpleEggsFrag = 0;
         goldEggsFrag = 0;
+        #region Shops
+        // Sand Clock
+        sandClockExistences[0] = 8;
+        sandClockExistences[1] = 12;
+        sandClockPrice[0] = 300;
+        sandClockPrice[1] = 1000;
+        #endregion
         #endregion
 
         #region Red Stones

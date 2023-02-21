@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ITEM
+{
+    BLUE_EGGS_FRAGMENT,
+    PURPLE_EGGS_FRAGMENT,
+    GOLD_EGGS_FRAGMENT
+}
+
 public class Dante_Stats : Stats, DataPersistenceInterfice
 {
     public float maxLimitBatteries;
@@ -87,5 +94,40 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
         }
 
         limitBattery.CalculeteLimit();
+    }
+
+    public void GetItem(ITEM item)
+    {
+        switch (item)
+        {
+            case ITEM.BLUE_EGGS_FRAGMENT:
+                blueEggsFrag.value++;
+                if (blueEggsFrag.value == 4)
+                {
+                    blueEggsFrag.value = 0;
+                    max_hp += 50;
+                }
+                current_hp = max_hp;
+                break;
+            case ITEM.PURPLE_EGGS_FRAGMENT:
+                purpleEggsFrag.value++;
+                if (purpleEggsFrag.value == 4)
+                {
+                    purpleEggsFrag.value = 0;
+                    maxLimitBatteries += 1;
+                    limitBattery.CalculeteLimit();
+                }
+                break;
+            case ITEM.GOLD_EGGS_FRAGMENT:
+                goldEggsFrag.value++;
+                if (goldEggsFrag.value == 4)
+                {
+                    goldEggsFrag.value = 0;
+                    GetComponent<Dante_Skills>().reviveUnlocked = true;
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

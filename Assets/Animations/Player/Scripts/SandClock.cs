@@ -2,37 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SandClock : MonoBehaviour
+public class SandClock : MonoBehaviour, DataPersistenceInterfice
 {
-    Dante_Menus menus;
-    [NonEditable] public bool onClock;
-    bool onMenu;
+    public ShopExistences shopExistences;
 
-    // Start is called before the first frame update
-    void Start()
+    public void LoadData(GameData data)
     {
-        onMenu = false;
+        shopExistences.shopItemExistences = data.sandClockExistences;
+        shopExistences.shopItemPrice = data.sandClockPrice;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SaveData(GameData data)
     {
-        if (onClock)
-        {
-            if (!onMenu && GameObject.FindGameObjectWithTag("Dante").GetComponent<Dante_Movement>().input.Aim.WasPressedThisFrame())
-            {
-                GameObject dante = GameObject.FindGameObjectWithTag("Dante");
-                dante.GetComponent<Dante_StateMachine>().SetState(DANTE_STATE.INTERACT);
-                dante.GetComponent<Animator>().SetTrigger("SandClockEnter");
-                onMenu = true;
-            }
-            if (onMenu && GameObject.FindGameObjectWithTag("Dante").GetComponent<Dante_Movement>().input.Cancel.WasPressedThisFrame())
-            {
-                GameObject dante = GameObject.FindGameObjectWithTag("Dante");
-                dante.GetComponent<Dante_StateMachine>().SetState(DANTE_STATE.IDLE);
-                dante.GetComponent<Animator>().SetTrigger("SandClockExit");
-                onMenu = false;
-            }
-        }
+        data.sandClockExistences = shopExistences.shopItemExistences;
+        data.sandClockPrice = shopExistences.shopItemPrice;
     }
 }

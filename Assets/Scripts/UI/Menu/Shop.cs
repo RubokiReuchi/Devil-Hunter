@@ -58,6 +58,7 @@ public class Shop : MonoBehaviour
             aux.itemDescription = shopExistences.shopItems[i].itemDescription;
             aux.existences = shopExistences.shopItemExistences[i];
             aux.price = shopExistences.shopItemPrice[i];
+            aux.sprite = shopExistences.shopItems[i].itemSprite;
         }
     }
 
@@ -72,6 +73,8 @@ public class Shop : MonoBehaviour
         priceValue.text = aux.price.ToString();
         if (redEggs.value < aux.price) buyButton.interactable = false;
         else buyButton.interactable = true;
+        if (aux.existences < 1) buyButton.gameObject.SetActive(false);
+        else buyButton.gameObject.SetActive(true);
 
         currentItemIndex = item;
     }
@@ -82,7 +85,7 @@ public class Shop : MonoBehaviour
         shopExistences.shopItemPrice[currentItemIndex] += shopExistences.shopItemPriceIncrement[currentItemIndex];
         shopExistences.shopItemExistences[currentItemIndex]--;
 
-        // dante get item
+        GameObject.FindGameObjectWithTag("Dante").GetComponent<Dante_Stats>().GetItem(shopExistences.shopItems[currentItemIndex].itemType);
         AsignItemInfo();
         SetItemInfo(currentItemIndex);
     }

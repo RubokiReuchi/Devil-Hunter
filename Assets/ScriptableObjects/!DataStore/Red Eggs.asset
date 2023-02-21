@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc5ea14787be674da97ed5ab9dae52a, type: 3}
   m_Name: Red Eggs
   m_EditorClassIdentifier: 
-  value: 0
-  defaultValue: {fileID: 11400000, guid: 668571f230ffdb943b89ea1ad8a40e8c, type: 2}
+  value: 107000

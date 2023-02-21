@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de3d2c869255d5408c4add0d87a96a3, type: 3}
   m_Name: Purple Egg Fragment
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 102773614, guid: fb817fede8aa3d54b9b239c857ec1ea8, type: 3}
+  itemType: 1
   itemName: Purple Egg Fragment
   itemDescription: Join four fragments to get a Purple Egg, which increases maximum
     limit.

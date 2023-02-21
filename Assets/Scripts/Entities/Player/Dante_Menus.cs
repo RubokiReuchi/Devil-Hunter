@@ -34,7 +34,7 @@ public class Dante_Menus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // menus
+        // close menus
         if (onMenu && dm.input.Cancel.WasPressedThisFrame())
         {
             onMenu = false;
