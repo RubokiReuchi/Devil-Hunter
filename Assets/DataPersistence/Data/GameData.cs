@@ -52,6 +52,10 @@ public class GameData
     public SerializableDictionary<string, bool> redStonesPicked;
     #endregion
 
+    #region Item On Floor
+    public SerializableDictionary<string, bool> itemOnFloorPicked;
+    #endregion
+
     #region Enemies
     public SerializableDictionary<string, bool> enemiesDeath;
     #endregion
@@ -105,6 +109,10 @@ public class GameData
 
         #region Red Stones
         redStonesPicked = new SerializableDictionary<string, bool>();
+        #endregion
+
+        #region Item OnFloor
+        itemOnFloorPicked = new SerializableDictionary<string, bool>();
         #endregion
 
         #region Enemies
