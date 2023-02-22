@@ -51,17 +51,6 @@ public class Enemy : MonoBehaviour, DataPersistenceInterfice
         data.enemiesDeath.Add(id, death);
     }
 
-    public void AttackMelee()
-    {
-        anim.SetBool("CanAttack", false);
-    }
-
-    public IEnumerator Co_Attack()
-    {
-        yield return new WaitForSeconds(attack_cd);
-        anim.SetBool("CanAttack", true);
-    }
-
     public IEnumerator Death()
     {
         death = true;

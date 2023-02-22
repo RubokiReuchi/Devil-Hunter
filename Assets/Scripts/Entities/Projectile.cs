@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            
+            direction = GameObject.FindGameObjectWithTag("Dante").transform.position - transform.position;
         }
     }
 

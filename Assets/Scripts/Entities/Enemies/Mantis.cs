@@ -42,7 +42,7 @@ public class Mantis : Enemy
     // Update is called once per frame
     void Update()
     {
-        // enmy orientation
+        // enemy orientation
         if (GameObject.FindGameObjectWithTag("Dante") != null)
         {
             if (GameObject.FindGameObjectWithTag("Dante").transform.position.x > transform.position.x)
@@ -84,6 +84,17 @@ public class Mantis : Enemy
             if (sprite_alpha > 0) sprite_alpha -= 100 * Time.deltaTime;
             sprite.color = new Color(255, 255, 255, sprite_alpha);
         }
+    }
+
+    public void AttackMelee()
+    {
+        anim.SetBool("CanAttack", false);
+    }
+
+    public IEnumerator Co_Attack()
+    {
+        yield return new WaitForSeconds(attack_cd);
+        anim.SetBool("CanAttack", true);
     }
 
     public void AttackRange()
