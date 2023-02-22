@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static Unity.Burst.Intrinsics.Arm;
 
 public enum DANTE_STATE
 {
@@ -38,7 +37,6 @@ public class Dante_StateMachine : MonoBehaviour
     public TrailRenderer swordTrail;
     public Gradient danteTrailColor;
     public Gradient demonTrailColor;
-
 
     [NonEditable][SerializeField] bool aim;
     [NonEditable] public bool dash;

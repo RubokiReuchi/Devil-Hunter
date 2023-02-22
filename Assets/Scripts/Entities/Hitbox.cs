@@ -34,7 +34,7 @@ public class Hitbox : MonoBehaviour
             rb.AddForce(Vector2.up * (damage * 3 - stats.knockback_resist));
         }
 
-        if (stats.max_hp == 0)
+        if (stats.max_hp == 0) // display before set stats
         {
             DisplayDamage(damage, hit_point + Vector3.up * 0.2f);
             return;

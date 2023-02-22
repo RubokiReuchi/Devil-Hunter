@@ -6,7 +6,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 {
     Dante_StateMachine state;
     public GameManager game_manager;
-    CameraActions camActions;
+    [HideInInspector] public CameraActions camActions;
     Dante_Stats stats;
     Dante_Skills skills;
     Dante_Menus menus;
@@ -53,6 +53,9 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     bool isWallSlidingStuck;
     bool canMoveAfterWallSliding;
     [SerializeField] bool onWallBeforeJump;
+
+    [Header("Hitt")]
+    public ParticleSystem hitParticles;
 
     // Check grounded
     [Header("Check Grounded")]
@@ -386,7 +389,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_walk_speed * -slopeNormalPerpendicular.x, fixed_walk_speed * -slopeNormalPerpendicular.y);
             else transform.position += new Vector3(fixed_walk_speed, 0);
-            transform.localScale = new Vector3(state.orientation, 1, 1);
+            if (!state.IsAttacking()) transform.localScale = new Vector3(state.orientation, 1, 1);
             anim.SetBool("Moving", true);
             anim.SetFloat("Walk", 1.0f);
             if (!state.IsAttacking() && nullGravity) state.SetState(DANTE_STATE.WALK);
@@ -395,7 +398,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_walk_speed * slopeNormalPerpendicular.x, fixed_walk_speed * slopeNormalPerpendicular.y);
             else transform.position += new Vector3(-fixed_walk_speed, 0);
-            transform.localScale = new Vector3(state.orientation, 1, 1);
+            if (!state.IsAttacking()) transform.localScale = new Vector3(state.orientation, 1, 1);
             anim.SetBool("Moving", true);
             anim.SetFloat("Walk", -1.0f);
             if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.WALK);
@@ -415,7 +418,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (moveInput > 0)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                if (!state.IsAttacking()) transform.localScale = new Vector3(1, 1, 1);
                 if (!wallOnRight)
                 {
                     if (!isOnGround && rb.velocity.x < 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
@@ -428,7 +431,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
             }
             else if (moveInput < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                if (!state.IsAttacking()) transform.localScale = new Vector3(-1, 1, 1);
                 if (!wallOnRight)
                 {
                     if (!isOnGround && rb.velocity.x > 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
@@ -450,7 +453,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (moveInput > 0)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                if (!state.IsAttacking()) transform.localScale = new Vector3(1, 1, 1);
                 if (!wallOnRight)
                 {
                     if (!isOnGround && rb.velocity.x < 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
@@ -469,7 +472,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
             }
             else if (moveInput < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                if (!state.IsAttacking()) transform.localScale = new Vector3(-1, 1, 1);
                 if (!wallOnRight)
                 {
                     if (!isOnGround && rb.velocity.x > 0) rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
@@ -679,8 +682,14 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     {
         inmune = true;
         camActions.ShakeCamera(0.25f, 2.0f);
+        PlayHitParticles(100);
         yield return new WaitForSeconds(0.8f);
         inmune = false;
+    }
+
+    public void PlayHitParticles(int force)
+    {
+        hitParticles.Emit(force);
     }
 
     void OnDrawGizmos()

@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Dante_Hitbox : Hitbox
 {
+    Dante_Movement dm;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         stats = GetComponent<Stats>();
         rb = GetComponent<Rigidbody2D>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        dm = GetComponent<Dante_Movement>();
     }
 
     public override void TakeDamage(float damage, Vector3 hit_point, bool ultraKnockBack = false)
@@ -30,11 +28,8 @@ public class Dante_Hitbox : Hitbox
             else rb.AddForce(Vector2.up * 3, ForceMode2D.Impulse);
         }
 
-        if (stats.max_hp == 0)
-        {
-            DisplayDamage(damage, hit_point + Vector3.up * 0.2f);
-            return;
-        }
+        dm.camActions.ShakeCamera(0.25f, damage / 50.0f);
+        dm.PlayHitParticles((int)damage);
 
         stats.current_hp -= damage;
         DisplayDamage(damage, hit_point + Vector3.up * 0.2f);

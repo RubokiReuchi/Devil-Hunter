@@ -15,6 +15,10 @@ public class CameraActions : MonoBehaviour
     public float lookUpY;
     public float lookDownY;
 
+    // Time Stop
+    float restoreSpeed;
+    bool restoreTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,11 +43,25 @@ public class CameraActions : MonoBehaviour
                 if (transposer.m_ScreenY > 0.55f) transposer.m_ScreenY = 0.55f;
             }
         }
+
+        if (restoreTime)
+        {
+            if (Time.timeScale < 1)
+            {
+                Time.timeScale += Time.deltaTime * restoreSpeed;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                restoreTime = false;
+            }
+        }
     }
 
     public void ShakeCamera(float duration, float force)
     {
         chanel.m_AmplitudeGain = force;
+        if (force >= 2.0f) StopTime(0.1f, 5);
         StartCoroutine("Co_ShakeCamera", duration);
     }
 
@@ -77,5 +95,13 @@ public class CameraActions : MonoBehaviour
         {
             transposer.m_ScreenY = lookDownY;
         }
+    }
+
+    void StopTime(float changeTime, int restoreSpeed)
+    {
+        this.restoreSpeed = restoreSpeed;
+
+        restoreTime = true;
+        Time.timeScale = changeTime;
     }
 }
