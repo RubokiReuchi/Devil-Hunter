@@ -38,6 +38,12 @@ public class Dante_StateMachine : MonoBehaviour
     public Gradient danteTrailColor;
     public Gradient demonTrailColor;
 
+    [Header("Revive")]
+    public float emitForceRadius;
+    public float emitForcePower;
+    LayerMask layerMask;
+    public HealthBar healthBar;
+
     [NonEditable][SerializeField] bool aim;
     [NonEditable] public bool dash;
     public SpriteRenderer target;
@@ -66,8 +72,15 @@ public class Dante_StateMachine : MonoBehaviour
     {
         if (GetComponent<Dante_Movement>().input.Limit.WasPressedThisFrame())
         {
-            if (!demon && stats.currentLimitValue >= 3) ActiveDemonForm();
-            else if (demon) { UnactiveDemonForm(); stats.UseLimit(1.0f); }
+            if (IsAlive()) // shift demon
+            {
+                if (!demon && stats.currentLimitValue >= 3) ActiveDemonForm();
+                else if (demon) { UnactiveDemonForm(); stats.UseLimit(1.0f); }
+            }
+            else if (GetComponent<Dante_Skills>().reviveUnlocked && GetComponent<Dante_Skills>().canRevive) // revive
+            {
+                Revive();
+            }
         }
         if (demon)
         {
@@ -163,6 +176,30 @@ public class Dante_StateMachine : MonoBehaviour
         swordTrail.colorGradient = danteTrailColor;
     }
 
+    void Revive()
+    {
+        GetComponent<Dante_Skills>().canRevive = false;
+        anim.SetTrigger("Revive");
+        anim.SetBool("Death", false);
+        SetState(DANTE_STATE.IDLE);
+        stats.current_hp = stats.max_hp;
+        stats.currentLimitValue = stats.maxLimitBatteries;
+        healthBar.Revive();
+        EmitForce();
+    }
+
+    void EmitForce()
+    {
+        layerMask |= (1 << 7); // add enemies
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, emitForceRadius, layerMask);
+
+        foreach (Collider2D collider in colliders)
+        {
+            Vector2 direction = (collider.transform.position - transform.position).normalized;
+            collider.GetComponent<Rigidbody2D>().AddForce(direction * emitForcePower, ForceMode2D.Impulse);
+        }
+    }
+
     bool GetClosestEnemyPos()
     {
         if (GameObject.FindGameObjectsWithTag("Enemy").Length <= 0) return false;
@@ -211,5 +248,11 @@ public class Dante_StateMachine : MonoBehaviour
             }
         }
         return true;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, emitForceRadius);
     }
 }

@@ -9,6 +9,8 @@ public class GameData
     public int gameTime;
     public long lastUpdateTime;
     public string currentScene;
+    public Vector3 lastClockPosition;
+    public string lastClockScene;
     #endregion
 
     #region Player
@@ -30,6 +32,7 @@ public class GameData
     public bool wallSlidingUnlocked;
     public bool doubleJumpUnlocked;
     public bool reviveUnlocked;
+    public bool canRevive;
     public bool waveUnlocked;
     public bool grabUnlocked;
     public bool fallingAttackUnlocked;
@@ -66,6 +69,8 @@ public class GameData
         gameTime = 0;
         lastUpdateTime = System.DateTime.Now.ToBinary();
         currentScene = "Tutorial Path";
+        lastClockPosition = new Vector2(0.0f, -0.8f);
+        lastClockScene = "Tutorial Path";
         #endregion
 
         #region Player
@@ -87,6 +92,7 @@ public class GameData
         wallSlidingUnlocked = false;
         doubleJumpUnlocked = false;
         reviveUnlocked = false;
+        canRevive = false;
         waveUnlocked = false;
         grabUnlocked = false;
         fallingAttackUnlocked = false;
@@ -128,5 +134,10 @@ public class GameData
     public string GetCurrentScene()
     {
         return currentScene;
+    }
+
+    public string GetLastClockScene()
+    {
+        return lastClockScene;
     }
 }

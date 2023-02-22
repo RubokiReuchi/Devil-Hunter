@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 {
@@ -114,7 +115,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     public void SaveData(GameData data)
     {
-        data.position = lastPositionOnGround;
+        data.position = game_manager.resetLevel ? game_manager.lastClockPosition : lastPositionOnGround;
     }
 
     // Start is called before the first frame update
@@ -618,13 +619,15 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     public void DantePrepareDeath()
     {
-        GetComponent<Dante_Attack>().enabled = false;
-        this.enabled = false;
+        state.SetState(DANTE_STATE.DEATH);
     }
 
     public void DanteDeath()
     {
-        Destroy(gameObject);
+        if (state.CompareState(DANTE_STATE.DEATH))
+        {
+            game_manager.ResetLevel();
+        }
     }
 
     public void DanteStop()
@@ -639,7 +642,8 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         if (collision.CompareTag("SandClock"))
         {
             menus.onShop = true;
-            // collision get shop asset
+            game_manager.lastClockPosition = transform.position;
+            game_manager.lastClockScene = SceneManager.GetActiveScene().name;
         }
         // Thorns
         else if (collision.CompareTag("Thorn") && !inmune)

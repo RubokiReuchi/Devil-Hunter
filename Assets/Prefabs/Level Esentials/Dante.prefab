@@ -5363,8 +5363,8 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.06772217, y: -0.06266266, z: 0}
-    m_Extent: {x: 0.47739404, y: 0.59936655, z: 0}
+    m_Center: {x: 0.06772503, y: -0.06266266, z: 0}
+    m_Extent: {x: 0.477395, y: 0.59936655, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5501,6 +5501,9 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  emitForceRadius: 1.5
+  emitForcePower: 5
+  healthBar: {fileID: 0}
   aim: 0
   dash: 0
   target: {fileID: 0}
@@ -5598,7 +5601,7 @@ MonoBehaviour:
   wallSlidingSpeed: 1
   isWallSliding: 0
   onWallBeforeJump: 0
-  hitParticles: {fileID: 0}
+  hitParticles: {fileID: 9173687276792011137}
   boxSize: {x: 0.24, y: 0.05}
   maxDistance: 0.68
   layerMask:
@@ -5661,7 +5664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max_hp: 300
-  attack: 100
+  attack: 10
   regen_hp: 0
   life_steal: 2
   knockback_resist: 75
@@ -5673,6 +5676,7 @@ MonoBehaviour:
   blueEggsFrag: {fileID: 11400000, guid: 5dd52bde29a46ae4d8f3da662f0876b3, type: 2}
   purpleEggsFrag: {fileID: 11400000, guid: 74fa57238c626614897ee9a2a6bcd1f4, type: 2}
   goldEggsFrag: {fileID: 11400000, guid: 9124a4396d528fd46871b3d4e20cecaa, type: 2}
+  debug: 1
 --- !u!114 &3947693996675371060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5690,7 +5694,8 @@ MonoBehaviour:
   pierceReadyParticles: {fileID: 1306693351}
   wallSlidingUnlocked: 0
   doubleJumpUnlocked: 0
-  reviveUnlocked: 0
+  reviveUnlocked: 1
+  canRevive: 1
   waveUnlocked: 0
   grabUnlocked: 0
   fallingAttackUnlocked: 0

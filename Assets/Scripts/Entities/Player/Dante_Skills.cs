@@ -18,6 +18,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
 
     [Header("Revive")]
     public bool reviveUnlocked;
+    public bool canRevive;
 
     [Header("Attacks")]
     public bool waveUnlocked;
@@ -33,6 +34,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         wallSlidingUnlocked = data.wallSlidingUnlocked;
         doubleJumpUnlocked = data.doubleJumpUnlocked;
         reviveUnlocked = data.reviveUnlocked;
+        canRevive = data.canRevive;
         waveUnlocked = data.waveUnlocked;
         grabUnlocked = data.grabUnlocked;
         fallingAttackUnlocked = data.fallingAttackUnlocked;
@@ -45,6 +47,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         data.wallSlidingUnlocked = wallSlidingUnlocked;
         data.doubleJumpUnlocked = doubleJumpUnlocked;
         data.reviveUnlocked = reviveUnlocked;
+        data.canRevive = canRevive;
         data.waveUnlocked = waveUnlocked;
         data.grabUnlocked = grabUnlocked;
         data.fallingAttackUnlocked = fallingAttackUnlocked;

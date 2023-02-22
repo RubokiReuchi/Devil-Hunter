@@ -55797,21 +55797,21 @@ PolygonCollider2D:
     - - {x: 43.6953, y: -1.4879093}
       - {x: 42.498913, y: -1.4842682}
       - {x: 42.547745, y: -5.1123548}
-      - {x: 68.46787, y: -6.527144}
-      - {x: 76.531456, y: -8.495562}
-      - {x: 76.52595, y: -6.1668854}
-      - {x: 80.56828, y: -6.1690946}
-      - {x: 80.59276, y: -8.468436}
-      - {x: 76.666435, y: -8.455175}
-      - {x: 80.46066, y: -8.8455105}
-      - {x: 83.700745, y: -6.0395184}
-      - {x: 83.699005, y: -4.5327396}
-      - {x: 82.73688, y: -4.506025}
-      - {x: 82.735535, y: -3.560849}
-      - {x: 81.369705, y: -3.5598645}
-      - {x: 81.3618, y: -4.4792633}
-      - {x: 80.28196, y: -4.487653}
-      - {x: 80.27969, y: -5.4317656}
+      - {x: 71.67855, y: -9.641771}
+      - {x: 83.697815, y: -9.345141}
+      - {x: 83.70574, y: -4.4681716}
+      - {x: 82.67877, y: -4.466044}
+      - {x: 82.67911, y: -3.4744546}
+      - {x: 81.40615, y: -3.4712198}
+      - {x: 81.403915, y: -4.529763}
+      - {x: 80.497284, y: -4.527802}
+      - {x: 80.495605, y: -5.45785}
+      - {x: 74.58172, y: -5.4632163}
+      - {x: 74.58108, y: -6.3036404}
+      - {x: 80.57668, y: -6.3026915}
+      - {x: 80.5732, y: -8.491846}
+      - {x: 72.499695, y: -8.495901}
+      - {x: 72.4989, y: -5.4856334}
       - {x: 68.60553, y: -5.492652}
       - {x: 68.60557, y: -2.5104222}
       - {x: 76.54597, y: -2.4613984}
@@ -56555,20 +56555,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5805987933304879308, guid: ed4d8a1ebc55d86429e036f2ebc1b8b9, type: 3}
   m_PrefabInstance: {fileID: 340672783}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &388919743 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1947317368657029784, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+  m_PrefabInstance: {fileID: 8365407687472574053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f76cd703dbfec4791d4a4bdeddddbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &423529506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5966311793662623276, guid: dbcad22fc97e1f244ba3e92b334c23a6, type: 3}
   m_PrefabInstance: {fileID: 4121882152841113300}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &440015659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 540967383806646639, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+  m_PrefabInstance: {fileID: 8365407687472574053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509816e5156ef624db87d5efbc675c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &447626336 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9104009415817391006, guid: 4d6c7d4f57183064c8c375055f869056, type: 3}
   m_PrefabInstance: {fileID: 936781192}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &454553772 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9173687276792011137, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
-  m_PrefabInstance: {fileID: 1232559628}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &466337365
 PrefabInstance:
@@ -58191,10 +58208,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1897003860, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
-      propertyPath: attack
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1200364207615511584, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
       propertyPath: m_Name
       value: Dante
@@ -58203,10 +58216,6 @@ PrefabInstance:
       propertyPath: game_manager
       value: 
       objectReference: {fileID: 1296442575}
-    - target: {fileID: 1200364207615511595, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
-      propertyPath: hitParticles
-      value: 
-      objectReference: {fileID: 454553772}
     - target: {fileID: 1200364207615511595, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
       propertyPath: airJumpSprite
       value: 
@@ -58217,11 +58226,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1200364207615511598, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 78.27
+      value: 73.21
       objectReference: {fileID: 0}
     - target: {fileID: 1200364207615511598, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.26
+      value: -0.62
       objectReference: {fileID: 0}
     - target: {fileID: 1200364207615511598, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -58263,14 +58272,14 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 78300956}
+    - target: {fileID: 1200364207615511607, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 440015659}
     - target: {fileID: 2114847872258955165, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
       propertyPath: menu
       value: 
       objectReference: {fileID: 532187522}
-    - target: {fileID: 3947693996675371060, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
-      propertyPath: dobleJumpUnlocked
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a01bffa6f5b2b0a4b966312ea5794cee, type: 3}
 --- !u!114 &1232559629 stripped
@@ -60127,11 +60136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 540967383792691193, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 78.27
+      value: 73.21
       objectReference: {fileID: 0}
     - target: {fileID: 540967383792691193, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.7600002
+      value: -0.119999886
       objectReference: {fileID: 0}
     - target: {fileID: 540967383806646639, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
       propertyPath: danteStats
@@ -60181,6 +60190,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 540967384867694040, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+      propertyPath: fade
+      value: 
+      objectReference: {fileID: 388919743}
     - target: {fileID: 540967384867694040, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
       propertyPath: dante_spawn
       value: 

@@ -73,15 +73,12 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void ResetHealthBar()
+    public void Revive()
     {
-        slider.maxValue = danteStats.max_hp;
         slider.value = danteStats.max_hp;
 
         variationValue = 0;
         delay = false;
-
-        danteFixedCurrentHp = 0;
     }
 
     IEnumerator Variation()

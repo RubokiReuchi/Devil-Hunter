@@ -21,6 +21,8 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
     public IntValue purpleEggsFrag;
     public IntValue goldEggsFrag;
 
+    public bool debug;
+
     public void LoadData(GameData data)
     {
         max_hp = data.maxHp;
@@ -57,6 +59,7 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     void Start()
     {
+        if (debug) current_hp = max_hp;
         update = true;
 
         limitBattery = GameObject.FindGameObjectWithTag("Limit Battery").GetComponent<LimitBattery>();
