@@ -34,7 +34,10 @@ public class DataPersistenceManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        instance = this;
+        else
+        {
+            instance = this;
+        }
         DontDestroyOnLoad(gameObject);
 
         InitializeSelectedProfileId();

@@ -624,7 +624,6 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     public void DanteDeath()
     {
-        game_manager.SaveDeathPos(transform.position);
         Destroy(gameObject);
     }
 
@@ -690,6 +689,17 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     public void PlayHitParticles(int force)
     {
         hitParticles.Emit(force);
+    }
+
+    public void ResetAllTriggers()
+    {
+        anim.ResetTrigger("Jump");
+        anim.ResetTrigger("Dash");
+        anim.ResetTrigger("Attack1");
+        anim.ResetTrigger("AttackHeavy1");
+        anim.ResetTrigger("AttackLightAir");
+        anim.ResetTrigger("AttackHeavyAir");
+        anim.ResetTrigger("Shoot");
     }
 
     void OnDrawGizmos()

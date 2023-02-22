@@ -57,7 +57,6 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     void Start()
     {
-        current_hp = max_hp;
         update = true;
 
         limitBattery = GameObject.FindGameObjectWithTag("Limit Battery").GetComponent<LimitBattery>();
