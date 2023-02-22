@@ -6,6 +6,7 @@ using UnityEngine;
 public class Dragonfly : Enemy
 {
     public float detection_range;
+    public float shoot_range;
 
     [Header("Range Attack")]
     public GameObject bullet;
@@ -33,23 +34,6 @@ public class Dragonfly : Enemy
     // Update is called once per frame
     void Update()
     {
-        // enemy orientation
-        if (GameObject.FindGameObjectWithTag("Dante") != null)
-        {
-            if (GameObject.FindGameObjectWithTag("Dante").transform.position.x > transform.position.x)
-            {
-                orientation = 1;
-            }
-            else if (GameObject.FindGameObjectWithTag("Dante").transform.position.x < transform.position.x)
-            {
-                orientation = -1;
-            }
-            else
-            {
-                orientation = 0;
-            }
-        }
-
         // death
         if (death)
         {
@@ -80,5 +64,7 @@ public class Dragonfly : Enemy
 
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, detection_range);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, shoot_range);
     }
 }
