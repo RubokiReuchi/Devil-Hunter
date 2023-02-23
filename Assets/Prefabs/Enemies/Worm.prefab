@@ -5169,7 +5169,7 @@ MonoBehaviour:
   - {fileID: 4737637012312472530}
   - {fileID: 4737637012409782683}
   m_Bounds:
-    m_Center: {x: -0.001250267, y: 0.05750002, z: 0}
+    m_Center: {x: -0.0012499094, y: 0.05750002, z: 0}
     m_Extent: {x: 1.3112502, y: 0.18750003, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -5248,7 +5248,7 @@ MonoBehaviour:
   speed: 0.75
   attack_cd: 0
   orientation: 0
-  box_size_lateral: {x: 0.05, y: 0.4}
+  box_size_lateral: {x: 0.05, y: 0.05}
   max_distance_left: 0.99
   max_distance_right: 1.42
   max_distance_up: 0.2
@@ -5261,7 +5261,7 @@ MonoBehaviour:
   deathTimer: 0.3
   restrict_left: 0
   restrict_right: 0
-  box_size: {x: 3.82, y: 0.05}
+  box_size: {x: 3.82, y: 0.2}
   max_distance: 0.18
   layer_mask:
     serializedVersion: 2

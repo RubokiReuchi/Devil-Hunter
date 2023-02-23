@@ -23,6 +23,8 @@ public enum DANTE_STATE
 
 public class Dante_StateMachine : MonoBehaviour
 {
+    public static Dante_StateMachine instance;
+
     [NonEditable][SerializeField] DANTE_STATE state;
     Dante_Stats stats;
 
@@ -50,6 +52,11 @@ public class Dante_StateMachine : MonoBehaviour
     public Camera cam;
 
     [NonEditable] public float orientation;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -134,6 +141,12 @@ public class Dante_StateMachine : MonoBehaviour
     public bool IsAttacking()
     {
         if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.SHOTING || state == DANTE_STATE.ATTACKING_AIR || state == DANTE_STATE.ATTACKING_FALLING) return true;
+        else return false;
+    }
+
+    public bool IsAttackingStatic()
+    {
+        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.SHOTING || state == DANTE_STATE.ATTACKING_FALLING) return true;
         else return false;
     }
 

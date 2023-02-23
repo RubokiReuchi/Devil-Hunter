@@ -2,13 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using UnityEngine.XR;
+
+public enum INPUT_RECEIVED
+{
+    NONE,
+    G_LIGHT,
+    G_HEAVY,
+    A_LIGHT,
+    A_HEAVY
+}
 
 public class Dante_Attack : MonoBehaviour
 {
+    public static Dante_Attack instance;
+    public bool canReceiveInput;
+    public INPUT_RECEIVED inputReceived;
+
     Dante_StateMachine state;
     Dante_Skills skills;
     Dante_Movement dm;
+    Rigidbody2D rb;
     Animator anim;
+    public Hit hit;
 
     public GameObject danteWavePrefab;
     public GameObject demonWavePrefab;
@@ -16,6 +32,12 @@ public class Dante_Attack : MonoBehaviour
 
     [NonEditable][SerializeField] bool canShoot;
     [NonEditable][SerializeField] bool canThrust;
+
+    private void Awake()
+    {
+        instance = this;
+        canReceiveInput = true;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +48,7 @@ public class Dante_Attack : MonoBehaviour
 
         dm = GetComponent<Dante_Movement>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
         canShoot = true;
         canThrust = true;
@@ -34,7 +57,7 @@ public class Dante_Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state.IsDashing() || !state.IsAlive() || state.IsInteracting()) return;
+        if (state.IsDashing() || !state.IsAlive() || state.IsInteracting() || !canReceiveInput) return;
 
         if (!state.IsAiming())
         {
@@ -42,32 +65,46 @@ public class Dante_Attack : MonoBehaviour
             {
                 if (dm.input.Attack1.WasPressedThisFrame())
                 {
-                    anim.SetTrigger("Attack1");
-                    dm.runSpeed = 0.5f;
-                    state.SetState(DANTE_STATE.ATTACKING_GROUND);
+                    inputReceived = INPUT_RECEIVED.G_LIGHT;
+                    canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame() && skills.thrustUnlocked && canThrust)
+                else if (dm.input.Attack2.WasPressedThisFrame())
+                {
+                    inputReceived = INPUT_RECEIVED.G_HEAVY;
+                    canReceiveInput = false;
+                }
+                /*else if (dm.input.Attack2.WasPressedThisFrame())
                 {
                     anim.SetBool("Thrust", true);
                     dm.runSpeed = 0.0f;
                     state.SetState(DANTE_STATE.ATTACKING_GROUND);
-                    canThrust = false;
-                }
+                    canThrust = false;*/
             }
             else
             {
                 if (dm.input.Attack1.WasPressedThisFrame() && anim.GetBool("Can LightAir"))
                 {
-                    anim.SetTrigger("AttackLightAir");
-                    state.SetState(DANTE_STATE.ATTACKING_AIR);
+                    inputReceived = INPUT_RECEIVED.A_LIGHT;
+                    canReceiveInput = false;
                 }
                 else if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
                 {
-                    anim.SetTrigger("AttackHeavyAir");
-                    dm.runSpeed = 0.0f;
-                    state.SetState(DANTE_STATE.ATTACKING_FALLING);
+                    inputReceived = INPUT_RECEIVED.A_LIGHT;
+                    canReceiveInput = false;
                 }
             }
+
+                //if (dm.input.Attack1.WasPressedThisFrame() && anim.GetBool("Can LightAir"))
+                //{
+                //    anim.SetTrigger("AttackLightAir");
+                //    state.SetState(DANTE_STATE.ATTACKING_AIR);
+                //}
+                //else if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
+                //{
+                //    anim.SetTrigger("AttackHeavyAir");
+                //    dm.runSpeed = 0.0f;
+                //    state.SetState(DANTE_STATE.ATTACKING_FALLING);
+                //}
         }
         else
         {
@@ -86,6 +123,18 @@ public class Dante_Attack : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void FifthComboJump()
+    {
+        if (dm.isJumping) return;
+        rb.AddForce(Vector2.up * 200);
+        dm.isJumping = true;
+    }
+
+    public void SetJump(bool value)
+    {
+        dm.isJumping = value;
     }
 
     public IEnumerator Thrust()

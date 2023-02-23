@@ -13,7 +13,6 @@ public class Worm : Enemy
     public Vector2 box_size;
     public float max_distance;
     public LayerMask layer_mask;
-    bool stunned;
 
     // Start is called before the first frame update
     void Start()
@@ -36,15 +35,15 @@ public class Worm : Enemy
     {
         if (anim.GetBool("Destroy")) return;
 
+        // on air stunned
+        if (!Physics2D.BoxCast(transform.position, box_size, 0, -transform.up, max_distance, layer_mask)) return;
+
         if (turn) { speed = -speed; turn = false; }
 
         // enemy orientation
         transform.position += new Vector3(speed * Time.deltaTime, 0);
         if (speed > 0) transform.localScale = new Vector2(1, 1);
         else transform.localScale = new Vector2(-1, 1);
-
-        // on air stunned
-        anim.SetBool("Stunned", !Physics2D.BoxCast(transform.position, box_size, 0, -transform.up, max_distance, layer_mask));
 
         // control edge falling (ground enemies only)
         turn = !Physics2D.BoxCast(transform.position + new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);

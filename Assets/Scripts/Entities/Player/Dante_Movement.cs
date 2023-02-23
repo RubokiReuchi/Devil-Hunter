@@ -29,7 +29,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     [Header("Jump")]
     public float jumpForce;
-    bool isJumping;
+    [NonEditable] public bool isJumping;
     [Range(0.0f, 1.0f)] public float jumpCutMultiplier;
     public float startFallGravityMultiplier;
     public float fallGravityMultiplierIncrease;
@@ -192,7 +192,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (nullGravity)
             {
-                if (input.Jump.WasPressedThisFrame() && !isWallSliding) StartJump();
+                if (!state.IsAttacking() && input.Jump.WasPressedThisFrame() && !isWallSliding) StartJump();
                 if (input.Dash.WasPressedThisFrame() && canDash)
                 {
                     StartDash();
@@ -200,7 +200,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
             }
             else
             {
-                if (input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.doubleJumpUnlocked) StartAirJump();
+                if (!state.IsAttacking() && input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.doubleJumpUnlocked) StartAirJump();
                 if (input.Dash.WasPressedThisFrame() && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
                 {
                     StartDash();
@@ -385,12 +385,12 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     void Walk()
     {
-        if (state.IsDashing()) return;
+        if (state.IsAttackingStatic() || state.IsDashing()) return;
         if (moveInput > 0 && !wallOnLeft)
         {
             if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_walk_speed * -slopeNormalPerpendicular.x, fixed_walk_speed * -slopeNormalPerpendicular.y);
             else transform.position += new Vector3(fixed_walk_speed, 0);
-            if (!state.IsAttacking()) transform.localScale = new Vector3(state.orientation, 1, 1);
+            transform.localScale = new Vector3(state.orientation, 1, 1);
             anim.SetBool("Moving", true);
             anim.SetFloat("Walk", 1.0f);
             if (!state.IsAttacking() && nullGravity) state.SetState(DANTE_STATE.WALK);
@@ -399,7 +399,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (nullGravity && isOnSlope) transform.position += new Vector3(fixed_walk_speed * slopeNormalPerpendicular.x, fixed_walk_speed * slopeNormalPerpendicular.y);
             else transform.position += new Vector3(-fixed_walk_speed, 0);
-            if (!state.IsAttacking()) transform.localScale = new Vector3(state.orientation, 1, 1);
+            transform.localScale = new Vector3(state.orientation, 1, 1);
             anim.SetBool("Moving", true);
             anim.SetFloat("Walk", -1.0f);
             if (state.CompareState(DANTE_STATE.IDLE)) state.SetState(DANTE_STATE.WALK);
@@ -414,7 +414,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     void Run()
     {
-        if (state.IsDashing() || !canMoveAfterWallSliding) return;
+        if (state.IsAttackingStatic() || state.IsDashing() || !canMoveAfterWallSliding) return;
         if (!skills.wallSlidingUnlocked)
         {
             if (moveInput > 0)

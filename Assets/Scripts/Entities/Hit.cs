@@ -9,11 +9,6 @@ public class Hit : MonoBehaviour
     public float damage;
     public bool projectile;
 
-    void Start()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((this.CompareTag("DanteSword") || this.CompareTag("DanteWave")) && collision.gameObject.CompareTag("Enemy"))
