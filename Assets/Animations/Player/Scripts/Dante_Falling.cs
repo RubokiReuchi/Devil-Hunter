@@ -6,7 +6,6 @@ using UnityEngine;
 public class Dante_Falling : StateMachineBehaviour
 {
     Dante_StateMachine state;
-    Transform transform;
     Dante_Movement dm;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -18,13 +17,12 @@ public class Dante_Falling : StateMachineBehaviour
         dm.iframe = false;
 
         state.SetState(DANTE_STATE.FALLING);
-        transform = animator.transform;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Physics2D.BoxCast(transform.position, dm.boxSize, 0, -transform.up, dm.maxDistance, dm.layerMask))
+        if (dm.isOnGround)
         {
             animator.SetTrigger("Grounding");
             state.SetState(DANTE_STATE.IDLE);

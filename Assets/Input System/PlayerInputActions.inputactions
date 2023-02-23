@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GetDown",
+                    "type": "Button",
+                    "id": "5490b632-66c2-4365-bbbe-852841a948a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -173,7 +182,7 @@
                 {
                     "name": "",
                     "id": "2b22d0d4-54f3-423f-b491-e9184a157ecd",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/leftAlt",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -266,6 +275,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "OpenItemStorage",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b18ca9e4-93b4-4864-8aa1-a7f66b0c153e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GetDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

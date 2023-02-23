@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour, DataPersistenceInterfice
     public GameObject dropRedEggs;
     public int eggsAmount;
     public GameObject dropGreenOrb;
+    public float deathTimer;
 
     // restrict movement
     [Header("Restrict Movement")]
@@ -61,7 +62,7 @@ public class Enemy : MonoBehaviour, DataPersistenceInterfice
         GameObject drop = Instantiate(dropRedEggs, transform.position, Quaternion.identity);
         drop.GetComponent<DropRedEggs>().particleAmount = eggsAmount;
         if (Random.Range(0, 100) < 10) Instantiate(dropGreenOrb, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(deathTimer);
         gameObject.SetActive(false);
     }
 

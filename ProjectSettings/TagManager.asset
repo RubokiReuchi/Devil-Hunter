@@ -19,6 +19,7 @@ TagManager:
   - Shield
   - DanteDashTrail
   - Thorn
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Player
   - Enemies
   - PlayerHit
-  - 
+  - Platform
   - 
   - 
   - 

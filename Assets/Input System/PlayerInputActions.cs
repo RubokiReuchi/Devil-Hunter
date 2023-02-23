@@ -134,6 +134,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GetDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""5490b632-66c2-4365-bbbe-852841a948a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -195,7 +204,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2b22d0d4-54f3-423f-b491-e9184a157ecd"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/leftAlt"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -290,6 +299,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""OpenItemStorage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b18ca9e4-93b4-4864-8aa1-a7f66b0c153e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GetDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -310,6 +330,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Normal_LookDown = m_Normal.FindAction("LookDown", throwIfNotFound: true);
         m_Normal_OpenInventory = m_Normal.FindAction("OpenInventory", throwIfNotFound: true);
         m_Normal_OpenItemStorage = m_Normal.FindAction("OpenItemStorage", throwIfNotFound: true);
+        m_Normal_GetDown = m_Normal.FindAction("GetDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -381,6 +402,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Normal_LookDown;
     private readonly InputAction m_Normal_OpenInventory;
     private readonly InputAction m_Normal_OpenItemStorage;
+    private readonly InputAction m_Normal_GetDown;
     public struct NormalActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -397,6 +419,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @LookDown => m_Wrapper.m_Normal_LookDown;
         public InputAction @OpenInventory => m_Wrapper.m_Normal_OpenInventory;
         public InputAction @OpenItemStorage => m_Wrapper.m_Normal_OpenItemStorage;
+        public InputAction @GetDown => m_Wrapper.m_Normal_GetDown;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -442,6 +465,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @OpenItemStorage.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
                 @OpenItemStorage.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
                 @OpenItemStorage.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
+                @GetDown.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
+                @GetDown.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
+                @GetDown.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -482,6 +508,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @OpenItemStorage.started += instance.OnOpenItemStorage;
                 @OpenItemStorage.performed += instance.OnOpenItemStorage;
                 @OpenItemStorage.canceled += instance.OnOpenItemStorage;
+                @GetDown.started += instance.OnGetDown;
+                @GetDown.performed += instance.OnGetDown;
+                @GetDown.canceled += instance.OnGetDown;
             }
         }
     }
@@ -500,5 +529,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnLookDown(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnOpenItemStorage(InputAction.CallbackContext context);
+        void OnGetDown(InputAction.CallbackContext context);
     }
 }

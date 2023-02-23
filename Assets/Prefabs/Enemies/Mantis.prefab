@@ -5673,8 +5673,8 @@ MonoBehaviour:
   - {fileID: 3738104874171332766}
   - {fileID: 3738104873341584096}
   m_Bounds:
-    m_Center: {x: 0.10899013, y: 0.3484022, z: 0}
-    m_Extent: {x: 0.31043068, y: 0.5774661, z: 0}
+    m_Center: {x: 0.10898954, y: 0.34840196, z: 0}
+    m_Extent: {x: 0.31043005, y: 0.57746595, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5762,6 +5762,7 @@ MonoBehaviour:
   dropRedEggs: {fileID: 5276335681989623558, guid: d5ec7c9401b57694fa1dd338fe46237f, type: 3}
   eggsAmount: 1
   dropGreenOrb: {fileID: 5276335681989623558, guid: bb17d700ab40ed047ad14fafcc1782e4, type: 3}
+  deathTimer: 0.75
   restrict_left: 0
   restrict_right: 0
   detection_range: 7
