@@ -27,11 +27,24 @@ public class Dante_Falling : StateMachineBehaviour
             animator.SetTrigger("Grounding");
             state.SetState(DANTE_STATE.IDLE);
         }
+
+        switch (Dante_Attack.instance.inputReceived)
+        {
+            case INPUT_RECEIVED.NONE:
+                return;
+            case INPUT_RECEIVED.A_LIGHT:
+                animator.SetTrigger("AttackLightAir");
+                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
+                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_AIR);
+                break;
+            case INPUT_RECEIVED.A_HEAVY:
+                break;
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        Dante_Attack.instance.canReceiveInput = true;
     }
 }

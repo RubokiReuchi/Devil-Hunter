@@ -16,8 +16,8 @@ public enum INPUT_RECEIVED
 public class Dante_Attack : MonoBehaviour
 {
     public static Dante_Attack instance;
-    public bool canReceiveInput;
-    public INPUT_RECEIVED inputReceived;
+    [NonEditable] public bool canReceiveInput;
+    [NonEditable] public INPUT_RECEIVED inputReceived = INPUT_RECEIVED.NONE;
 
     Dante_StateMachine state;
     Dante_Skills skills;
@@ -36,7 +36,6 @@ public class Dante_Attack : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        canReceiveInput = true;
     }
 
     // Start is called before the first frame update
@@ -49,6 +48,8 @@ public class Dante_Attack : MonoBehaviour
         dm = GetComponent<Dante_Movement>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        canReceiveInput = true;
 
         canShoot = true;
         canThrust = true;
@@ -89,17 +90,12 @@ public class Dante_Attack : MonoBehaviour
                 }
                 else if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
                 {
-                    inputReceived = INPUT_RECEIVED.A_LIGHT;
+                    inputReceived = INPUT_RECEIVED.A_HEAVY;
                     canReceiveInput = false;
                 }
             }
 
-                //if (dm.input.Attack1.WasPressedThisFrame() && anim.GetBool("Can LightAir"))
-                //{
-                //    anim.SetTrigger("AttackLightAir");
-                //    state.SetState(DANTE_STATE.ATTACKING_AIR);
-                //}
-                //else if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
+                //if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
                 //{
                 //    anim.SetTrigger("AttackHeavyAir");
                 //    dm.runSpeed = 0.0f;

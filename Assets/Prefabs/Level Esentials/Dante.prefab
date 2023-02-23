@@ -5363,7 +5363,7 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.06772503, y: -0.06266266, z: 0}
+    m_Center: {x: 0.067723125, y: -0.06266272, z: 0}
     m_Extent: {x: 0.477395, y: 0.59936655, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -5530,6 +5530,7 @@ MonoBehaviour:
   runSpeed: 0
   walkSpeed: 0
   jumpForce: 7
+  isJumping: 0
   jumpCutMultiplier: 0.5
   startFallGravityMultiplier: 2
   fallGravityMultiplierIncrease: 2
@@ -5606,7 +5607,7 @@ MonoBehaviour:
   maxDistance: 0.68
   layerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 520
   isOnGround: 0
   nullGravity: 0
   slopeCheckDistance: 0.5
@@ -5633,6 +5634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc0affa981ce4447bf45695e5af8721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canReceiveInput: 0
+  inputReceived: 0
+  hit: {fileID: 1200364208496477177}
   danteWavePrefab: {fileID: 4401543822551459683, guid: bf42c039b8df94a47ac464e23a4dbdeb, type: 3}
   demonWavePrefab: {fileID: 4401543822551459683, guid: 811224f02435c90459f9804c1bf6d4bf, type: 3}
   waveSpawn: {fileID: 1200364207702051883}
@@ -5775,7 +5779,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1200364208753378756}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -162.594}
 --- !u!1 &1200364208232977140
 GameObject:
   m_ObjectHideFlags: 0
@@ -5837,7 +5841,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1200364208753378756}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -181.532}
 --- !u!1 &1200364208496477178
 GameObject:
   m_ObjectHideFlags: 0
@@ -5914,7 +5918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f52900b6319e94b826b147f1193ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 35
+  damage: 0
   projectile: 0
 --- !u!1 &1200364208753378759
 GameObject:
@@ -5953,7 +5957,7 @@ Transform:
   - {fileID: 1200364209299619493}
   m_Father: {fileID: 1200364207615511598}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 89.488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 82.796}
 --- !u!61 &1200364208753378754
 BoxCollider2D:
   m_ObjectHideFlags: 0

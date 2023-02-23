@@ -10,6 +10,7 @@ public class Dante_N_LightAir : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Dante_Attack.instance.hit.damage = 18;
         state = animator.GetComponent<Dante_StateMachine>();
         rb = animator.GetComponent<Rigidbody2D>();
         animator.SetBool("Can LightAir", false);
@@ -25,6 +26,7 @@ public class Dante_N_LightAir : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Dante_Attack.instance.hit.damage = 0;
         rb.gravityScale = 1;
         state.SetState(DANTE_STATE.FALLING);
     }

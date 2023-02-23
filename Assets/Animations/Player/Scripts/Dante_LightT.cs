@@ -16,7 +16,7 @@ public class Dante_LightT : StateMachineBehaviour
         switch (Dante_Attack.instance.inputReceived)
         {
             case INPUT_RECEIVED.NONE:
-                return;
+                break;
             case INPUT_RECEIVED.G_LIGHT:
                 animator.SetTrigger("Attack1");
                 Dante_Attack.instance.canReceiveInput = true;
