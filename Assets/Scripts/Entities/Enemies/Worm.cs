@@ -47,8 +47,8 @@ public class Worm : Enemy
         anim.SetBool("Stunned", !Physics2D.BoxCast(transform.position, box_size, 0, -transform.up, max_distance, layer_mask));
 
         // control edge falling (ground enemies only)
-        restrict_right = !Physics2D.BoxCast(transform.position + new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
-        restrict_left = !Physics2D.BoxCast(transform.position - new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
+        turn = !Physics2D.BoxCast(transform.position + new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
+        turn = !Physics2D.BoxCast(transform.position - new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
 
         // control walking to walls
         if (transform.localScale.x == 1)
