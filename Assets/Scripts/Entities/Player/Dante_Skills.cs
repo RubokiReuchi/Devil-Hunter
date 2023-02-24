@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
 {
+    public static Dante_Skills instance;
+
     // skills
     [Header("Dash")]
-    /*[NonEditable]*/ public int dashLevel;
+    [NonEditable] public int dashLevel;
     public bool pierceDashAvailable;
     public ParticleSystem pierceReadyParticles;
 
@@ -21,6 +23,9 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
     public bool canRevive;
 
     [Header("Attacks")]
+    public bool attack3Unlocked;
+    public bool attack4Unlocked;
+    public bool attack5Unlocked;
     public bool waveUnlocked;
     public bool grabUnlocked;
     public bool fallingAttackUnlocked;
@@ -52,6 +57,11 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         data.grabUnlocked = grabUnlocked;
         data.fallingAttackUnlocked = fallingAttackUnlocked;
         data.thrustUnlocked = thrustUnlocked;
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     // Start is called before the first frame update

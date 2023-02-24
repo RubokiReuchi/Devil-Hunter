@@ -374,12 +374,14 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
     public void CheckFlipInRoll()
     {
-        if (state.IsAiming())
+        if (state.orientation != anim.GetFloat("Walk"))
         {
-            if (state.orientation != anim.GetFloat("Walk"))
-            {
-                transform.localScale = new Vector3(-state.orientation, 1, 1);
-            }
+            transform.localScale = new Vector3(-transform.localScale.x, 1, 1);
+
+        }
+        else if (transform.localScale.x != moveInput)
+        {
+            transform.localScale = new Vector3(-transform.localScale.x, 1, 1);
         }
     }
 

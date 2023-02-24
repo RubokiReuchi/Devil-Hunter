@@ -14,6 +14,7 @@ public class Dante_Dash : StateMachineBehaviour
         dm = animator.GetComponent<Dante_Movement>();
         animator.SetBool("Can AirDash", false);
         animator.ResetTrigger("Attack1");
+        Dante_Attack.instance.canReceiveInput = true;
         Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
     }
 

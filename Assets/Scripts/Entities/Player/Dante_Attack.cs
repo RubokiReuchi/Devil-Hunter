@@ -31,7 +31,6 @@ public class Dante_Attack : MonoBehaviour
     public Transform waveSpawn;
 
     [NonEditable][SerializeField] bool canShoot;
-    [NonEditable][SerializeField] bool canThrust;
 
     private void Awake()
     {
@@ -52,7 +51,6 @@ public class Dante_Attack : MonoBehaviour
         canReceiveInput = true;
 
         canShoot = true;
-        canThrust = true;
     }
 
     // Update is called once per frame
@@ -128,17 +126,16 @@ public class Dante_Attack : MonoBehaviour
         dm.isJumping = true;
     }
 
+    public void FirstComboJump()
+    {
+        if (dm.isJumping) return;
+        rb.AddForce(new Vector2(transform.localScale.x * 150, 300));
+        dm.isJumping = true;
+    }
+
     public void SetJump(bool value)
     {
         dm.isJumping = value;
-    }
-
-    public IEnumerator Thrust()
-    {
-        dm.DanteStop();
-        float delay = state.demon ? 0.5f : 1.0f;
-        yield return new WaitForSeconds(delay);
-        canThrust = true;
     }
 
     IEnumerator Shoot()
