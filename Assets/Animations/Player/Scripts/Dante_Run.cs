@@ -24,6 +24,9 @@ public class Dante_Run : StateMachineBehaviour
                 Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
                 break;
             case INPUT_RECEIVED.G_HEAVY:
+                animator.SetBool("Charging", true);
+                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
+                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
                 break;
         }
     }

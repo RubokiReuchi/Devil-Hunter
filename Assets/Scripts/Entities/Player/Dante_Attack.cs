@@ -25,6 +25,8 @@ public class Dante_Attack : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     public Hit hit;
+    [NonEditable] public float chargeForce = 0;
+    public ParticleSystem chargePs;
 
     public GameObject danteWavePrefab;
     public GameObject demonWavePrefab;
@@ -67,7 +69,7 @@ public class Dante_Attack : MonoBehaviour
                     inputReceived = INPUT_RECEIVED.G_LIGHT;
                     //canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame())
+                else if (dm.input.Attack2.WasPressedThisFrame() && skills.chargeUnlocked)
                 {
                     inputReceived = INPUT_RECEIVED.G_HEAVY;
                     canReceiveInput = false;

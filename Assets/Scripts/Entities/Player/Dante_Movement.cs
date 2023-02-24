@@ -166,6 +166,13 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         // Reset Air Skills
         if (isOnGround)
         {
+            if (Dante_Attack.instance.inputReceived == INPUT_RECEIVED.A_LIGHT || Dante_Attack.instance.inputReceived == INPUT_RECEIVED.A_HEAVY)
+            {
+                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
+                Dante_Attack.instance.canReceiveInput = true;
+
+            }
+
             lastPositionOnGround = transform.position;
 
             anim.SetBool("Can LightAir", true);
@@ -188,7 +195,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         lastNullGravity = nullGravity;
 
         // Start Jump, Roll and Dash
-        if (!state.IsDashing())
+        if (!state.IsDashing() && !anim.GetBool("Charging"))
         {
             if (nullGravity)
             {

@@ -31,6 +31,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
     public bool combo3Unlocked;
     public bool combo4Unlocked;
     public bool fallingAttackUnlocked;
+    public bool chargeUnlocked;
     public bool waveUnlocked;
     public bool grabUnlocked;
 
@@ -51,6 +52,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         combo3Unlocked = data.combo3Unlocked;
         combo4Unlocked = data.combo4Unlocked;
         fallingAttackUnlocked = data.fallingAttackUnlocked;
+        chargeUnlocked = data.chargeUnlocked;
         waveUnlocked = data.waveUnlocked;
         grabUnlocked = data.grabUnlocked;
     }
@@ -70,6 +72,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         data.combo3Unlocked = combo3Unlocked;
         data.combo4Unlocked = combo4Unlocked;
         data.fallingAttackUnlocked = fallingAttackUnlocked;
+        data.chargeUnlocked = chargeUnlocked;
         data.waveUnlocked = waveUnlocked;
         data.grabUnlocked = grabUnlocked;
     }

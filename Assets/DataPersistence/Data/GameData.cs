@@ -41,6 +41,7 @@ public class GameData
     public bool combo3Unlocked;
     public bool combo4Unlocked;
     public bool fallingAttackUnlocked;
+    public bool chargeUnlocked;
     public bool waveUnlocked;
     public bool grabUnlocked;
     #endregion
@@ -106,6 +107,7 @@ public class GameData
         combo2Unlocked = false;
         combo3Unlocked = false;
         combo4Unlocked = false;
+        chargeUnlocked = false;
         fallingAttackUnlocked = false;
         waveUnlocked = false;
         grabUnlocked = false;
