@@ -8,7 +8,7 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
 
     // skills
     [Header("Dash")]
-    [NonEditable] public int dashLevel;
+    public int dashLevel;
     public bool pierceDashAvailable;
     public ParticleSystem pierceReadyParticles;
 
@@ -26,10 +26,13 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
     public bool attack3Unlocked;
     public bool attack4Unlocked;
     public bool attack5Unlocked;
+    public bool combo1Unlocked;
+    public bool combo2Unlocked;
+    public bool combo3Unlocked;
+    public bool combo4Unlocked;
+    public bool fallingAttackUnlocked;
     public bool waveUnlocked;
     public bool grabUnlocked;
-    public bool fallingAttackUnlocked;
-    public bool thrustUnlocked;
 
     Animator anim;
 
@@ -40,10 +43,16 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         doubleJumpUnlocked = data.doubleJumpUnlocked;
         reviveUnlocked = data.reviveUnlocked;
         canRevive = data.canRevive;
+        attack3Unlocked = data.attack3Unlocked;
+        attack4Unlocked = data.attack4Unlocked;
+        attack5Unlocked = data.attack5Unlocked;
+        combo1Unlocked = data.combo1Unlocked;
+        combo2Unlocked = data.combo2Unlocked;
+        combo3Unlocked = data.combo3Unlocked;
+        combo4Unlocked = data.combo4Unlocked;
+        fallingAttackUnlocked = data.fallingAttackUnlocked;
         waveUnlocked = data.waveUnlocked;
         grabUnlocked = data.grabUnlocked;
-        fallingAttackUnlocked = data.fallingAttackUnlocked;
-        thrustUnlocked = data.thrustUnlocked;
     }
 
     public void SaveData(GameData data)
@@ -53,10 +62,16 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         data.doubleJumpUnlocked = doubleJumpUnlocked;
         data.reviveUnlocked = reviveUnlocked;
         data.canRevive = canRevive;
+        data.attack3Unlocked = attack3Unlocked;
+        data.attack4Unlocked = attack4Unlocked;
+        data.attack5Unlocked = attack5Unlocked;
+        data.combo1Unlocked = combo1Unlocked;
+        data.combo2Unlocked = combo2Unlocked;
+        data.combo3Unlocked = combo3Unlocked;
+        data.combo4Unlocked = combo4Unlocked;
+        data.fallingAttackUnlocked = fallingAttackUnlocked;
         data.waveUnlocked = waveUnlocked;
         data.grabUnlocked = grabUnlocked;
-        data.fallingAttackUnlocked = fallingAttackUnlocked;
-        data.thrustUnlocked = thrustUnlocked;
     }
 
     private void Awake()

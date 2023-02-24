@@ -33,10 +33,16 @@ public class GameData
     public bool doubleJumpUnlocked;
     public bool reviveUnlocked;
     public bool canRevive;
+    public bool attack3Unlocked;
+    public bool attack4Unlocked;
+    public bool attack5Unlocked;
+    public bool combo1Unlocked;
+    public bool combo2Unlocked;
+    public bool combo3Unlocked;
+    public bool combo4Unlocked;
+    public bool fallingAttackUnlocked;
     public bool waveUnlocked;
     public bool grabUnlocked;
-    public bool fallingAttackUnlocked;
-    public bool thrustUnlocked;
     #endregion
 
     #region ScriptableObjects
@@ -93,10 +99,16 @@ public class GameData
         doubleJumpUnlocked = false;
         reviveUnlocked = false;
         canRevive = false;
+        attack3Unlocked = false;
+        attack4Unlocked = false;
+        attack5Unlocked = false;
+        combo1Unlocked = false;
+        combo2Unlocked = false;
+        combo3Unlocked = false;
+        combo4Unlocked = false;
+        fallingAttackUnlocked = false;
         waveUnlocked = false;
         grabUnlocked = false;
-        fallingAttackUnlocked = false;
-        thrustUnlocked = false;
         #endregion
 
         #region ScriptableObjects

@@ -31,13 +31,16 @@ public class Dante_Falling : StateMachineBehaviour
         switch (Dante_Attack.instance.inputReceived)
         {
             case INPUT_RECEIVED.NONE:
-                return;
+                break;
             case INPUT_RECEIVED.A_LIGHT:
                 animator.SetTrigger("AttackLightAir");
                 Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
                 Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_AIR);
                 break;
             case INPUT_RECEIVED.A_HEAVY:
+                animator.SetTrigger("AttackHeavyAir");
+                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
+                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_FALLING);
                 break;
         }
     }

@@ -65,19 +65,13 @@ public class Dante_Attack : MonoBehaviour
                 if (dm.input.Attack1.WasPressedThisFrame())
                 {
                     inputReceived = INPUT_RECEIVED.G_LIGHT;
-                    canReceiveInput = false;
+                    //canReceiveInput = false;
                 }
                 else if (dm.input.Attack2.WasPressedThisFrame())
                 {
                     inputReceived = INPUT_RECEIVED.G_HEAVY;
                     canReceiveInput = false;
                 }
-                /*else if (dm.input.Attack2.WasPressedThisFrame())
-                {
-                    anim.SetBool("Thrust", true);
-                    dm.runSpeed = 0.0f;
-                    state.SetState(DANTE_STATE.ATTACKING_GROUND);
-                    canThrust = false;*/
             }
             else
             {
@@ -92,13 +86,6 @@ public class Dante_Attack : MonoBehaviour
                     canReceiveInput = false;
                 }
             }
-
-                //if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
-                //{
-                //    anim.SetTrigger("AttackHeavyAir");
-                //    dm.runSpeed = 0.0f;
-                //    state.SetState(DANTE_STATE.ATTACKING_FALLING);
-                //}
         }
         else
         {
@@ -131,6 +118,17 @@ public class Dante_Attack : MonoBehaviour
         if (dm.isJumping) return;
         rb.AddForce(new Vector2(transform.localScale.x * 150, 300));
         dm.isJumping = true;
+    }
+
+    public void WaitUntilNextAttack()
+    {
+        StartCoroutine("Co_WaitUntilNextAttack");
+    }
+
+    IEnumerator Co_WaitUntilNextAttack()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Dante_Attack.instance.canReceiveInput = true;
     }
 
     public void SetJump(bool value)

@@ -12,6 +12,7 @@ public class Dante_N_HeavyAir : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Dante_Attack.instance.hit.damage = 35;
         state = animator.GetComponent<Dante_StateMachine>();
         transform = animator.transform;
         dm = animator.GetComponent<Dante_Movement>();
@@ -33,6 +34,6 @@ public class Dante_N_HeavyAir : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        dm.runSpeed = dm.basicRunSpeed;
+        Dante_Attack.instance.hit.damage = 0;
     }
 }

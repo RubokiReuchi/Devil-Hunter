@@ -8,6 +8,7 @@ public class Dante_Idle : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Dante_StateMachine.instance.SetState(DANTE_STATE.IDLE);
+        animator.ResetTrigger("Attack2");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

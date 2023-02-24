@@ -45,7 +45,7 @@ public class Dante_Heavy2 : StateMachineBehaviour
         dm.DanteStop();
 
         Dante_Attack.instance.hit.damage = 0;
-        Dante_Attack.instance.canReceiveInput = true;
+        Dante_Attack.instance.WaitUntilNextAttack();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

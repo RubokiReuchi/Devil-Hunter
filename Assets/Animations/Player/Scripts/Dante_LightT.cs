@@ -6,6 +6,7 @@ public class Dante_LightT : StateMachineBehaviour
 {
     public int attackNum;
     bool canContinue;
+    bool canCombo;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,6 +18,14 @@ public class Dante_LightT : StateMachineBehaviour
             case 4: canContinue = Dante_Skills.instance.attack5Unlocked; break;
             default: canContinue = true; break;
         }
+        switch (attackNum)
+        {
+            case 1: canCombo = Dante_Skills.instance.combo1Unlocked; break;
+            case 2: canCombo = Dante_Skills.instance.combo2Unlocked; break;
+            case 3: canCombo = Dante_Skills.instance.combo3Unlocked; break;
+            case 4: canCombo = Dante_Skills.instance.combo4Unlocked; break;
+            default: canCombo = true; break;
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -27,16 +36,22 @@ public class Dante_LightT : StateMachineBehaviour
             case INPUT_RECEIVED.NONE:
                 break;
             case INPUT_RECEIVED.G_LIGHT:
-                if (canContinue) animator.SetTrigger("Attack1");
+                if (canContinue)
+                {
+                    animator.SetTrigger("Attack1");
+                    Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
+                }
                 Dante_Attack.instance.canReceiveInput = true;
                 Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
-                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
                 break;
             case INPUT_RECEIVED.G_HEAVY:
-                if (canContinue) animator.SetTrigger("Attack2");
+                if (canCombo)
+                {
+                    animator.SetTrigger("Attack2");
+                    Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
+                }
                 Dante_Attack.instance.canReceiveInput = true;
                 Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
-                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
                 break;
         }
     }

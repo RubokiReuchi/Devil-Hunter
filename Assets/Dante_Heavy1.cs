@@ -21,7 +21,7 @@ public class Dante_Heavy1 : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Dante_Attack.instance.hit.damage = 0;
-        Dante_Attack.instance.canReceiveInput = true;
+        Dante_Attack.instance.WaitUntilNextAttack();
         Dante_Attack.instance.SetJump(false);
     }
 

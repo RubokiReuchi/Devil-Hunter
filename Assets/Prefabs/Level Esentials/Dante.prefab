@@ -5115,7 +5115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1200364207560367164
 Transform:
   m_ObjectHideFlags: 0
@@ -5363,8 +5363,8 @@ MonoBehaviour:
   - {fileID: 1200364209299619493}
   - {fileID: 1200364208496477179}
   m_Bounds:
-    m_Center: {x: 0.067723125, y: -0.06266272, z: 0}
-    m_Extent: {x: 0.477395, y: 0.59936655, z: 0}
+    m_Center: {x: -0.5697815, y: -0.06266266, z: 0}
+    m_Extent: {x: 0.9674576, y: 0.5993666, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5699,9 +5699,9 @@ MonoBehaviour:
   doubleJumpUnlocked: 0
   reviveUnlocked: 1
   canRevive: 1
-  attack3Unlocked: 0
-  attack4Unlocked: 0
-  attack5Unlocked: 0
+  attack3Unlocked: 1
+  attack4Unlocked: 1
+  attack5Unlocked: 1
   waveUnlocked: 0
   grabUnlocked: 0
   fallingAttackUnlocked: 0
@@ -10951,7 +10951,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3158289296729132634}
   serializedVersion: 8
-  lengthInSec: 3
+  lengthInSec: 0.1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -11079,8 +11079,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: -0.2
-      minScalar: 0.2
+      scalar: 1
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -16323,7 +16323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8254456495045341625
 Transform:
   m_ObjectHideFlags: 0
