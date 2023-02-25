@@ -10,7 +10,9 @@ public enum INPUT_RECEIVED
     G_LIGHT,
     G_HEAVY,
     A_LIGHT,
-    A_HEAVY
+    A_HEAVY,
+    GRAB,
+    ULT
 }
 
 public class Dante_Attack : MonoBehaviour
@@ -25,14 +27,9 @@ public class Dante_Attack : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     public Hit hit;
+
     [NonEditable] public float chargeForce = 0;
     public ParticleSystem chargePs;
-
-    public GameObject danteWavePrefab;
-    public GameObject demonWavePrefab;
-    public Transform waveSpawn;
-
-    [NonEditable][SerializeField] bool canShoot;
 
     private void Awake()
     {
@@ -51,8 +48,6 @@ public class Dante_Attack : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         canReceiveInput = true;
-
-        canShoot = true;
     }
 
     // Update is called once per frame
@@ -67,7 +62,6 @@ public class Dante_Attack : MonoBehaviour
                 if (dm.input.Attack1.WasPressedThisFrame())
                 {
                     inputReceived = INPUT_RECEIVED.G_LIGHT;
-                    //canReceiveInput = false;
                 }
                 else if (dm.input.Attack2.WasPressedThisFrame() && skills.chargeUnlocked)
                 {
@@ -95,14 +89,12 @@ public class Dante_Attack : MonoBehaviour
             {
                 if (dm.input.Attack1.WasPressedThisFrame() && skills.grabUnlocked)
                 {
-                    anim.SetTrigger("AttackHeavy1");
-                    state.SetState(DANTE_STATE.ATTACKING_AIR);
+                    inputReceived = INPUT_RECEIVED.GRAB;
+                    canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame() && !state.IsAttacking() && canShoot && skills.waveUnlocked
-                    && (state.CompareState(DANTE_STATE.IDLE) || state.CompareState(DANTE_STATE.WALK)))
+                else if (dm.input.Attack2.WasPressedThisFrame())
                 {
-                    state.SetState(DANTE_STATE.SHOTING);
-                    anim.SetTrigger("Shoot");
+                    // ult
                 }
             }
         }
@@ -129,24 +121,14 @@ public class Dante_Attack : MonoBehaviour
 
     IEnumerator Co_WaitUntilNextAttack()
     {
-        yield return new WaitForSeconds(0.3f);
+        float delay = 0.3f;
+        if (state.demon) delay /= 1.5f;
+        yield return new WaitForSeconds(delay);
         Dante_Attack.instance.canReceiveInput = true;
     }
 
     public void SetJump(bool value)
     {
         dm.isJumping = value;
-    }
-
-    IEnumerator Shoot()
-    {
-        GameObject wavePrefab;
-        if (state.demon) wavePrefab = demonWavePrefab;
-        else wavePrefab = danteWavePrefab;
-        GameObject.Instantiate(wavePrefab, waveSpawn.position, transform.rotation);
-        canShoot = false;
-        yield return new WaitForSeconds(0.5f);
-        if (state.CompareState(DANTE_STATE.SHOTING)) state.SetState(DANTE_STATE.IDLE);
-        canShoot = true;
     }
 }

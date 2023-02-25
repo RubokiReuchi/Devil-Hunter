@@ -42,8 +42,8 @@ public class GameData
     public bool combo4Unlocked;
     public bool fallingAttackUnlocked;
     public bool chargeUnlocked;
-    public bool waveUnlocked;
     public bool grabUnlocked;
+    public bool ultUnlocked;
     #endregion
 
     #region ScriptableObjects
@@ -109,8 +109,8 @@ public class GameData
         combo4Unlocked = false;
         chargeUnlocked = false;
         fallingAttackUnlocked = false;
-        waveUnlocked = false;
         grabUnlocked = false;
+        ultUnlocked = false;
         #endregion
 
         #region ScriptableObjects

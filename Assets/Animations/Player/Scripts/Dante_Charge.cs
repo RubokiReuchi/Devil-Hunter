@@ -2,40 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dante_Idle : StateMachineBehaviour
+public class Dante_Charge : StateMachineBehaviour
 {
+    Dante_Movement dm;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Dante_StateMachine.instance.SetState(DANTE_STATE.IDLE);
-        animator.ResetTrigger("Attack2");
+        dm = animator.GetComponent<Dante_Movement>();
+        Dante_Attack.instance.canReceiveInput = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        switch (Dante_Attack.instance.inputReceived)
+        if (!Dante_StateMachine.instance.demon) Dante_Attack.instance.chargeForce += Time.deltaTime;
+        else Dante_Attack.instance.chargeForce += Time.deltaTime * 1.5f;
+
+        if (dm.input.Attack2.WasReleasedThisFrame())
         {
-            case INPUT_RECEIVED.NONE:
-                break;
-            case INPUT_RECEIVED.G_LIGHT:
-                animator.SetTrigger("Attack1");
-                Dante_Attack.instance.canReceiveInput = true;
-                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
-                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
-                break;
-            case INPUT_RECEIVED.G_HEAVY:
-                animator.SetBool("Charging", true);
-                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
-                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
-                break;
-            case INPUT_RECEIVED.GRAB:
-                animator.SetTrigger("Grab");
-                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
-                Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
-                break;
-            case INPUT_RECEIVED.ULT:
-                break;
+            if (Dante_Attack.instance.chargeForce < 0.1f) Dante_Attack.instance.chargeForce = 0;
+            animator.SetTrigger("Discharge");
+        }
+        else if (Dante_Attack.instance.chargeForce > 3)
+        {
+            Dante_Attack.instance.chargeForce = 3;
+            animator.SetTrigger("Discharge");
         }
     }
 

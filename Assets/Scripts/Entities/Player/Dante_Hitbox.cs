@@ -18,7 +18,7 @@ public class Dante_Hitbox : Hitbox
 
     public override void TakeDamage(float damage, Vector3 hit_point, bool ultraKnockBack = false)
     {
-        if (GetComponent<Dante_Movement>().iframe) return; // ignore it if dante is iframed
+        if (GetComponent<Dante_Movement>().saveTime) return; // ignore it if dante is iframed
         if (anim.GetBool("Death")) return; // ignore it if entity is death
 
         if (!anim.GetBool("Death") && stats.knockback_resist >= 0 && ((damage * 3 - stats.knockback_resist > 0) || ultraKnockBack))

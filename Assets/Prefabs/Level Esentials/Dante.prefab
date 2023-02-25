@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &137310822
 SpriteRenderer:
@@ -5014,7 +5014,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &451369134
 TrailRenderer:
@@ -5156,7 +5156,7 @@ Transform:
   m_Children:
   - {fileID: 261985716}
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &940019924
 BoxCollider2D:
@@ -5231,7 +5231,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &1653606430
 ParticleSystem:
@@ -10224,7 +10224,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1200364207702051883}
   - {fileID: 1200364208753378756}
   - {fileID: 1653606431}
   - {fileID: 137310820}
@@ -10585,10 +10584,6 @@ MonoBehaviour:
   hit: {fileID: 1200364208496477177}
   chargeForce: 0
   chargePs: {fileID: 261985718}
-  danteWavePrefab: {fileID: 4401543822551459683, guid: bf42c039b8df94a47ac464e23a4dbdeb, type: 3}
-  demonWavePrefab: {fileID: 4401543822551459683, guid: 811224f02435c90459f9804c1bf6d4bf, type: 3}
-  waveSpawn: {fileID: 1200364207702051883}
-  canShoot: 0
 --- !u!114 &6572010404303434814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10656,8 +10651,8 @@ MonoBehaviour:
   combo4Unlocked: 1
   fallingAttackUnlocked: 1
   chargeUnlocked: 1
-  waveUnlocked: 0
   grabUnlocked: 0
+  ultUnlocked: 0
 --- !u!114 &2114847872258955165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10672,37 +10667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
   onShop: 0
---- !u!1 &1200364207702051882
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1200364207702051883}
-  m_Layer: 6
-  m_Name: wave_spawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1200364207702051883
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200364207702051882}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.344, y: -0.267, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1200364208032711503
 GameObject:
   m_ObjectHideFlags: 0
@@ -10911,7 +10875,7 @@ Transform:
   - {fileID: 1200364208032711500}
   - {fileID: 1200364209299619493}
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 82.796}
 --- !u!61 &1200364208753378754
 BoxCollider2D:
@@ -20763,7 +20727,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!330 &1776204494130777898
 ParticleSystemForceField:
@@ -21323,7 +21287,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1200364207615511598}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &9173687276792011137
 ParticleSystem:

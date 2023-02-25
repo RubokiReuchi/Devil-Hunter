@@ -47,7 +47,11 @@ public class HealthBar : MonoBehaviour
         }
         if (slider.value < danteFixedCurrentHp)
         {
-            slider.value += Time.deltaTime * 50.0f;
+            float value;
+            if (danteFixedCurrentHp == danteStats.max_hp) value = Time.deltaTime * 500.0f;
+            else value = Time.deltaTime * 50.0f;
+
+            slider.value += value;
         }
         else
         {
@@ -71,14 +75,6 @@ public class HealthBar : MonoBehaviour
         {
             delay = false;
         }
-    }
-
-    public void Revive()
-    {
-        slider.value = danteStats.max_hp;
-
-        variationValue = 0;
-        delay = false;
     }
 
     IEnumerator Variation()

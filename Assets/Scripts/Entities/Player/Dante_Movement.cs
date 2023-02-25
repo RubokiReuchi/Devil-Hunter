@@ -55,8 +55,9 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     bool canMoveAfterWallSliding;
     [SerializeField] bool onWallBeforeJump;
 
-    [Header("Hitt")]
+    [Header("Hit")]
     public ParticleSystem hitParticles;
+    public bool saveTime;
 
     // Check grounded
     [Header("Check Grounded")]
@@ -141,6 +142,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
 
         iframe = false;
         canDash = true;
+        saveTime = false;
 
         isJumping = false;
         fallGravityMultiplier = startFallGravityMultiplier;
@@ -369,12 +371,14 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     public void StartDashInmunity()
     {
         iframe = true;
+        saveTime = true;
         DanteStop();
     }
 
     public void EndDashInmunity()
     {
         iframe = false;
+        saveTime = false;
         DanteStop();
         if (!iframe) state.SetState(DANTE_STATE.IDLE);
     }

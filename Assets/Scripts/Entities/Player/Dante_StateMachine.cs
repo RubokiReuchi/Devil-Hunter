@@ -15,7 +15,6 @@ public enum DANTE_STATE
     ATTACKING_GROUND,
     ATTACKING_AIR,
     ATTACKING_FALLING,
-    SHOTING,
     DASHING,
     DEATH,
     INTERACT
@@ -27,6 +26,7 @@ public class Dante_StateMachine : MonoBehaviour
 
     [NonEditable][SerializeField] DANTE_STATE state;
     Dante_Stats stats;
+    Dante_Movement dm;
 
     [Header("Demon Form")]
     [NonEditable] public bool demon;
@@ -44,7 +44,7 @@ public class Dante_StateMachine : MonoBehaviour
     public float emitForceRadius;
     public float emitForcePower;
     LayerMask layerMask;
-    public HealthBar healthBar;
+    public ParticleSystem reviveLightning;
 
     [NonEditable][SerializeField] bool aim;
     [NonEditable] public bool dash;
@@ -63,6 +63,7 @@ public class Dante_StateMachine : MonoBehaviour
     {
         state = DANTE_STATE.IDLE;
         stats = GetComponent<Dante_Stats>();
+        dm = GetComponent<Dante_Movement>();
 
         demon = false;
         anim = GetComponent<Animator>();
@@ -77,7 +78,7 @@ public class Dante_StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<Dante_Movement>().input.Limit.WasPressedThisFrame())
+        if (dm.input.Limit.WasPressedThisFrame())
         {
             if (IsAlive()) // shift demon
             {
@@ -95,9 +96,9 @@ public class Dante_StateMachine : MonoBehaviour
             if (stats.currentLimitValue <= 0) UnactiveDemonForm();
         }
 
-        if (GetComponent<Dante_Movement>().input.Aim.ReadValue<float>() == 1) aim = true;
+        if (dm.input.Aim.ReadValue<float>() == 1) aim = true;
         else aim = false;
-        if (IsInteracting() || !GetComponent<Dante_Movement>().isOnGround) aim = false;
+        if (IsInteracting() || !dm.isOnGround) aim = false;
 
         if (aim && !GetClosestEnemyPos()) aim = false;
 
@@ -140,13 +141,13 @@ public class Dante_StateMachine : MonoBehaviour
 
     public bool IsAttacking()
     {
-        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.SHOTING || state == DANTE_STATE.ATTACKING_AIR || state == DANTE_STATE.ATTACKING_FALLING) return true;
+        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.ATTACKING_AIR || state == DANTE_STATE.ATTACKING_FALLING) return true;
         else return false;
     }
 
     public bool IsAttackingStatic()
     {
-        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.SHOTING || state == DANTE_STATE.ATTACKING_FALLING) return true;
+        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.ATTACKING_FALLING) return true;
         else return false;
     }
 
@@ -195,10 +196,17 @@ public class Dante_StateMachine : MonoBehaviour
         anim.SetTrigger("Revive");
         anim.SetBool("Death", false);
         SetState(DANTE_STATE.IDLE);
-        stats.current_hp = stats.max_hp;
+        stats.Heal(stats.max_hp * 2.0f);
         stats.currentLimitValue = stats.maxLimitBatteries;
-        healthBar.Revive();
         EmitForce();
+        StartCoroutine("Co_revive");
+    }
+
+    IEnumerator Co_revive()
+    {
+        dm.saveTime = true;
+        yield return new WaitForSeconds(0.5f);
+        dm.saveTime = false;
     }
 
     void EmitForce()

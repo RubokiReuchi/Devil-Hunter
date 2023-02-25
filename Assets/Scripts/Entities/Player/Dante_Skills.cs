@@ -32,8 +32,8 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
     public bool combo4Unlocked;
     public bool fallingAttackUnlocked;
     public bool chargeUnlocked;
-    public bool waveUnlocked;
     public bool grabUnlocked;
+    public bool ultUnlocked;
 
     Animator anim;
 
@@ -53,8 +53,8 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         combo4Unlocked = data.combo4Unlocked;
         fallingAttackUnlocked = data.fallingAttackUnlocked;
         chargeUnlocked = data.chargeUnlocked;
-        waveUnlocked = data.waveUnlocked;
         grabUnlocked = data.grabUnlocked;
+        ultUnlocked = data.ultUnlocked;
     }
 
     public void SaveData(GameData data)
@@ -73,8 +73,8 @@ public class Dante_Skills : MonoBehaviour, DataPersistenceInterfice
         data.combo4Unlocked = combo4Unlocked;
         data.fallingAttackUnlocked = fallingAttackUnlocked;
         data.chargeUnlocked = chargeUnlocked;
-        data.waveUnlocked = waveUnlocked;
         data.grabUnlocked = grabUnlocked;
+        data.ultUnlocked = ultUnlocked;
     }
 
     private void Awake()
