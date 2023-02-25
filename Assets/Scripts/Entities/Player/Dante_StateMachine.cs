@@ -45,6 +45,7 @@ public class Dante_StateMachine : MonoBehaviour
     public float emitForcePower;
     LayerMask layerMask;
     public ParticleSystem reviveLightning;
+    bool canRevive = false;
 
     [NonEditable][SerializeField] bool aim;
     [NonEditable] public bool dash;
@@ -85,7 +86,7 @@ public class Dante_StateMachine : MonoBehaviour
                 if (!demon && stats.currentLimitValue >= 3) ActiveDemonForm();
                 else if (demon) { UnactiveDemonForm(); stats.UseLimit(1.0f); }
             }
-            else if (GetComponent<Dante_Skills>().reviveUnlocked && GetComponent<Dante_Skills>().canRevive) // revive
+            else if (canRevive && GetComponent<Dante_Skills>().reviveUnlocked && GetComponent<Dante_Skills>().canRevive) // revive
             {
                 Revive();
             }
@@ -190,16 +191,22 @@ public class Dante_StateMachine : MonoBehaviour
         swordTrail.colorGradient = danteTrailColor;
     }
 
+    public void AllowRevive()
+    {
+        canRevive = true;
+    }
+
     void Revive()
     {
         GetComponent<Dante_Skills>().canRevive = false;
         anim.SetTrigger("Revive");
         anim.SetBool("Death", false);
         SetState(DANTE_STATE.IDLE);
-        stats.Heal(stats.max_hp * 2.0f);
+        stats.Heal(stats.max_hp);
         stats.currentLimitValue = stats.maxLimitBatteries;
         EmitForce();
         StartCoroutine("Co_revive");
+        canRevive = false;
     }
 
     IEnumerator Co_revive()

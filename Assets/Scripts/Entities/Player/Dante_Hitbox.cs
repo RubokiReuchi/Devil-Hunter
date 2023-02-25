@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Dante_Hitbox : Hitbox
@@ -35,6 +36,7 @@ public class Dante_Hitbox : Hitbox
         DisplayDamage(damage, hit_point + Vector3.up * 0.2f);
         if (stats.current_hp <= 0)
         {
+            stats.current_hp = 0;
             anim.SetBool("Death", true);
         }
     }
