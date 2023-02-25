@@ -120,6 +120,7 @@ public class Dante_StateMachine : MonoBehaviour
         }
         else
         {
+            orientation = 0;
             target.enabled = false;
         }
     }

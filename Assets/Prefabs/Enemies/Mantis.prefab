@@ -5263,7 +5263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f52900b6319e94b826b147f1193ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 18
+  damage: 36
   projectile: 0
 --- !u!1 &3738104873864914943
 GameObject:
@@ -5340,7 +5340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f52900b6319e94b826b147f1193ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 18
+  damage: 36
   projectile: 0
 --- !u!1 &3738104873941748765
 GameObject:
@@ -5747,7 +5747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072596094b2a35c4ab11ec687714c2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
+  id: b868d48d-bd35-4b86-a44a-48f71ca98eb4
   spawn: {x: 0, y: 0, z: 0}
   speed: 1
   attack_cd: 1.5
@@ -5804,7 +5804,7 @@ MonoBehaviour:
   attack: 0
   regen_hp: 0
   life_steal: 0
-  knockback_resist: 0
+  knockback_resist: 70
   current_hp: 0
   floating_text: {fileID: 9046765310167008510, guid: 933b1b2e4cb322b4a96a32f146db3272, type: 3}
 --- !u!1 &3738104874171332753
