@@ -35,6 +35,9 @@ public class Dante_Idle : StateMachineBehaviour
                 Dante_StateMachine.instance.SetState(DANTE_STATE.ATTACKING_GROUND);
                 break;
             case INPUT_RECEIVED.ULT:
+                animator.SetTrigger("Ult");
+                Dante_Attack.instance.inputReceived = INPUT_RECEIVED.NONE;
+                Dante_StateMachine.instance.SetState(DANTE_STATE.ULT);
                 break;
         }
     }

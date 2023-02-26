@@ -197,7 +197,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         lastNullGravity = nullGravity;
 
         // Start Jump, Roll and Dash
-        if (!state.IsDashing() && !anim.GetBool("Charging"))
+        if (!state.IsDashing() && !anim.GetBool("Charging") && !state.CompareState(DANTE_STATE.ULT))
         {
             if (nullGravity)
             {

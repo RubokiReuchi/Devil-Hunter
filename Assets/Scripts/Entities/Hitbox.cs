@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
     protected Animator anim;
-    protected Stats stats;
+    Stats stats;
     protected Rigidbody2D rb;
     public GameObject floating_text;
 

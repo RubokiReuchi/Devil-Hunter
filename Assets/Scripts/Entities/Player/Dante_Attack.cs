@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.Provider;
 
 public enum INPUT_RECEIVED
 {
@@ -22,6 +24,7 @@ public class Dante_Attack : MonoBehaviour
     [NonEditable] public INPUT_RECEIVED inputReceived = INPUT_RECEIVED.NONE;
 
     Dante_StateMachine state;
+    Dante_Stats stats;
     Dante_Skills skills;
     Dante_Movement dm;
     Rigidbody2D rb;
@@ -30,6 +33,8 @@ public class Dante_Attack : MonoBehaviour
 
     [NonEditable] public float chargeForce = 0;
     public ParticleSystem chargePs;
+
+    public UltLightnings ult;
 
     private void Awake()
     {
@@ -40,7 +45,7 @@ public class Dante_Attack : MonoBehaviour
     void Start()
     {
         state = GetComponent<Dante_StateMachine>();
-
+        stats = GetComponent<Dante_Stats>();
         skills = GetComponent<Dante_Skills>();
 
         dm = GetComponent<Dante_Movement>();
@@ -92,9 +97,11 @@ public class Dante_Attack : MonoBehaviour
                     inputReceived = INPUT_RECEIVED.GRAB;
                     canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame())
+                else if (dm.input.Attack2.WasPressedThisFrame() && stats.styleLevel == 5)
                 {
-                    // ult
+                    inputReceived = INPUT_RECEIVED.ULT;
+                    canReceiveInput = false;
+                    ult.SetUltObjective(state.aimObjective);
                 }
             }
         }
@@ -130,5 +137,10 @@ public class Dante_Attack : MonoBehaviour
     public void SetJump(bool value)
     {
         dm.isJumping = value;
+    }
+
+    public void CastUlt()
+    {
+        ult.StartCoroutine("PlayUlt");
     }
 }

@@ -15,6 +15,7 @@ public enum DANTE_STATE
     ATTACKING_GROUND,
     ATTACKING_AIR,
     ATTACKING_FALLING,
+    ULT,
     DASHING,
     DEATH,
     INTERACT
@@ -50,6 +51,7 @@ public class Dante_StateMachine : MonoBehaviour
     [NonEditable][SerializeField] bool aim;
     [NonEditable] public bool dash;
     public SpriteRenderer target;
+    [NonEditable] public GameObject aimObjective;
     public Camera cam;
 
     [NonEditable] public float orientation;
@@ -91,7 +93,7 @@ public class Dante_StateMachine : MonoBehaviour
                 Revive();
             }
         }
-        if (demon)
+        if (demon && !CompareState(DANTE_STATE.ULT))
         {
             stats.UseLimit(Time.deltaTime * 0.5f); // 2 second per each bar
             if (stats.currentLimitValue <= 0) UnactiveDemonForm();
@@ -120,6 +122,7 @@ public class Dante_StateMachine : MonoBehaviour
         }
         else
         {
+            aimObjective = null;
             orientation = 0;
             target.enabled = false;
         }
@@ -143,13 +146,13 @@ public class Dante_StateMachine : MonoBehaviour
 
     public bool IsAttacking()
     {
-        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.ATTACKING_AIR || state == DANTE_STATE.ATTACKING_FALLING) return true;
+        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.ATTACKING_AIR || state == DANTE_STATE.ATTACKING_FALLING || state == DANTE_STATE.ULT) return true;
         else return false;
     }
 
     public bool IsAttackingStatic()
     {
-        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.ATTACKING_FALLING) return true;
+        if (state == DANTE_STATE.ATTACKING_GROUND || state == DANTE_STATE.ATTACKING_FALLING || state == DANTE_STATE.ULT) return true;
         else return false;
     }
 
@@ -250,6 +253,7 @@ public class Dante_StateMachine : MonoBehaviour
             {
                 distance = each_distance;
                 pos = enemy.transform.position;
+                aimObjective = enemy;
             }
         }
 

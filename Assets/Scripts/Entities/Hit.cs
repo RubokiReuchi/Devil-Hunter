@@ -22,10 +22,12 @@ public class Hit : MonoBehaviour
             {
                 stats.LifeSteal(damage);
                 stats.AddLimit(0.2f);
+                stats.GetStyle(10.0f);
             }
             else
             {
                 stats.LifeSteal(damage * 5.0f);
+                stats.GetStyle(10.0f);
             }
         }
         else if ((this.CompareTag("EnemySword") || this.CompareTag("EnemyWave")) && collision.gameObject.CompareTag("Dante"))

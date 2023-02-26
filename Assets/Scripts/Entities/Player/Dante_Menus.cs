@@ -7,7 +7,7 @@ enum MENUS
     PAUSE,
     INVENTORY,
     ITEM_STORAGE,
-    SHOP
+    SAND_CLOCK
 }
 
 public class Dante_Menus : MonoBehaviour
@@ -84,13 +84,14 @@ public class Dante_Menus : MonoBehaviour
             GetComponent<Animator>().SetTrigger("SandClockEnter");
             StartCoroutine("Co_OpenMenu", MENUS.ITEM_STORAGE);
         }
-        // open shop
+        // open sand clock
         else if (!onMenu && onShop && dm.input.Aim.WasPressedThisFrame())
         {
             onMenu = true;
+            GetComponent<Dante_Stats>().Heal(GetComponent<Dante_Stats>().max_hp);
             state.SetState(DANTE_STATE.INTERACT);
             GetComponent<Animator>().SetTrigger("SandClockEnter");
-            StartCoroutine("Co_OpenMenu", MENUS.SHOP);
+            StartCoroutine("Co_OpenMenu", MENUS.SAND_CLOCK);
         }
     }
 
@@ -109,7 +110,7 @@ public class Dante_Menus : MonoBehaviour
                 itemStorage.SetActive(true);
                 itemStorage.GetComponent<ItemStorageMenu>().SetData();
                 break;
-            case MENUS.SHOP:
+            case MENUS.SAND_CLOCK:
                 shop.SetActive(true);
                 break;
             default:

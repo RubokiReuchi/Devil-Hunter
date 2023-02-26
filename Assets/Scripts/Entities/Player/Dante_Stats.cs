@@ -16,6 +16,11 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     LimitBattery limitBattery;
 
+    [NonEditable] public float styleCount;
+    [NonEditable] public int styleLevel; // 0 --> E, 5 --> S
+    public bool canLevelDown;
+    Dante_Skills skills;
+
     public IntValue redEggs;
     public IntValue blueEggsFrag;
     public IntValue purpleEggsFrag;
@@ -59,10 +64,17 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     void Start()
     {
+        skills = GetComponent<Dante_Skills>();
+
         if (debug) current_hp = max_hp;
         update = true;
 
         limitBattery = GameObject.FindGameObjectWithTag("Limit Battery").GetComponent<LimitBattery>();
+
+        styleCount = 0;
+        styleLevel = 0;
+        canLevelDown = true;
+        StartCoroutine("LoseStyle");
     }
 
     // Update is called once per frame
@@ -130,5 +142,58 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
             default:
                 break;
         }
+    }
+
+    public void GetStyle(float amount)
+    {
+        if (!skills.ultUnlocked || Dante_StateMachine.instance.CompareState(DANTE_STATE.ULT)) return;
+
+        if (!canLevelDown && styleCount + amount < 0)
+        {
+            styleCount = 0;
+            return;
+        }
+
+        styleCount += amount;
+        if (styleLevel < 5 && styleCount >= 50)
+        {
+            styleCount -= 50;
+            styleLevel++;
+            StopCoroutine("Co_LevelUpStyle");
+            StartCoroutine("Co_LevelUpStyle");
+        }
+        else if (styleLevel > 0 && styleCount < 0)
+        {
+            styleCount += 50;
+            styleLevel--;
+        }
+        else if (styleLevel == 5 && styleCount > 50)
+        {
+            styleCount = 50;
+        }
+        else if (styleLevel == 0 && styleCount < 0)
+        {
+            styleCount = 0;
+        }
+    }
+
+    IEnumerator Co_LevelUpStyle()
+    {
+        canLevelDown = false;
+        yield return new WaitForSeconds(0.5f);
+        canLevelDown = true;
+    }
+
+    IEnumerator LoseStyle()
+    {
+        if (styleLevel > 0 || styleCount > 0) GetStyle(-Time.deltaTime * (styleLevel / 2.0f + 2));
+        yield return null;
+        StartCoroutine("LoseStyle");
+    }
+
+    public void ResetStyle()
+    {
+        styleCount = 0;
+        styleLevel = 0;
     }
 }
