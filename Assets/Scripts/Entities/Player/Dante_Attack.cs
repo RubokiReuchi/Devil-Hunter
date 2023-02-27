@@ -97,7 +97,7 @@ public class Dante_Attack : MonoBehaviour
                     inputReceived = INPUT_RECEIVED.GRAB;
                     canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame() && stats.styleLevel == 5)
+                else if (dm.input.Attack2.WasPressedThisFrame() && skills.ultUnlocked && stats.styleLevel == 5)
                 {
                     inputReceived = INPUT_RECEIVED.ULT;
                     canReceiveInput = false;

@@ -42,12 +42,12 @@ public class Worm : Enemy
 
         // enemy orientation
         transform.position += new Vector3(speed * Time.deltaTime, 0);
-        if (speed > 0) transform.localScale = new Vector2(1, 1);
-        else transform.localScale = new Vector2(-1, 1);
+        if (speed > 0) transform.localScale = new Vector3(1, 1, 1);
+        else transform.localScale = new Vector3(-1, 1, 1);
 
         // control edge falling (ground enemies only)
-        turn = !Physics2D.BoxCast(transform.position + new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
-        turn = !Physics2D.BoxCast(transform.position - new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
+        if (!turn) turn = !Physics2D.BoxCast(transform.position + new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
+        if (!turn) turn = !Physics2D.BoxCast(transform.position - new Vector3(4 * box_size.x / 10, 0, 0), new Vector2(box_size.x / 5, box_size.y), 0, -transform.up, max_distance, layer_mask);
 
         // control walking to walls
         if (transform.localScale.x == 1)

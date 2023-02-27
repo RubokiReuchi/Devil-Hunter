@@ -345,6 +345,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     void StartDash()
     {
         anim.SetTrigger("Dash");
+        anim.ResetTrigger("Hitted");
         state.SetState(DANTE_STATE.DASHING);
         state.dash = true;
         canDash = false;

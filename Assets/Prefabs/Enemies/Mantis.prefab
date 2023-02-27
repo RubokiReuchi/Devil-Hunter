@@ -4913,7 +4913,7 @@ ParticleSystemForceField:
   m_Parameters:
     m_Shape: 0
     m_StartRange: 0
-    m_EndRange: 10
+    m_EndRange: 20
     m_Length: 1
     m_GravityFocus: 0
     m_RotationRandomness: {x: 0, y: 0}
@@ -5238,7 +5238,7 @@ ParticleSystemForceField:
     m_DragCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5395,7 +5395,7 @@ ParticleSystemForceField:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_MultiplyDragByParticleSize: 1
+    m_MultiplyDragByParticleSize: 0
     m_MultiplyDragByParticleVelocity: 1
 --- !u!1 &3738104872547507433
 GameObject:
@@ -6201,8 +6201,8 @@ MonoBehaviour:
   - {fileID: 3738104874171332766}
   - {fileID: 3738104873341584096}
   m_Bounds:
-    m_Center: {x: 0.10899001, y: 0.3484022, z: 0}
-    m_Extent: {x: 0.3104306, y: 0.5774661, z: 0}
+    m_Center: {x: 0.108989894, y: 0.3484022, z: 0}
+    m_Extent: {x: 0.31043068, y: 0.57746595, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0

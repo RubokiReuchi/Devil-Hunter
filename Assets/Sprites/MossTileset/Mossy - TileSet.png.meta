@@ -1895,7 +1895,7 @@ TextureImporter:
         serializedVersion: 2
         x: 1792
         y: 1792
-        width: 256
+        width: 255
         height: 256
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -4039,8 +4039,8 @@ TextureImporter:
       Mossy - TileSet_110: -1916862473
       Mossy - TileSet_68: 286002419
       Mossy - TileSet_169: -1966618521
-      Mossy - TileSet_182: 253839865
       Mossy - TileSet_176: 1789722003
+      Mossy - TileSet_182: 253839865
       Mossy - TileSet_0: -1299677555
       Mossy - TileSet_186: 718584618
       Mossy - TileSet_137: 1851791085

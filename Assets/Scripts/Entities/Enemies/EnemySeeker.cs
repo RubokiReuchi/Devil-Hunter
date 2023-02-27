@@ -74,11 +74,11 @@ public class EnemySeeker : MonoBehaviour
 
         if (targetPosition.x - rb.position.x > 0)
         {
-            transform.localScale = new Vector2(1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
         }
         else if (targetPosition.x - rb.position.x < 0)
         {
-            transform.localScale = new Vector2(-1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 

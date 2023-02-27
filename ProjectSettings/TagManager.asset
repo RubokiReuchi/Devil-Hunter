@@ -69,3 +69,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Foreground
+    uniqueID: 4050436577
+    locked: 0
+  - name: MapBoxes
+    uniqueID: 4224835995
+    locked: 0

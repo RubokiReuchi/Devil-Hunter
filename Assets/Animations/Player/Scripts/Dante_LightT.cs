@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Dante_LightT : StateMachineBehaviour
 {
+    Dante_Movement dm;
     public int attackNum;
     bool canContinue;
     bool canCombo;
@@ -11,6 +14,8 @@ public class Dante_LightT : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        dm = animator.GetComponent<Dante_Movement>();
+
         switch (attackNum)
         {
             case 2: canContinue = Dante_Skills.instance.attack3Unlocked; break;
@@ -31,6 +36,9 @@ public class Dante_LightT : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (dm.input.Move.ReadValue<float>() > 0) animator.transform.localScale = new Vector3(1, 1, 1);
+        else if (dm.input.Move.ReadValue<float>() < 0) animator.transform.localScale = new Vector3(-1, 1, 1);
+
         switch (Dante_Attack.instance.inputReceived)
         {
             case INPUT_RECEIVED.NONE:

@@ -2021,7 +2021,7 @@ TextureImporter:
         serializedVersion: 2
         x: 1792
         y: 1792
-        width: 255
+        width: 252
         height: 256
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

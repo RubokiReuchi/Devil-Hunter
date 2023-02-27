@@ -5089,8 +5089,8 @@ MonoBehaviour:
   - {fileID: 4369412943391792341}
   - {fileID: 4369412942787692156}
   m_Bounds:
-    m_Center: {x: 0.101578504, y: 0.048254013, z: 0}
-    m_Extent: {x: 0.469158, y: 0.3960762, z: 0}
+    m_Center: {x: 0.10157853, y: 0.048253983, z: 0}
+    m_Extent: {x: 0.46915817, y: 0.3960762, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -5664,7 +5664,7 @@ ParticleSystemForceField:
   m_Parameters:
     m_Shape: 0
     m_StartRange: 0
-    m_EndRange: 10
+    m_EndRange: 20
     m_Length: 1
     m_GravityFocus: 0
     m_RotationRandomness: {x: 0, y: 0}
@@ -5989,7 +5989,7 @@ ParticleSystemForceField:
     m_DragCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -6146,5 +6146,5 @@ ParticleSystemForceField:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_MultiplyDragByParticleSize: 1
+    m_MultiplyDragByParticleSize: 0
     m_MultiplyDragByParticleVelocity: 1

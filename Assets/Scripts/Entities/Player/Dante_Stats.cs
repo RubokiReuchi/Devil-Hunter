@@ -146,7 +146,7 @@ public class Dante_Stats : Stats, DataPersistenceInterfice
 
     public void GetStyle(float amount)
     {
-        if (!skills.ultUnlocked || Dante_StateMachine.instance.CompareState(DANTE_STATE.ULT)) return;
+        if (Dante_StateMachine.instance.CompareState(DANTE_STATE.ULT)) return;
 
         if (!canLevelDown && styleCount + amount < 0)
         {
