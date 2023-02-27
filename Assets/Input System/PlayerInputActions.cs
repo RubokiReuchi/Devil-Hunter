@@ -37,6 +37,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""GetDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""5490b632-66c2-4365-bbbe-852841a948a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""6c528959-1e52-451d-bc00-3034f95b75ee"",
@@ -136,9 +145,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""GetDown"",
+                    ""name"": ""OpenMap"",
                     ""type"": ""Button"",
-                    ""id"": ""5490b632-66c2-4365-bbbe-852841a948a3"",
+                    ""id"": ""d17bfd65-6e61-4c51-9069-5cf21835dfa3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""b09a6ba5-bd11-47cf-b5e4-bf3c92dd55fc"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -310,6 +328,50 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""GetDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26311d97-c1b1-4a70-8b8c-bac4bb4e8a26"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""11797868-5dd6-49cd-8d85-182d0c5da60b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""647ce3a8-f1ba-482d-ac91-6a1bbf11de92"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""eca1d619-dff6-4eee-8013-5a7a952484b8"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -319,6 +381,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // Normal
         m_Normal = asset.FindActionMap("Normal", throwIfNotFound: true);
         m_Normal_Move = m_Normal.FindAction("Move", throwIfNotFound: true);
+        m_Normal_GetDown = m_Normal.FindAction("GetDown", throwIfNotFound: true);
         m_Normal_Jump = m_Normal.FindAction("Jump", throwIfNotFound: true);
         m_Normal_Dash = m_Normal.FindAction("Dash", throwIfNotFound: true);
         m_Normal_Aim = m_Normal.FindAction("Aim", throwIfNotFound: true);
@@ -330,7 +393,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Normal_LookDown = m_Normal.FindAction("LookDown", throwIfNotFound: true);
         m_Normal_OpenInventory = m_Normal.FindAction("OpenInventory", throwIfNotFound: true);
         m_Normal_OpenItemStorage = m_Normal.FindAction("OpenItemStorage", throwIfNotFound: true);
-        m_Normal_GetDown = m_Normal.FindAction("GetDown", throwIfNotFound: true);
+        m_Normal_OpenMap = m_Normal.FindAction("OpenMap", throwIfNotFound: true);
+        m_Normal_Zoom = m_Normal.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -391,6 +455,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Normal;
     private INormalActions m_NormalActionsCallbackInterface;
     private readonly InputAction m_Normal_Move;
+    private readonly InputAction m_Normal_GetDown;
     private readonly InputAction m_Normal_Jump;
     private readonly InputAction m_Normal_Dash;
     private readonly InputAction m_Normal_Aim;
@@ -402,12 +467,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Normal_LookDown;
     private readonly InputAction m_Normal_OpenInventory;
     private readonly InputAction m_Normal_OpenItemStorage;
-    private readonly InputAction m_Normal_GetDown;
+    private readonly InputAction m_Normal_OpenMap;
+    private readonly InputAction m_Normal_Zoom;
     public struct NormalActions
     {
         private @PlayerInputActions m_Wrapper;
         public NormalActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Normal_Move;
+        public InputAction @GetDown => m_Wrapper.m_Normal_GetDown;
         public InputAction @Jump => m_Wrapper.m_Normal_Jump;
         public InputAction @Dash => m_Wrapper.m_Normal_Dash;
         public InputAction @Aim => m_Wrapper.m_Normal_Aim;
@@ -419,7 +486,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @LookDown => m_Wrapper.m_Normal_LookDown;
         public InputAction @OpenInventory => m_Wrapper.m_Normal_OpenInventory;
         public InputAction @OpenItemStorage => m_Wrapper.m_Normal_OpenItemStorage;
-        public InputAction @GetDown => m_Wrapper.m_Normal_GetDown;
+        public InputAction @OpenMap => m_Wrapper.m_Normal_OpenMap;
+        public InputAction @Zoom => m_Wrapper.m_Normal_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Normal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -432,6 +500,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnMove;
+                @GetDown.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
+                @GetDown.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
+                @GetDown.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
                 @Jump.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnJump;
@@ -465,9 +536,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @OpenItemStorage.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
                 @OpenItemStorage.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
                 @OpenItemStorage.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenItemStorage;
-                @GetDown.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
-                @GetDown.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
-                @GetDown.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnGetDown;
+                @OpenMap.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenMap;
+                @OpenMap.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenMap;
+                @OpenMap.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnOpenMap;
+                @Zoom.started -= m_Wrapper.m_NormalActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_NormalActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_NormalActionsCallbackInterface.OnZoom;
             }
             m_Wrapper.m_NormalActionsCallbackInterface = instance;
             if (instance != null)
@@ -475,6 +549,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @GetDown.started += instance.OnGetDown;
+                @GetDown.performed += instance.OnGetDown;
+                @GetDown.canceled += instance.OnGetDown;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -508,9 +585,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @OpenItemStorage.started += instance.OnOpenItemStorage;
                 @OpenItemStorage.performed += instance.OnOpenItemStorage;
                 @OpenItemStorage.canceled += instance.OnOpenItemStorage;
-                @GetDown.started += instance.OnGetDown;
-                @GetDown.performed += instance.OnGetDown;
-                @GetDown.canceled += instance.OnGetDown;
+                @OpenMap.started += instance.OnOpenMap;
+                @OpenMap.performed += instance.OnOpenMap;
+                @OpenMap.canceled += instance.OnOpenMap;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
             }
         }
     }
@@ -518,6 +598,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface INormalActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnGetDown(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
@@ -529,6 +610,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnLookDown(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnOpenItemStorage(InputAction.CallbackContext context);
-        void OnGetDown(InputAction.CallbackContext context);
+        void OnOpenMap(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "GetDown",
+                    "type": "Button",
+                    "id": "5490b632-66c2-4365-bbbe-852841a948a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "6c528959-1e52-451d-bc00-3034f95b75ee",
@@ -114,9 +123,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "GetDown",
+                    "name": "OpenMap",
                     "type": "Button",
-                    "id": "5490b632-66c2-4365-bbbe-852841a948a3",
+                    "id": "d17bfd65-6e61-4c51-9069-5cf21835dfa3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Button",
+                    "id": "b09a6ba5-bd11-47cf-b5e4-bf3c92dd55fc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -288,6 +306,50 @@
                     "action": "GetDown",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26311d97-c1b1-4a70-8b8c-bac4bb4e8a26",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "11797868-5dd6-49cd-8d85-182d0c5da60b",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "647ce3a8-f1ba-482d-ac91-6a1bbf11de92",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "eca1d619-dff6-4eee-8013-5a7a952484b8",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

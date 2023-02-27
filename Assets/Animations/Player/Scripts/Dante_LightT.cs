@@ -36,8 +36,8 @@ public class Dante_LightT : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (dm.input.Move.ReadValue<float>() > 0) animator.transform.localScale = new Vector3(1, 1, 1);
-        else if (dm.input.Move.ReadValue<float>() < 0) animator.transform.localScale = new Vector3(-1, 1, 1);
+        if (InputManager.instance.input.Move.ReadValue<float>() > 0) animator.transform.localScale = new Vector3(1, 1, 1);
+        else if (InputManager.instance.input.Move.ReadValue<float>() < 0) animator.transform.localScale = new Vector3(-1, 1, 1);
 
         switch (Dante_Attack.instance.inputReceived)
         {

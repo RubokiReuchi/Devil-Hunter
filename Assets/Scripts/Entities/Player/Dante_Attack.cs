@@ -64,11 +64,11 @@ public class Dante_Attack : MonoBehaviour
         {
             if (dm.nullGravity)
             {
-                if (dm.input.Attack1.WasPressedThisFrame())
+                if (InputManager.instance.input.Attack1.WasPressedThisFrame())
                 {
                     inputReceived = INPUT_RECEIVED.G_LIGHT;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame() && skills.chargeUnlocked)
+                else if (InputManager.instance.input.Attack2.WasPressedThisFrame() && skills.chargeUnlocked)
                 {
                     inputReceived = INPUT_RECEIVED.G_HEAVY;
                     canReceiveInput = false;
@@ -76,12 +76,12 @@ public class Dante_Attack : MonoBehaviour
             }
             else
             {
-                if (dm.input.Attack1.WasPressedThisFrame() && anim.GetBool("Can LightAir"))
+                if (InputManager.instance.input.Attack1.WasPressedThisFrame() && anim.GetBool("Can LightAir"))
                 {
                     inputReceived = INPUT_RECEIVED.A_LIGHT;
                     canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
+                else if (InputManager.instance.input.Attack2.WasPressedThisFrame() && skills.fallingAttackUnlocked)
                 {
                     inputReceived = INPUT_RECEIVED.A_HEAVY;
                     canReceiveInput = false;
@@ -92,12 +92,12 @@ public class Dante_Attack : MonoBehaviour
         {
             if (dm.nullGravity)
             {
-                if (dm.input.Attack1.WasPressedThisFrame() && skills.grabUnlocked)
+                if (InputManager.instance.input.Attack1.WasPressedThisFrame() && skills.grabUnlocked)
                 {
                     inputReceived = INPUT_RECEIVED.GRAB;
                     canReceiveInput = false;
                 }
-                else if (dm.input.Attack2.WasPressedThisFrame() && skills.ultUnlocked && stats.styleLevel == 5)
+                else if (InputManager.instance.input.Attack2.WasPressedThisFrame() && skills.ultUnlocked && stats.styleLevel == 5)
                 {
                     inputReceived = INPUT_RECEIVED.ULT;
                     canReceiveInput = false;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    public List<MapBox> mapBoxes;
+    public List<MapBox> mapBoxes = new();
 
     public GameObject dante;
     [NonEditable] public MapBox actualMapBox;
@@ -29,5 +29,18 @@ public class MapManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public bool CheckMapBoxClean(int row, int col)
+    {
+        foreach (MapBox box in mapBoxes)
+        {
+            if (box.row == row && box.col == col)
+            {
+                return box.CalculateClear();
+            }
+        }
+
+        return false; // box not in this scene
     }
 }

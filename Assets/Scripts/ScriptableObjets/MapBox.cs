@@ -21,15 +21,16 @@ public class MapBox : MonoBehaviour
         cleared = false;
     }
 
-    private void FixedUpdate()
+    public bool CalculateClear()
     {
-        if (cleared) return;
+        if (cleared) return true;
 
         foreach (GameObject item in importantItemsOnBox)
         {
-            if (item.activeSelf) return;
+            if (item.activeSelf) return false;
         }
 
         cleared = true;
+        return true;
     }
 }

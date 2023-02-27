@@ -81,7 +81,7 @@ public class Dante_StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dm.input.Limit.WasPressedThisFrame())
+        if (InputManager.instance.input.Limit.WasPressedThisFrame())
         {
             if (IsAlive()) // shift demon
             {
@@ -99,7 +99,7 @@ public class Dante_StateMachine : MonoBehaviour
             if (stats.currentLimitValue <= 0) UnactiveDemonForm();
         }
 
-        if (dm.input.Aim.ReadValue<float>() == 1) aim = true;
+        if (InputManager.instance.input.Aim.ReadValue<float>() == 1) aim = true;
         else aim = false;
         if (IsInteracting() || !dm.isOnGround) aim = false;
 

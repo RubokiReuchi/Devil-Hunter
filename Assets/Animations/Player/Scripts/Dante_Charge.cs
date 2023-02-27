@@ -19,7 +19,7 @@ public class Dante_Charge : StateMachineBehaviour
         if (!Dante_StateMachine.instance.demon) Dante_Attack.instance.chargeForce += Time.deltaTime;
         else Dante_Attack.instance.chargeForce += Time.deltaTime * 1.5f;
 
-        if (dm.input.Attack2.WasReleasedThisFrame())
+        if (InputManager.instance.input.Attack2.WasReleasedThisFrame())
         {
             if (Dante_Attack.instance.chargeForce < 0.1f) Dante_Attack.instance.chargeForce = 0;
             animator.SetTrigger("Discharge");

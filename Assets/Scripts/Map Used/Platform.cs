@@ -8,7 +8,6 @@ public class Platform : MonoBehaviour
     BoxCollider2D colliderBox;
     float danteCapsuleSizeY;
     GameObject dante;
-    Dante_Movement dm;
     bool waiting;
 
     // Start is called before the first frame update
@@ -17,7 +16,6 @@ public class Platform : MonoBehaviour
         colliderBox = GetComponent<BoxCollider2D>();
         dante = GameObject.FindGameObjectWithTag("Dante");
         danteCapsuleSizeY = GameObject.FindGameObjectWithTag("Dante").GetComponent<CapsuleCollider2D>().size.y / 2;
-        dm = GameObject.FindGameObjectWithTag("Dante").GetComponent<Dante_Movement>();
     }
 
     // Update is called once per frame
@@ -30,7 +28,7 @@ public class Platform : MonoBehaviour
         else if (!waiting)
         {
             colliderBox.enabled = true;
-            if (dm.input.GetDown.ReadValue<float>() == 1)
+            if (InputManager.instance.input.GetDown.ReadValue<float>() == 1)
             {
                 StartCoroutine("WaitToReactive");
                 colliderBox.enabled = false;

@@ -7,7 +7,8 @@ enum MENUS
     PAUSE,
     INVENTORY,
     ITEM_STORAGE,
-    SAND_CLOCK
+    SAND_CLOCK,
+    MAP
 }
 
 public class Dante_Menus : MonoBehaviour
@@ -23,6 +24,7 @@ public class Dante_Menus : MonoBehaviour
     GameObject inventory;
     GameObject itemStorage;
     GameObject shop;
+    GameObject map;
 
     // Start is called before the first frame update
     void Start()
@@ -35,15 +37,16 @@ public class Dante_Menus : MonoBehaviour
         inventory = menu.transform.Find("Inventory").gameObject;
         itemStorage = menu.transform.Find("Item Storage").gameObject;
         shop = menu.transform.Find("Shop").gameObject;
+        map = menu.transform.Find("Map").gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!state.IsAlive()) return;
+        if (!state.IsAlive() && dm.isOnGround) return;
 
         // close menus
-        if (onMenu && dm.input.Cancel.WasPressedThisFrame())
+        if (onMenu && InputManager.instance.input.Cancel.WasPressedThisFrame())
         {
             onMenu = false;
             ResumeGame();
@@ -59,9 +62,11 @@ public class Dante_Menus : MonoBehaviour
             // shop
             shop.SetActive(false);
             shop.GetComponent<Shop>().DefaultShopInfo();
+            // map
+            map.SetActive(false);
         }
         // open pause menu
-        else if (!onMenu && dm.input.Cancel.WasPressedThisFrame())
+        else if (!onMenu && InputManager.instance.input.Cancel.WasPressedThisFrame())
         {
             onMenu = true;
             state.SetState(DANTE_STATE.INTERACT);
@@ -69,7 +74,7 @@ public class Dante_Menus : MonoBehaviour
             StartCoroutine("Co_OpenMenu", MENUS.PAUSE);
         }
         // open inventory
-        if (!onMenu && dm.input.OpenInventory.WasPressedThisFrame())
+        if (!onMenu && InputManager.instance.input.OpenInventory.WasPressedThisFrame())
         {
             onMenu = true;
             state.SetState(DANTE_STATE.INTERACT);
@@ -77,7 +82,7 @@ public class Dante_Menus : MonoBehaviour
             StartCoroutine("Co_OpenMenu", MENUS.INVENTORY);
         }
         // open item storage
-        if (!onMenu && dm.input.OpenItemStorage.WasPressedThisFrame())
+        if (!onMenu && InputManager.instance.input.OpenItemStorage.WasPressedThisFrame())
         {
             onMenu = true;
             state.SetState(DANTE_STATE.INTERACT);
@@ -85,13 +90,21 @@ public class Dante_Menus : MonoBehaviour
             StartCoroutine("Co_OpenMenu", MENUS.ITEM_STORAGE);
         }
         // open sand clock
-        else if (!onMenu && onShop && dm.input.Aim.WasPressedThisFrame())
+        else if (!onMenu && onShop && InputManager.instance.input.Aim.WasPressedThisFrame())
         {
             onMenu = true;
             GetComponent<Dante_Stats>().Heal(GetComponent<Dante_Stats>().max_hp);
             state.SetState(DANTE_STATE.INTERACT);
             GetComponent<Animator>().SetTrigger("SandClockEnter");
             StartCoroutine("Co_OpenMenu", MENUS.SAND_CLOCK);
+        }
+        // open map
+        if (!onMenu && InputManager.instance.input.OpenMap.WasPressedThisFrame())
+        {
+            onMenu = true;
+            state.SetState(DANTE_STATE.INTERACT);
+            GetComponent<Animator>().SetTrigger("SandClockEnter");
+            StartCoroutine("Co_OpenMenu", MENUS.MAP);
         }
     }
 
@@ -112,6 +125,9 @@ public class Dante_Menus : MonoBehaviour
                 break;
             case MENUS.SAND_CLOCK:
                 shop.SetActive(true);
+                break;
+            case MENUS.MAP:
+                map.SetActive(true);
                 break;
             default:
                 break;

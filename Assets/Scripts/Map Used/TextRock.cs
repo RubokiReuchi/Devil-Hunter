@@ -36,41 +36,41 @@ public class TextRock : MonoBehaviour
             case KEYS_TEXT.NONE:
                 break;
             case KEYS_TEXT.MOVE:
-                string positive = dm.input.Move.bindings[dm.input.Move.bindings.IndexOf(b => b.name == "positive")].ToString().ToUpper();
+                string positive = InputManager.instance.input.Move.bindings[InputManager.instance.input.Move.bindings.IndexOf(b => b.name == "positive")].ToString().ToUpper();
                 positive = positive.Substring(16, positive.Length - 16);
-                string negative = dm.input.Move.bindings[dm.input.Move.bindings.IndexOf(b => b.name == "negative")].ToString().ToUpper();
+                string negative = InputManager.instance.input.Move.bindings[InputManager.instance.input.Move.bindings.IndexOf(b => b.name == "negative")].ToString().ToUpper();
                 negative = negative.Substring(16, negative.Length - 16);
                 textMesh.text = "Use '" + negative + "' & '" + positive + "' to\n move your self.";
                 break;
             case KEYS_TEXT.JUMP:
-                button = dm.input.Jump.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.Jump.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Press '" + button + "' to\n jump, if you don't\nrealese '" + button + "'\nyou will jump higher.";
                 break;
             case KEYS_TEXT.JUMP2:
                 textMesh.text = "Use the jump\nto evade enemy\nattacks.";
                 break;
             case KEYS_TEXT.DASH:
-                button = dm.input.Dash.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.Dash.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Press '" + button + "' to\nroll, you can dodge\nenemies hits rolling into\nits attacks.";
                 break;
             case KEYS_TEXT.ATTACK1:
-                button = dm.input.Attack1.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.Attack1.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Press '" + button + "' to attack.";
                 break;
             case KEYS_TEXT.AIR_ATTACK1:
-                button = dm.input.Attack1.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.Attack1.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Press '" + button + "' on\nthe air to attack and\nnullifies gravity for a\nshort time.";
                 break;
             case KEYS_TEXT.LOOK_UP:
-                button = dm.input.LookUp.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.LookUp.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Mantein '" + button + "'\npressed to\nlook up.";
                 break;
             case KEYS_TEXT.LOOK_DOWN:
-                button = dm.input.LookDown.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.LookDown.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Mantein '" + button + "'\npressed to\nlook down.";
                 break;
             case KEYS_TEXT.AIM:
-                button = dm.input.Aim.bindings[0].ToDisplayString().ToUpper();
+                button = InputManager.instance.input.Aim.bindings[0].ToDisplayString().ToUpper();
                 textMesh.text = "Mantein '" + button + "'\npressed to\nfocus your atention\nin a near enemy.";
                 break;
             default:

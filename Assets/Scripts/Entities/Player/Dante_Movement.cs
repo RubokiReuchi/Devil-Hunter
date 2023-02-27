@@ -26,6 +26,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     [HideInInspector] public float walkSpeed;
     float fixed_run_speed;
     float fixed_walk_speed;
+    public float moveInput;
 
     [Header("Jump")]
     public float jumpForce;
@@ -90,25 +91,6 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     bool wallOnRight;
     bool wallOnLeft;
 
-    // Set Input System
-    PlayerInputActions inputActions;
-    public PlayerInputActions.NormalActions input;
-    public float moveInput;
-
-    private void Awake()
-    {
-        inputActions = new PlayerInputActions();
-        input = inputActions.Normal;
-    }
-    private void OnEnable()
-    {
-        inputActions.Enable();
-    }
-    private void OnDisable()
-    {
-        inputActions.Disable();
-    }
-
     public void LoadData(GameData data)
     {
         transform.position = data.position;
@@ -157,7 +139,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
     void Update()
     {
         if (!state.IsAlive() || state.IsInteracting()) return;
-        moveInput = input.Move.ReadValue<float>();
+        moveInput = InputManager.instance.input.Move.ReadValue<float>();
 
         // Checkers
         isOnGround = Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, maxDistance, layerMask);
@@ -201,16 +183,16 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         {
             if (nullGravity)
             {
-                if (!state.IsAttacking() && input.Jump.WasPressedThisFrame() && !isWallSliding) StartJump();
-                if (input.Dash.WasPressedThisFrame() && canDash)
+                if (!state.IsAttacking() && InputManager.instance.input.Jump.WasPressedThisFrame() && !isWallSliding) StartJump();
+                if (InputManager.instance.input.Dash.WasPressedThisFrame() && canDash)
                 {
                     StartDash();
                 }
             }
             else
             {
-                if (!state.IsAttacking() && input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.doubleJumpUnlocked) StartAirJump();
-                if (input.Dash.WasPressedThisFrame() && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
+                if (!state.IsAttacking() && InputManager.instance.input.Jump.WasPressedThisFrame() && !isWallSliding && anim.GetBool("Can AirJump") && skills.doubleJumpUnlocked) StartAirJump();
+                if (InputManager.instance.input.Dash.WasPressedThisFrame() && canDash && anim.GetBool("Can AirDash") && skills.dashLevel > 0)
                 {
                     StartDash();
                 }
@@ -233,7 +215,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         }
 
         // Release Jump
-        if (input.Jump.WasReleasedThisFrame() && rb.velocity.y > 0 && isJumping)
+        if (InputManager.instance.input.Jump.WasReleasedThisFrame() && rb.velocity.y > 0 && isJumping)
         {
             rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
             isJumping = false;
@@ -293,7 +275,7 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
         else
         {
             Sliding();
-            if (input.Jump.WasPressedThisFrame())
+            if (InputManager.instance.input.Jump.WasPressedThisFrame())
             {
                 StartWallJump();
             }
@@ -617,11 +599,11 @@ public class Dante_Movement : MonoBehaviour, DataPersistenceInterfice
             camActions.camCentered = true;
             return;
         }
-        if (input.LookDown.ReadValue<float>() == 1)
+        if (InputManager.instance.input.LookDown.ReadValue<float>() == 1)
         {
             camActions.LookDown();
         }
-        else if (input.LookUp.ReadValue<float>() == 1)
+        else if (InputManager.instance.input.LookUp.ReadValue<float>() == 1)
         {
             camActions.LookUp();
         }
