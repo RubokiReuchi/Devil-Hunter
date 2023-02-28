@@ -10,7 +10,7 @@ public class MapTile : MonoBehaviour
 
     [HideInInspector] public Image image;
 
-    void OnEnable()
+    public void Init()
     {
         image = GetComponent<Image>();
     }

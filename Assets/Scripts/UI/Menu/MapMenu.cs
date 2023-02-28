@@ -1,23 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class MapMenu : MonoBehaviour
+public class MapMenu : MonoBehaviour, DataPersistenceInterfice
 {
+    public static MapMenu instance;
+
     public GameObject map;
     MapInterface mapInterface;
 
     Vector3 touchOffset;
     bool touching;
 
+    public SerializableDictionary<int, bool> loadedMapTilesUnveil = new();
+    public SerializableDictionary<int, bool> loadedMapTilesCleared = new();
+
+    public void LoadData(GameData data)
+    {
+        loadedMapTilesUnveil = data.mapTilesUnveil;
+        loadedMapTilesCleared = data.mapTilesCleared;
+    }
+
+    public void SaveData(GameData data)
+    {
+        //if (data.enemiesDeath.ContainsKey(id)) data.enemiesDeath.Remove(id);
+        //data.enemiesDeath.Add(id, death);
+        data.mapTilesUnveil = loadedMapTilesUnveil;
+        data.mapTilesCleared = loadedMapTilesCleared;
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void OnEnable()
     {
         touching = false;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         mapInterface = map.GetComponent<MapInterface>();
     }
 
@@ -74,5 +95,36 @@ public class MapMenu : MonoBehaviour
         rect.pivot = normalizedPoint;
         map.transform.localScale += Vector3.one * value;
         map.transform.position = Input.mousePosition;
+    }
+
+    public bool CheckMapBoxCleanOutOfScene(int row, int col)
+    {
+        bool ret = false;
+
+        for (int i = 0; i < mapInterface.transform.childCount; i++)
+        {
+            MapTile aux = mapInterface.transform.GetChild(i).GetComponent<MapTile>();
+            if (aux.row == row && aux.col == col)
+            {
+                loadedMapTilesCleared.TryGetValue(i, out ret);
+                return ret;
+            }
+        }
+
+        return ret;
+    }
+
+    public void SetMapBoxCleared(int row, int col, bool cleared)
+    {
+        for (int i = 0; i < mapInterface.transform.childCount; i++)
+        {
+            MapTile aux = mapInterface.transform.GetChild(i).GetComponent<MapTile>();
+            if (aux.row == row && aux.col == col)
+            {
+                if (loadedMapTilesCleared.ContainsKey(i)) loadedMapTilesCleared.Remove(i);
+                loadedMapTilesCleared.Add(i, cleared);
+                return;
+            }
+        }
     }
 }

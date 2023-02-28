@@ -27,10 +27,15 @@ public class MapBox : MonoBehaviour
 
         foreach (GameObject item in importantItemsOnBox)
         {
-            if (item.activeSelf) return false;
+            if (item.activeSelf)
+            {
+                MapMenu.instance.SetMapBoxCleared(row, col, false);
+                return false;
+            }
         }
 
         cleared = true;
+        MapMenu.instance.SetMapBoxCleared(row, col, true);
         return true;
     }
 }

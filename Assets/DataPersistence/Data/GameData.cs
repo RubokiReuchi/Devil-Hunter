@@ -70,6 +70,11 @@ public class GameData
     public SerializableDictionary<string, bool> enemiesDeath;
     #endregion
 
+    #region Map
+    public SerializableDictionary<int, bool> mapTilesUnveil;
+    public SerializableDictionary<int, bool> mapTilesCleared;
+    #endregion
+
     public GameData() // new game values
     {
         #region Profile Data
@@ -137,6 +142,11 @@ public class GameData
 
         #region Enemies
         enemiesDeath = new SerializableDictionary<string, bool>();
+        #endregion
+
+        #region Map
+        mapTilesUnveil = new SerializableDictionary<int, bool>();
+        mapTilesCleared = new SerializableDictionary<int, bool>();
         #endregion
     }
 

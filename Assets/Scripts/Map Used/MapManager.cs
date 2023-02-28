@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class MapManager : MonoBehaviour
 {
@@ -38,6 +39,19 @@ public class MapManager : MonoBehaviour
             if (box.row == row && box.col == col)
             {
                 return box.CalculateClear();
+            }
+        }
+
+        return false; // box not in this scene
+    }
+
+    public bool MapTileOnScene(int row, int col)
+    {
+        foreach (MapBox box in mapBoxes)
+        {
+            if (box.row == row && box.col == col)
+            {
+                return true;
             }
         }
 

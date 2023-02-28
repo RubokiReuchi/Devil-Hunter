@@ -13313,6 +13313,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 3075075278103553540}
+  mapInterface: {fileID: 4511106459089466122}
+  loadedMapTilesUnveil:
+    keys: 
+    values: 
+  loadedMapTilesCleared:
+    keys: 
+    values: 
 --- !u!1 &4488739739270673060
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,13 +10,21 @@ public class MapInterface : MonoBehaviour
 
     public GameObject playerMark;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
             mapTiles.Add(transform.GetChild(i).GetComponent<MapTile>());
-            mapTiles[i].UpdateColor(mapManager.CheckMapBoxClean(mapTiles[i].row, mapTiles[i].col));
+            mapTiles[i].Init();
+
+            if (mapManager.MapTileOnScene(mapTiles[i].row, mapTiles[i].col))
+            {
+                mapTiles[i].UpdateColor(mapManager.CheckMapBoxClean(mapTiles[i].row, mapTiles[i].col));
+            }
+            else
+            {
+                mapTiles[i].UpdateColor(MapMenu.instance.CheckMapBoxCleanOutOfScene(mapTiles[i].row, mapTiles[i].col));
+            }
         }
     }
 
