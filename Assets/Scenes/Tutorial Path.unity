@@ -69451,6 +69451,22 @@ PrefabInstance:
       propertyPath: skills
       value: 
       objectReference: {fileID: 1232559637}
+    - target: {fileID: 1923338044823759971, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923338044823759971, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923338044823759971, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923338044823759971, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4511106459089466122, guid: 284cbc7b2c1a9174190bd07ad0ceedc9, type: 3}
       propertyPath: mapManager
       value: 
