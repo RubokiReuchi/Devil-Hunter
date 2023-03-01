@@ -17,14 +17,8 @@ public class MapInterface : MonoBehaviour
             mapTiles.Add(transform.GetChild(i).GetComponent<MapTile>());
             mapTiles[i].Init();
 
-            if (mapManager.MapTileOnScene(mapTiles[i].row, mapTiles[i].col))
-            {
-                mapTiles[i].UpdateColor(mapManager.CheckMapBoxClean(mapTiles[i].row, mapTiles[i].col));
-            }
-            else
-            {
-                mapTiles[i].UpdateColor(MapMenu.instance.CheckMapBoxCleanOutOfScene(mapTiles[i].row, mapTiles[i].col));
-            }
+            mapTiles[i].UpdateVisibility(MapMenu.instance.CheckMapBoxUnveil(mapTiles[i].row, mapTiles[i].col));
+            mapTiles[i].UpdateColor(MapMenu.instance.CheckMapBoxClean(mapTiles[i].row, mapTiles[i].col));
         }
     }
 

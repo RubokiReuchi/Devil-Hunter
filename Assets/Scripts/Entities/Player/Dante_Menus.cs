@@ -26,6 +26,12 @@ public class Dante_Menus : MonoBehaviour
     GameObject shop;
     GameObject map;
 
+    private void Awake()
+    {
+        map = menu.transform.Find("Map").gameObject;
+        map.GetComponent<MapMenu>().Init();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,13 +43,12 @@ public class Dante_Menus : MonoBehaviour
         inventory = menu.transform.Find("Inventory").gameObject;
         itemStorage = menu.transform.Find("Item Storage").gameObject;
         shop = menu.transform.Find("Shop").gameObject;
-        map = menu.transform.Find("Map").gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!state.IsAlive() && dm.isOnGround) return;
+        if (!state.IsAlive() || !dm.isOnGround) return;
 
         // close menus
         if (onMenu && InputManager.instance.input.Cancel.WasPressedThisFrame())
@@ -93,6 +98,7 @@ public class Dante_Menus : MonoBehaviour
         else if (!onMenu && onShop && InputManager.instance.input.Aim.WasPressedThisFrame())
         {
             onMenu = true;
+            // respawn enemies
             GetComponent<Dante_Stats>().Heal(GetComponent<Dante_Stats>().max_hp);
             state.SetState(DANTE_STATE.INTERACT);
             GetComponent<Animator>().SetTrigger("SandClockEnter");

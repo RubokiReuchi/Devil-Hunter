@@ -25,21 +25,19 @@ public class MapMenu : MonoBehaviour, DataPersistenceInterfice
 
     public void SaveData(GameData data)
     {
-        //if (data.enemiesDeath.ContainsKey(id)) data.enemiesDeath.Remove(id);
-        //data.enemiesDeath.Add(id, death);
         data.mapTilesUnveil = loadedMapTilesUnveil;
         data.mapTilesCleared = loadedMapTilesCleared;
     }
 
-    private void Awake()
+    public void Init()
     {
         instance = this;
+        mapInterface = map.GetComponent<MapInterface>();
     }
 
     private void OnEnable()
     {
         touching = false;
-        mapInterface = map.GetComponent<MapInterface>();
     }
 
     // Update is called once per frame
@@ -97,7 +95,7 @@ public class MapMenu : MonoBehaviour, DataPersistenceInterfice
         map.transform.position = Input.mousePosition;
     }
 
-    public bool CheckMapBoxCleanOutOfScene(int row, int col)
+    public bool CheckMapBoxClean(int row, int col)
     {
         bool ret = false;
 
@@ -106,7 +104,14 @@ public class MapMenu : MonoBehaviour, DataPersistenceInterfice
             MapTile aux = mapInterface.transform.GetChild(i).GetComponent<MapTile>();
             if (aux.row == row && aux.col == col)
             {
-                loadedMapTilesCleared.TryGetValue(i, out ret);
+                if (loadedMapTilesCleared.ContainsKey(i))
+                {
+                    loadedMapTilesCleared.TryGetValue(i, out ret);
+                }
+                else
+                {
+                    loadedMapTilesCleared.Add(i, false);
+                }
                 return ret;
             }
         }
@@ -123,6 +128,44 @@ public class MapMenu : MonoBehaviour, DataPersistenceInterfice
             {
                 if (loadedMapTilesCleared.ContainsKey(i)) loadedMapTilesCleared.Remove(i);
                 loadedMapTilesCleared.Add(i, cleared);
+                return;
+            }
+        }
+    }
+
+    public bool CheckMapBoxUnveil(int row, int col)
+    {
+        bool ret = false;
+
+        for (int i = 0; i < mapInterface.transform.childCount; i++)
+        {
+            MapTile aux = mapInterface.transform.GetChild(i).GetComponent<MapTile>();
+            if (aux.row == row && aux.col == col)
+            {
+                if (loadedMapTilesUnveil.ContainsKey(i))
+                {
+                    loadedMapTilesUnveil.TryGetValue(i, out ret);
+                }
+                else
+                {
+                    loadedMapTilesUnveil.Add(i, false);
+                }
+                return ret;
+            }
+        }
+
+        return ret;
+    }
+
+    public void SetMapBoxUnveil(int row, int col, bool unveil)
+    {
+        for (int i = 0; i < mapInterface.transform.childCount; i++)
+        {
+            MapTile aux = mapInterface.transform.GetChild(i).GetComponent<MapTile>();
+            if (aux.row == row && aux.col == col)
+            {
+                if (loadedMapTilesUnveil.ContainsKey(i)) loadedMapTilesUnveil.Remove(i);
+                loadedMapTilesUnveil.Add(i, unveil);
                 return;
             }
         }

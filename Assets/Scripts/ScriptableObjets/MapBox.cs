@@ -9,6 +9,7 @@ public class MapBox : MonoBehaviour
     public int col;
 
     bool cleared;
+    bool unveil;
 
     [HideInInspector] public BoxCollider2D boxCollider;
 
@@ -19,6 +20,7 @@ public class MapBox : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         boxCollider = GetComponent<BoxCollider2D>();
         cleared = false;
+        unveil = false;
     }
 
     public bool CalculateClear()
@@ -37,5 +39,14 @@ public class MapBox : MonoBehaviour
         cleared = true;
         MapMenu.instance.SetMapBoxCleared(row, col, true);
         return true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!unveil && collision.CompareTag("Dante"))
+        {
+            unveil = true;
+            MapMenu.instance.SetMapBoxUnveil(row, col, true);
+        }
     }
 }
