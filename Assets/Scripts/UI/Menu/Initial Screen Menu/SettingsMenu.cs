@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 
 public class SettingsMenu : Menu
 {
+    public InitialScreenManager initialScreenManager;
+
     // variables
     int screenSizeIndex;
     List<string> screenSizeOptions = new();
@@ -224,5 +226,10 @@ public class SettingsMenu : Menu
     public void SetFxVolume(float volume)
     {
         audioMixer.SetFloat("FxVolume", volume);
+    }
+
+    public void OpenRebindKeyboardMenu()
+    {
+        initialScreenManager.OpenMenu(ACTIVE_MENU.REBIND_KEYBOARD);
     }
 }

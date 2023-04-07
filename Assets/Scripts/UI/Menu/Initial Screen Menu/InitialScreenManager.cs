@@ -6,6 +6,7 @@ public enum ACTIVE_MENU
 {
     MAIN,
     SETTINGS,
+    REBIND_KEYBOARD,
     SAVE_SLOTS,
 }
 
@@ -14,6 +15,7 @@ public class InitialScreenManager : MonoBehaviour
     [NonEditable] ACTIVE_MENU activeMenu;
     public GameObject mainMenu;
     public GameObject settingsMenu;
+    public GameObject rebindKeyboardMenu;
     public GameObject saveSlotsMenu;
     public GameObject confirmationMenu;
 
@@ -22,14 +24,20 @@ public class InitialScreenManager : MonoBehaviour
     {
         mainMenu.SetActive(true);
         settingsMenu.SetActive(false);
+        rebindKeyboardMenu.SetActive(false);
         saveSlotsMenu.SetActive(false);
+        confirmationMenu.SetActive(false);
         activeMenu = ACTIVE_MENU.MAIN;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel") && !confirmationMenu.activeSelf) OpenMenu(ACTIVE_MENU.MAIN);
+        if (Input.GetButtonDown("Cancel") && !confirmationMenu.activeSelf)
+        {
+            if (rebindKeyboardMenu.activeInHierarchy) OpenMenu(ACTIVE_MENU.SETTINGS);
+            else OpenMenu(ACTIVE_MENU.MAIN);
+        }
     }
 
     public void OpenMenu(ACTIVE_MENU menuToOpen, bool createOrLoad = false)
@@ -45,6 +53,9 @@ public class InitialScreenManager : MonoBehaviour
             case ACTIVE_MENU.SETTINGS:
                 settingsMenu.SetActive(true);
                 break;
+            case ACTIVE_MENU.REBIND_KEYBOARD:
+                rebindKeyboardMenu.SetActive(true);
+                break;
             case ACTIVE_MENU.SAVE_SLOTS:
                 saveSlotsMenu.SetActive(true);
                 saveSlotsMenu.GetComponent<SlotsMenu>().SetSlots(createOrLoad);
@@ -58,6 +69,7 @@ public class InitialScreenManager : MonoBehaviour
     {
         mainMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        rebindKeyboardMenu.SetActive(false);
         saveSlotsMenu.SetActive(false);
     }
 }

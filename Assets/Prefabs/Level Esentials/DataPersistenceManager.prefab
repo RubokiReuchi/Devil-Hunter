@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6609078319965801227}
   - component: {fileID: 6609078319965801226}
+  - component: {fileID: 648670491}
   m_Layer: 0
   m_Name: DataPersistenceManager
   m_TagString: Untagged
@@ -44,5 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2cecc19b2de9b4e945bc72791deea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 2
   fileName: data.json
   useEncryption: 0
+--- !u!114 &648670491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609078319965801225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6c2da2db9374dada6761b5e35121c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: dce18c246d5c2d6469a3cbe698e804fc, type: 3}
