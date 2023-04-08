@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class InputManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        var rebinds = PlayerPrefs.GetString("rebinds");
+        if (!string.IsNullOrEmpty(rebinds))
+        {
+            inputActions.LoadBindingOverridesFromJson(rebinds);
+        }
         inputActions.Enable();
     }
     private void OnDisable()

@@ -2569,6 +2569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ecaccc2e889b5143bea49a071b8420b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: dce18c246d5c2d6469a3cbe698e804fc, type: 3}
 --- !u!114 &1577236279879661585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13313,7 +13314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 3075075278103553540}
-  mapInterface: {fileID: 4511106459089466122}
   loadedMapTilesUnveil:
     keys: 
     values: 
